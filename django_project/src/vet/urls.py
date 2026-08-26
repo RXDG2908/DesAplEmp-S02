@@ -1,7 +1,9 @@
 from django.urls import path
 
+from . import views
+
 app_name = 'vet'
 
 urlpatterns = [
-    # Se completa en el Ejercicio 6 con la vista de listado de citas.
+    path('', views.cita_list, name='cita_list'),
 ]

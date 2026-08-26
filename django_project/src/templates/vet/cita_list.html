@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Citas registradas{% endblock %}
+
+{% block content %}
+<h2>Citas registradas</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Mascota</th>
+            <th>Dueño</th>
+            <th>Servicio</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cita in citas %}
+            <tr>
+                <td>{{ cita.mascota }}</td>
+                <td>{{ cita.dueno }}</td>
+                <td>{{ cita.servicio }}</td>
+                <td>{{ cita.fecha|date:"d/m/Y" }}</td>
+                <td>{{ cita.hora|time:"H:i" }}</td>
+                <td>{{ cita.estado }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="6">No hay citas registradas todavía.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p>Total de citas: {{ citas|length }}</p>
+{% endblock %}

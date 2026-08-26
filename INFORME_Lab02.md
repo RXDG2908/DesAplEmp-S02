@@ -81,23 +81,19 @@ de creación (Ejercicio 7) tendrá un campo por cada uno de `mascota`, `dueno`,
 
 ## Ejercicio 4 — Crear la nueva App
 
-**Captura:** la carpeta `Semana 2/django_project/src/vet/` generada y el
-bloque `INSTALLED_APPS` de `settings.py` con `'vet'` añadido.
+**Captura:** 4.png — la carpeta de la aplicación ya creada y registrada en la
+configuración del proyecto.
 
-**Explicación:** A diferencia del Laboratorio 01, esta App vive en su **propio**
-proyecto Django dentro de `Semana 2/django_project/`, con su propio entorno
-virtual y su propio `Project` (`config`), guiándose por la estructura de
-[Semana 1](../Semana%201/django_project) pero sin reutilizar ese repositorio.
-Se creó el venv, se instaló Django 5.2.17, se ejecutó
-`django-admin startproject config .` y luego `python manage.py startapp vet`.
-Como esta App no usa base de datos, se eliminó la carpeta `vet/migrations/`
-generada por defecto. Se registró `'vet'` en `INSTALLED_APPS` en
-`src/config/settings.py`, se documentó `vet/apps.py` con
-`verbose_name = 'Citas veterinaria'` (mismo estilo que `core` en Semana 1:
-docstring + `verbose_name`), se creó `vet/urls.py` (vacío, listo para el
-Ejercicio 6) y se conectó desde `config/urls.py` con `include('vet.urls')`.
-También se preparó `templates/base.html` propio, sin nada de `core`. Se
-verificó con `python manage.py check` que el proyecto no tiene errores.
+**Explicación:** Esta aplicación se armó en su propio proyecto Django, dentro de
+la carpeta de la Semana 2 y con su propio entorno virtual. Se tomó como guía la
+estructura del laboratorio anterior, pero sin reutilizar ese proyecto. Primero se
+creó el entorno virtual y se instaló Django, y después se generó el proyecto y,
+dentro de él, la aplicación de citas. Como la aplicación no trabaja con base de
+datos, se quitó la carpeta de migraciones que Django crea por defecto. Luego se
+registró la aplicación en la configuración del proyecto, se le puso un nombre
+descriptivo para identificarla fácil, y se dejó preparado su archivo de rutas
+para conectarlo más adelante. También se creó una plantilla base propia. Al
+final se revisó que el proyecto no tuviera errores.
 
 **Comandos:**
 ```powershell
@@ -116,22 +112,121 @@ cd src
 
 ## Ejercicio 5 — Implementar el Model con datos estáticos
 
-**Captura:** el archivo `vet/models.py` completo en VS Code.
+**Capturas:**
 
-**Explicación:** Como esta App no usa base de datos, en `vet/models.py` no se
-definió un `models.Model` sino una clase Python simple `Cita` (con `mascota`,
-`dueno`, `servicio`, `fecha`, `hora` y `estado`, este último con valor por
-defecto `'Pendiente'`) y un método `__str__` para mostrarla de forma legible,
-igual que se hizo con `Item` en Semana 1. Se creó la lista `citas` en memoria
-con **5 registros de ejemplo**, usando `datetime.date` y `datetime.time` para
-`fecha` y `hora` — los mismos tipos que usará el formulario del Ejercicio 7
-(`DateField`/`TimeField`). Esta lista es la única fuente de datos de la
-aplicación: no hay `makemigrations` ni `migrate` involucrados. Se verificó
-cargando el módulo desde `manage.py shell`, confirmando que las 5 citas se
-leen correctamente, y que `manage.py check` sigue sin errores.
+- 5.png — el archivo del modelo abierto en el editor.
+- 5b.png — la terminal mostrando las cinco citas de ejemplo.
+
+**Explicación:** Como la aplicación no usa base de datos, aquí no se definió un
+modelo de Django sino una clase de Python común y corriente para representar una
+cita, con sus datos: la mascota, el dueño, el servicio, la fecha, la hora y el
+estado. El estado arranca siempre como pendiente. También se le agregó una forma
+de mostrarse en texto, para poder leerla fácil. Después se creó una lista con
+cinco citas de ejemplo, que es la única fuente de datos de toda la aplicación.
+No hay migraciones ni nada que se guarde en disco: si el servidor se reinicia,
+la lista vuelve a su estado inicial. Para comprobar que todo estaba bien se
+cargó la lista desde la consola de Django y se vieron las cinco citas, y se
+revisó que el proyecto siguiera sin errores.
 
 **Comandos:**
 ```powershell
 ..\venv\Scripts\python.exe manage.py shell -c "from vet.models import citas; [print(c) for c in citas]"
 ..\venv\Scripts\python.exe manage.py check
 ```
+
+---
+
+## Ejercicio 6 — Implementar el listado (View + URL + Template)
+
+**Capturas:**
+
+- 6.png — la vista que arma el listado.
+- 6b.png — el archivo de rutas de la aplicación.
+- 6c.png — la plantilla que muestra la tabla.
+- 6d.png — el listado ya funcionando en el navegador.
+
+**Explicación:** En este punto se completó el recorrido de la aplicación,
+siguiendo el mismo camino del laboratorio anterior pero leyendo los datos de la
+lista en memoria en vez de una base de datos. La vista toma las citas y las
+ordena por fecha y por hora, para que se vean en el orden en que van a
+atenderse y sea más fácil notar si dos se cruzan; el orden se hace sobre una
+copia, así que la lista original no se toca. Esas citas ya ordenadas se le pasan
+a la plantilla. Después se definió la ruta principal de la aplicación y se le
+puso un nombre, de manera que el enlace de citas que ya estaba en la plantilla
+base por fin funcione: antes no llevaba a ningún lado porque esa ruta todavía no
+existía. Por último se armó la plantilla del listado, que hereda de la base y
+recorre las citas mostrándolas en una tabla con sus seis datos. También
+contempla el caso de que no haya ninguna cita, y muestra la fecha y la hora en
+un formato cómodo de leer.
+
+**Flujo verificado:** El navegador pide la página principal, el proyecto deriva
+ese pedido a las rutas de la aplicación, la ruta llama a la vista, la vista lee
+las citas de la lista en memoria y se las entrega a la plantilla, y la plantilla
+arma la tabla que finalmente ve el usuario. Se comprobó que la página responde
+correctamente, que se usan tanto la plantilla del listado como la plantilla
+base, y que las cinco citas salen en el orden esperado: primero las del 26 de
+agosto, de la más temprana a la más tardía, y después las del 27.
+
+**Comandos:**
+```powershell
+..\venv\Scripts\python.exe manage.py check
+..\venv\Scripts\python.exe manage.py runserver
+```
+
+- Listado de citas: http://127.0.0.1:8000/
+
+**Casos de prueba:**
+
+| # | Caso | Resultado esperado | Resultado obtenido |
+|---|---|---|---|
+| 1 | Abrir la página principal con las cinco citas de ejemplo | La página carga y muestra la tabla con cinco filas | Correcto |
+| 2 | Orden de las filas | De la cita más próxima a la más lejana | Correcto |
+| 3 | Herencia de plantilla | El listado se muestra dentro de la plantilla base, con su encabezado y su pie | Correcto |
+| 4 | Enlace de citas de la barra de navegación | Lleva de vuelta al listado | Correcto |
+| 5 | Formato de fecha y hora | Se leen como día, mes y año, y la hora en formato de 24 horas | Correcto |
+
+> **Nota:** al levantar el servidor, Django crea un archivo de base de datos por
+> las aplicaciones que trae de fábrica. La aplicación de citas no lo usa: sus
+> datos siguen viviendo solamente en la lista en memoria. Ese archivo no forma
+> parte de la entrega.
+
+---
+
+## Ejercicio 7 — Implementar el formulario
+
+**Capturas:**
+
+- 7.png — el archivo del formulario abierto en el editor.
+- 7b.png — la terminal con las pruebas de validación.
+
+**Explicación:** Se armó un formulario para registrar citas nuevas. Como la
+aplicación no guarda nada en base de datos, el formulario se hizo desde cero en
+vez de generarlo a partir de un modelo. Tiene un campo por cada dato que el
+usuario debe llenar: la mascota, el dueño, el servicio, la fecha y la hora. El
+estado no se pide, porque toda cita nueva entra como pendiente. El servicio no
+se escribe a mano sino que se elige de una lista, que es la misma que ya estaba
+definida junto a las citas, así no se inventan servicios que la veterinaria no
+ofrece. La fecha y la hora usan los selectores propios del navegador, para que
+sea más cómodo llenarlos y no haya dudas de formato.
+
+Además se le agregó una revisión extra: antes de aceptar una cita, el
+formulario comprueba que no haya ya otra agendada ese mismo día a esa misma
+hora, y si la hay, avisa y no la deja pasar. Esto responde a uno de los
+requisitos del inicio, el de evitar que dos citas se crucen en el mismo horario.
+Por ahora el formulario solo valida; guardar la cita en la lista es lo que viene
+en el siguiente ejercicio.
+
+**Comandos:**
+```powershell
+..\venv\Scripts\python.exe manage.py check
+```
+
+**Casos de prueba:**
+
+| # | Caso | Resultado esperado | Resultado obtenido |
+|---|---|---|---|
+| 1 | Todos los datos completos y con el horario libre | El formulario acepta la cita | Correcto |
+| 2 | Una cita en un horario que ya está ocupado | Avisa que ese horario ya está tomado y no la acepta | Correcto |
+| 3 | Dejar la mascota en blanco | Avisa que el campo es obligatorio | Correcto |
+| 4 | Elegir un servicio que no está en la lista | Avisa que no es una opción válida | Correcto |
+| 5 | Escribir una fecha que no existe en el calendario | Avisa que la fecha no es válida | Correcto |

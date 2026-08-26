@@ -28,12 +28,14 @@ django_project/
     │   └── wsgi.py
     ├── vet/                   # App de reserva de citas (sin base de datos)
     │   ├── models.py          # Clase Cita + lista `citas` en memoria
-    │   ├── views.py           # (en progreso)
-    │   ├── urls.py            # (en progreso)
-    │   ├── forms.py           # (en progreso)
+    │   ├── views.py           # Vista cita_list (listado ordenado)
+    │   ├── urls.py            # Ruta vet:cita_list
+    │   ├── forms.py           # Formulario de registro de citas
     │   └── admin.py
     └── templates/
-        └── base.html
+        ├── base.html
+        └── vet/
+            └── cita_list.html   # Listado de citas
 ```
 
 ## Modelo `Cita` (datos estáticos, sin base de datos)
@@ -52,8 +54,8 @@ django_project/
 Requisitos: Python 3.10 o superior.
 
 ```bash
-git clone https://github.com/RXDG2908/DesAplEmp.git
-cd django_project
+git clone https://github.com/RXDG2908/DesAplEmp-S02.git
+cd DesAplEmp-S02/django_project
 python -m venv venv
 venv\Scripts\activate          # En Linux/Mac: source venv/bin/activate
 cd src
@@ -66,7 +68,7 @@ pip install -r requirements.txt
 python manage.py runserver
 ```
 
-- Listado de citas: http://127.0.0.1:8000/ (en progreso)
+- Listado de citas: http://127.0.0.1:8000/
 
 ## Estado del laboratorio
 
@@ -75,8 +77,8 @@ python manage.py runserver
 - [x] Ejercicio 3 — Diseño del modelo de datos
 - [x] Ejercicio 4 — Crear la nueva App (`vet`)
 - [x] Ejercicio 5 — Model con datos estáticos
-- [ ] Ejercicio 6 — Listado (View + URL + Template)
-- [ ] Ejercicio 7 — Formulario (Forms)
+- [x] Ejercicio 6 — Listado (View + URL + Template)
+- [x] Ejercicio 7 — Formulario (Forms)
 - [ ] Ejercicio 8 — Vista de creación
 - [ ] Ejercicio 9 — Verificación del flujo completo
 - [ ] Ejercicio 10 — Publicar en GitHub
