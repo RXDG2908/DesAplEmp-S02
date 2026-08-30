@@ -42,7 +42,7 @@ de atender.
    mascota**, para poder contactarlo ante cualquier cambio o confirmación de
    la cita.
 
-### Requisitos del segundo integrante _(reemplazar nombre)_
+### Requisitos a cargo del segundo integrante del equipo
 
 7. El sistema debe permitir **cancelar una cita registrada**.
 8. El sistema debe permitir **ver el detalle completo de una cita** al
