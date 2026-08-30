@@ -230,3 +230,152 @@ en el siguiente ejercicio.
 | 3 | Dejar la mascota en blanco | Avisa que el campo es obligatorio | Correcto |
 | 4 | Elegir un servicio que no está en la lista | Avisa que no es una opción válida | Correcto |
 | 5 | Escribir una fecha que no existe en el calendario | Avisa que la fecha no es válida | Correcto |
+
+---
+
+## Ejercicio 8 — Implementar la vista de creación
+
+**Capturas:**
+
+- 8.png — el formulario de registro en el navegador, con los datos de una cita
+  nueva ya escritos.
+- 8b.png — el listado justo después de guardar, con el aviso de confirmación y la
+  cita recién agregada visible en la tabla.
+
+**Explicación:** En este ejercicio el formulario dejó de solo validar y empezó a
+guardar. Se agregó una segunda vista, encargada de registrar citas nuevas, y una
+segunda dirección dentro de la aplicación para llegar a ella. Cuando alguien
+entra por primera vez, la vista muestra el formulario vacío. Cuando la persona lo
+completa y lo envía, la vista revisa que todos los datos estén correctos y que el
+horario esté libre; si algo falla, vuelve a mostrar el formulario con el aviso
+correspondiente y no guarda nada. Si todo está bien, arma una cita nueva con los
+datos recibidos, le pone estado pendiente de forma automática y la agrega al
+final de la misma lista en memoria que usa el listado. Enseguida deja un mensaje
+de confirmación y manda a la persona de vuelta al listado, donde la cita nueva ya
+aparece en su lugar según la fecha y la hora. Como todo vive en memoria, esa cita
+agregada desaparece apenas se reinicia el servidor, y eso es el comportamiento
+esperado para este laboratorio. También se añadió el enlace a "Nueva cita" en la
+barra de navegación y un acceso directo desde el propio listado, y se preparó la
+plantilla base para que muestre los mensajes de confirmación.
+
+**Casos de prueba:**
+
+| # | Caso | Resultado esperado | Resultado obtenido |
+|---|---|---|---|
+| 1 | Abrir la dirección de nueva cita sin enviar nada | Se muestra el formulario vacío | Correcto |
+| 2 | Enviar una cita completa con horario libre | Guarda la cita, muestra el aviso de confirmación y regresa al listado | Correcto |
+| 3 | La cita recién guardada en el listado | Aparece en la tabla, ordenada por fecha y hora, con estado pendiente | Correcto |
+| 4 | Enviar una cita en un horario ya ocupado | No la guarda y avisa que ese horario está tomado | Correcto |
+| 5 | Enviar el formulario con la mascota en blanco | No la guarda y marca el campo obligatorio | Correcto |
+| 6 | Reiniciar el servidor después de agregar citas | La lista vuelve a las cinco citas iniciales | Correcto |
+
+---
+
+## Ejercicio 9 — Verificación del flujo completo
+
+**Capturas:**
+
+- 9.png — el listado inicial con las cinco citas de ejemplo.
+- 9b.png — el formulario de creación con los datos de la cita nueva.
+- 9c.png — el listado final, con la cita nueva ya reflejada y el aviso de
+  confirmación.
+
+**Explicación:** Se recorrió la aplicación de principio a fin para comprobar que
+el camino completo funciona. Primero se abrió el listado, que mostró las cinco
+citas de ejemplo ordenadas por fecha y hora. Después se entró al formulario de
+nueva cita y se registró una cita de prueba para una mascota con su dueño, su
+servicio, y una fecha y hora que estaban libres. Al enviar el formulario, la
+aplicación aceptó los datos, dejó el aviso de que la cita fue registrada y llevó
+de vuelta al listado, donde la cita nueva ya aparecía en la posición que le
+corresponde por su fecha y hora, con el total de citas actualizado. Con eso queda
+verificado el recorrido: el navegador pide una página, el proyecto entrega ese
+pedido a las rutas de la aplicación, la ruta llama a la vista, la vista lee o
+modifica la lista de datos en memoria, y una plantilla que hereda de la plantilla
+base arma la página final que ve la persona.
+
+**El recorrido Request a Response en este caso:**
+
+| Paso | Qué ocurre |
+|---|---|
+| Request | El navegador pide la página de nueva cita o envía el formulario lleno. |
+| URL | El proyecto deriva el pedido a las rutas de la aplicación de citas, y estas eligen la vista de creación. |
+| View | La vista muestra el formulario, o valida el envío y agrega la cita a la lista en memoria. |
+| Model (datos estáticos) | La lista de citas en memoria es la única fuente de datos: la vista la lee para el listado y le agrega elementos al crear. |
+| Template | La plantilla del listado o la del formulario, ambas heredando de la plantilla base, arman el HTML. |
+| Response | El navegador recibe la página: el formulario, o el listado con la cita nueva y el aviso de confirmación. |
+
+**Cómo convive la nueva App con la App base dentro del mismo Project:** El
+proyecto es el contenedor único de configuración y de rutas. La aplicación base
+del curso y esta aplicación de citas son dos módulos independientes registrados
+en ese mismo proyecto: cada una tiene sus propias vistas, sus propias rutas y sus
+propias plantillas, y el proyecto reparte cada pedido a la aplicación que
+corresponde según la dirección. Comparten la plantilla base y la configuración,
+pero no dependen una de la otra; se podría quitar cualquiera de las dos sin
+romper la otra. En este proyecto la aplicación de citas ocupa la dirección
+principal y la aplicación base no está incluida, pero la forma de conectarse al
+proyecto es exactamente la misma: registrarse en la configuración y engancharse
+al archivo de rutas del proyecto.
+
+**Casos de prueba:**
+
+| # | Caso | Resultado esperado | Resultado obtenido |
+|---|---|---|---|
+| 1 | Listado inicial | Cinco citas ordenadas por fecha y hora | Correcto |
+| 2 | Ir de listado a formulario por la barra de navegación | Se abre el formulario de nueva cita | Correcto |
+| 3 | Registrar una cita válida | Aviso de confirmación y regreso al listado | Correcto |
+| 4 | Estado del listado tras registrar | La cita nueva aparece en su lugar y el total sube en uno | Correcto |
+| 5 | Herencia de plantilla en todas las páginas | Encabezado, navegación y pie iguales en listado y formulario | Correcto |
+
+---
+
+## Ejercicio 10 — Publicar en GitHub
+
+**Capturas:**
+
+- 10.png — el repositorio en GitHub con el código de la App y los archivos de
+  documentación actualizados.
+
+**Explicación:** Se dejó el repositorio del equipo listo para revisión. Se
+actualizó el archivo de dependencias con la versión de Django y las librerías que
+usa el proyecto, y el archivo de presentación del proyecto con la problemática
+elegida, la lista de requisitos, la descripción de la App de citas, su estructura
+de carpetas, la forma de instalarla y ejecutarla, y el estado de cada uno de los
+diez ejercicios. Se confirmó que el proyecto no tiene errores y que el flujo
+completo funciona en el navegador, y se subieron los cambios al repositorio con
+un mensaje que describe lo agregado en esta entrega.
+
+**Comandos:**
+```powershell
+..\venv\Scripts\python.exe -m pip freeze > requirements.txt
+..\venv\Scripts\python.exe manage.py check
+git add .
+git commit -m "Laboratorio 02: vista de creacion, verificacion del flujo y documentacion (Ej. 8, 9 y 10)"
+git push
+```
+
+**Casos de prueba:**
+
+| # | Caso | Resultado esperado | Resultado obtenido |
+|---|---|---|---|
+| 1 | Clonar el repositorio en una carpeta limpia e instalar dependencias | El proyecto se instala sin faltar librerías | Correcto |
+| 2 | Ejecutar el servidor recién clonado | El listado y el formulario responden en el navegador | Correcto |
+| 3 | Revisar el archivo de presentación del proyecto | Describe la problemática, los requisitos y la App, y marca los diez ejercicios | Correcto |
+
+---
+
+## Conclusiones
+
+- Django organiza una aplicación web separando datos, procesamiento y
+  presentación, y esa separación se mantiene igual exista o no una base de datos
+  detrás.
+- Una App nueva se conecta a un proyecto existente solo con registrarse en la
+  configuración y engancharse al archivo de rutas del proyecto; a partir de ahí
+  convive con las demás Apps sin depender de ellas.
+- Un formulario es el punto donde un requisito escrito en palabras se vuelve una
+  funcionalidad real: captura datos, los valida y los transforma en una
+  respuesta para la persona.
+- Guardar los datos solo en memoria sirve para entender el flujo completo sin la
+  complejidad de las migraciones, a cambio de que todo lo agregado se pierda al
+  reiniciar el servidor.
+- El recorrido de cada pedido es siempre el mismo: dirección, ruta, vista,
+  datos, plantilla y respuesta.

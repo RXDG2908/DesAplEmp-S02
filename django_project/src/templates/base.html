@@ -10,10 +10,18 @@
         <h1>Reserva de citas — Veterinaria</h1>
         <nav>
             <a href="{% url 'vet:cita_list' %}">Citas</a>
+            <a href="{% url 'vet:cita_crear' %}">Nueva cita</a>
         </nav>
     </header>
 
     <main>
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         {% block content %}{% endblock %}
     </main>
 

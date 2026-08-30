@@ -28,15 +28,29 @@ django_project/
     │   └── wsgi.py
     ├── vet/                   # App de reserva de citas (sin base de datos)
     │   ├── models.py          # Clase Cita + lista `citas` en memoria
-    │   ├── views.py           # Vista cita_list (listado ordenado)
-    │   ├── urls.py            # Ruta vet:cita_list
+    │   ├── views.py           # Vistas cita_list (listado) y cita_crear (registro)
+    │   ├── urls.py            # Rutas vet:cita_list y vet:cita_crear
     │   ├── forms.py           # Formulario de registro de citas
     │   └── admin.py
     └── templates/
         ├── base.html
         └── vet/
-            └── cita_list.html   # Listado de citas
+            ├── cita_list.html   # Listado de citas
+            └── cita_form.html   # Formulario de registro
 ```
+
+## Flujo MVT
+
+```
+Request → config/urls.py → vet/urls.py → vet/views.py
+        → lista `citas` en memoria (vet/models.py) → template (hereda de base.html) → Response
+```
+
+- `GET /` → `cita_list`: ordena la lista en memoria y la muestra en una tabla.
+- `GET /nueva/` → `cita_crear`: muestra el formulario vacío.
+- `POST /nueva/` → `cita_crear`: valida, agrega la cita a la lista en memoria y
+  redirige al listado. **Las citas agregadas se pierden al reiniciar el
+  servidor** (no hay base de datos).
 
 ## Modelo `Cita` (datos estáticos, sin base de datos)
 
@@ -69,6 +83,7 @@ python manage.py runserver
 ```
 
 - Listado de citas: http://127.0.0.1:8000/
+- Registrar nueva cita: http://127.0.0.1:8000/nueva/
 
 ## Estado del laboratorio
 
@@ -79,9 +94,12 @@ python manage.py runserver
 - [x] Ejercicio 5 — Model con datos estáticos
 - [x] Ejercicio 6 — Listado (View + URL + Template)
 - [x] Ejercicio 7 — Formulario (Forms)
-- [ ] Ejercicio 8 — Vista de creación
-- [ ] Ejercicio 9 — Verificación del flujo completo
-- [ ] Ejercicio 10 — Publicar en GitHub
+- [x] Ejercicio 8 — Vista de creación
+- [x] Ejercicio 9 — Verificación del flujo completo
+- [x] Ejercicio 10 — Publicar en GitHub
+
+El informe completo por ejercicio (explicaciones y casos de prueba) está en
+[`INFORME_Lab02.md`](../INFORME_Lab02.md).
 
 ## Autores
 

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Nueva cita{% endblock %}
+
+{% block content %}
+<h2>Registrar nueva cita</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar cita</button>
+    <a href="{% url 'vet:cita_list' %}">Cancelar</a>
+</form>
+
+<p>
+    Los datos se guardan solo en memoria: la cita registrada se pierde al
+    reiniciar el servidor.
+</p>
+{% endblock %}
