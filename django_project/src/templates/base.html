@@ -4,6 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Veterinaria{% endblock %}</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+               margin: 0; color: #1f2937; background: #f3f4f6; }
+        header { background: #1f3b57; color: #fff; padding: 16px 32px; }
+        header h1 { margin: 0 0 8px; font-size: 20px; }
+        nav a { color: #cfe2ff; text-decoration: none; margin-right: 16px; font-size: 14px; }
+        nav a:hover { text-decoration: underline; }
+        main { max-width: 860px; margin: 24px auto; padding: 0 32px; }
+        h2 { font-size: 18px; }
+        table { border-collapse: collapse; width: 100%; background: #fff;
+                box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+        th, td { border: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; font-size: 14px; }
+        th { background: #1f3b57; color: #fff; }
+        tbody tr:nth-child(even) { background: #f9fafb; }
+        .messages { list-style: none; padding: 12px 16px; margin: 0 0 20px;
+                    background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 6px;
+                    color: #065f46; font-size: 14px; }
+        form p { margin: 12px 0; }
+        form label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+        form input, form select { padding: 6px 8px; font-size: 14px; border: 1px solid #cbd5e1;
+                                  border-radius: 4px; min-width: 260px; }
+        button { background: #1f3b57; color: #fff; border: 0; padding: 9px 18px;
+                 border-radius: 4px; font-size: 14px; cursor: pointer; margin-right: 12px; }
+        .errorlist { color: #b91c1c; font-size: 13px; list-style: none; padding: 0; margin: 4px 0; }
+        footer { max-width: 860px; margin: 32px auto; padding: 16px 32px; color: #6b7280; font-size: 13px; }
+    </style>
 </head>
 <body>
     <header>
@@ -16,7 +43,7 @@
 
     <main>
         {% if messages %}
-        <ul>
+        <ul class="messages">
             {% for message in messages %}
                 <li>{{ message }}</li>
             {% endfor %}

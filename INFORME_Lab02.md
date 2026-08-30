@@ -81,8 +81,10 @@ de creación (Ejercicio 7) tendrá un campo por cada uno de `mascota`, `dueno`,
 
 ## Ejercicio 4 — Crear la nueva App
 
-**Captura:** 4.png — la carpeta de la aplicación ya creada y registrada en la
-configuración del proyecto.
+**Capturas:**
+
+- 4.png — la carpeta de la aplicación ya creada y registrada en la configuración
+  del proyecto.
 
 **Explicación:** Esta aplicación se armó en su propio proyecto Django, dentro de
 la carpeta de la Semana 2 y con su propio entorno virtual. Se tomó como guía la
