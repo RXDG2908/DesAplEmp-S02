@@ -1,34 +1,43 @@
-from datetime import date, time
-
-# Esta App no usa base de datos: la lista `citas` de más abajo es la única
-# fuente de datos, en memoria. No hay migraciones ni panel de administración.
-
-SERVICIOS = ['Consulta', 'Vacunación', 'Cirugía', 'Baño']
-ESTADOS = ['Pendiente', 'Confirmada', 'Atendida']
+from django.db import models
 
 
-class Cita:
-    """Cita de la veterinaria, sin persistencia en base de datos."""
+class Cita(models.Model):
+    """Cita de la veterinaria, ahora persistida en SQLite mediante el ORM."""
 
-    def __init__(self, mascota, dueno, servicio, fecha, hora,
-                 estado='Pendiente'):
-        self.mascota = mascota
-        self.dueno = dueno
-        self.servicio = servicio
-        self.fecha = fecha
-        self.hora = hora
-        self.estado = estado
+    SERVICIOS = [
+        ('Consulta', 'Consulta'),
+        ('Vacunación', 'Vacunación'),
+        ('Cirugía', 'Cirugía'),
+        ('Baño', 'Baño'),
+    ]
+    ESTADOS = [
+        ('Pendiente', 'Pendiente'),
+        ('Confirmada', 'Confirmada'),
+        ('Atendida', 'Atendida'),
+    ]
+
+    mascota = models.CharField('Mascota', max_length=100)
+    dueno = models.CharField('Dueño', max_length=100)
+    servicio = models.CharField('Servicio', max_length=20, choices=SERVICIOS)
+    fecha = models.DateField('Fecha')
+    hora = models.TimeField('Hora')
+    estado = models.CharField(
+        'Estado', max_length=20, choices=ESTADOS, default='Pendiente',
+    )
+
+    class Meta:
+        ordering = ['fecha', 'hora']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['fecha', 'hora'], name='cita_horario_unico',
+            ),
+        ]
 
     def __str__(self):
         return f'{self.mascota} - {self.servicio} ({self.fecha} {self.hora})'
 
 
-citas = [
-    Cita('Firulais', 'Renzo León', 'Consulta', date(2026, 8, 26), time(9, 0),
-         'Confirmada'),
-    Cita('Michi', 'Ana Torres', 'Vacunación', date(2026, 8, 26), time(10, 30)),
-    Cita('Rocky', 'Luis Pérez', 'Baño', date(2026, 8, 26), time(11, 0)),
-    Cita('Nala', 'Carla Ruiz', 'Cirugía', date(2026, 8, 27), time(8, 0),
-         'Confirmada'),
-    Cita('Toby', 'Renzo León', 'Consulta', date(2026, 8, 27), time(15, 0)),
-]
+# Compatibilidad: la lista de ejemplo de la Semana 2 se conserva como datos
+# de carga inicial (ver data migration 0002). Ya no es la fuente de datos.
+SERVICIOS = [s[0] for s in Cita.SERVICIOS]
+ESTADOS = [e[0] for e in Cita.ESTADOS]
