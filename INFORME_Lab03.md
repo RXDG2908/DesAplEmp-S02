@@ -27,6 +27,11 @@ Se reemplazó la clase Python común y la lista `citas` en memoria por un
 `django.db.models.Model`, por lo que Django puede mapearlo a una tabla de
 SQLite y operarlo mediante el ORM.
 
+Los archivos de la App (`models.py`, `forms.py`, `urls.py`, `apps.py`) llevan
+**comentarios bloque por bloque** que explican para qué está cada parte — por
+ejemplo, por qué `class Meta` va anidada dentro de `Cita`, o por qué el
+formulario hereda de `forms.Form` y no de `ModelForm`.
+
 **Campos** (mismos que la Semana 2, con tipos de datos propios de Django):
 
 | Campo | Tipo Django | Notas |
