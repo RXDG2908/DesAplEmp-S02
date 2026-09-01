@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import SERVICIOS, citas
+from .models import Cita
 
 
 class CitaForm(forms.Form):
@@ -10,7 +10,7 @@ class CitaForm(forms.Form):
     dueno = forms.CharField(label='Dueño', max_length=100)
     servicio = forms.ChoiceField(
         label='Servicio',
-        choices=[(servicio, servicio) for servicio in SERVICIOS],
+        choices=Cita.SERVICIOS,
     )
     fecha = forms.DateField(
         label='Fecha',
@@ -28,7 +28,7 @@ class CitaForm(forms.Form):
         hora = datos.get('hora')
 
         if fecha and hora:
-            ocupado = any(c.fecha == fecha and c.hora == hora for c in citas)
+            ocupado = Cita.objects.filter(fecha=fecha, hora=hora).exists()
             if ocupado:
                 raise forms.ValidationError(
                     'Ya existe una cita agendada para esa fecha y hora.'
