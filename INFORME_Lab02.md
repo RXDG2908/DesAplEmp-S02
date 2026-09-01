@@ -1,7 +1,7 @@
 # Informe — Laboratorio 02: Nueva App con datos estáticos y formulario
 
 **Curso:** Desarrollo de Aplicaciones Empresariales — 4 - C24 - Sección CD
-**Estudiante:** Renzo León
+**Estudiantes:** Renzo León · Lucas Inga
 **Problemática elegida:** Reserva de citas — Veterinaria
 
 > Ver enunciado completo en [GLAB-S02.md](GLAB-S02.md). Este informe se va
@@ -24,10 +24,11 @@ de atender.
 
 ## Ejercicio 2 — Requisitos funcionales
 
-> Laboratorio en **grupo de 2**: el profesor pide **6 requisitos funcionales
-> por integrante** (12 en total para el sistema completo). Los siguientes son
-> los 6 requisitos a cargo de **Renzo León**; el otro integrante documenta sus
-> propios 6 en su parte del informe.
+> Laboratorio en **grupo de 2** (Renzo León y Lucas Inga): el profesor pide
+> **6 requisitos funcionales por integrante** (12 en total para el sistema
+> completo). Los requisitos 1 a 6 están a cargo de **Renzo León** (desarrollo de
+> la App `vet`); los requisitos 7 a 12 están a cargo de **Lucas Inga**, quien
+> además realizó las capturas y las pruebas del flujo en macOS.
 
 1. El sistema debe permitir **registrar una nueva cita**, indicando la mascota,
    el dueño, el servicio solicitado, la fecha y la hora.
@@ -42,7 +43,7 @@ de atender.
    mascota**, para poder contactarlo ante cualquier cambio o confirmación de
    la cita.
 
-### Requisitos a cargo del segundo integrante del equipo
+### Requisitos a cargo de Lucas Inga (segundo integrante)
 
 7. El sistema debe permitir **cancelar una cita registrada**.
 8. El sistema debe permitir **ver el detalle completo de una cita** al

@@ -103,4 +103,5 @@ El informe completo por ejercicio (explicaciones y casos de prueba) está en
 
 ## Autores
 
-- Renzo León (RXDG2908)
+- Renzo León (RXDG2908) — App `vet`, requisitos 1 a 6.
+- Lucas Inga — requisitos 7 a 12, capturas y pruebas del flujo en macOS.
