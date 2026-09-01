@@ -4,6 +4,19 @@ from django.db import models
 class Cita(models.Model):
     """Cita de la veterinaria, ahora persistida en SQLite mediante el ORM."""
 
+    # ¿Por qué SERVICIOS y ESTADOS viven en el código y no en una tabla?
+    #
+    # Son catálogos CERRADOS: la veterinaria ofrece un conjunto fijo de 4
+    # servicios y una cita solo puede estar en 3 estados. No los da de alta el
+    # usuario, no cambian mientras el servidor corre y no tienen datos propios
+    # (precio, duración, etc.), solo el nombre. Por eso NO se crea una tabla
+    # aparte: se usan como `choices` del campo, que es lo que Django recomienda
+    # para listas de opciones fijas. Django los aprovecha para validar el valor
+    # guardado y para armar el desplegable del formulario.
+    #
+    # Si algún día hubiera que administrarlos (agregar/quitar servicios,
+    # ponerles precio), recién ahí se convertirían en un modelo `Servicio` con
+    # relación `ForeignKey` hacia `Cita`.
     SERVICIOS = [
         ('Consulta', 'Consulta'),
         ('Vacunación', 'Vacunación'),
@@ -35,9 +48,3 @@ class Cita(models.Model):
 
     def __str__(self):
         return f'{self.mascota} - {self.servicio} ({self.fecha} {self.hora})'
-
-
-# Compatibilidad: la lista de ejemplo de la Semana 2 se conserva como datos
-# de carga inicial (ver data migration 0002). Ya no es la fuente de datos.
-SERVICIOS = [s[0] for s in Cita.SERVICIOS]
-ESTADOS = [e[0] for e in Cita.ESTADOS]

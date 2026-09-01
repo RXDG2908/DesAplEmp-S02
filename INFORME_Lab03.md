@@ -33,10 +33,26 @@ SQLite y operarlo mediante el ORM.
 |-------|-------------|-------|
 | `mascota` | `CharField(max_length=100)` | Texto corto |
 | `dueno` | `CharField(max_length=100)` | Texto corto |
-| `servicio` | `CharField(max_length=20, choices=SERVICIOS)` | Lista cerrada: Consulta / Vacunación / Cirugía / Baño |
+| `servicio` | `CharField(max_length=20, choices=SERVICIOS)` | Catálogo `Cita.SERVICIOS`: Consulta / Vacunación / Cirugía / Baño |
 | `fecha` | `DateField` | Fecha de la cita |
 | `hora` | `TimeField` | Hora de la cita |
-| `estado` | `CharField(max_length=20, choices=ESTADOS, default='Pendiente')` | Pendiente / Confirmada / Atendida |
+| `estado` | `CharField(max_length=20, choices=ESTADOS, default='Pendiente')` | Catálogo `Cita.ESTADOS`: Pendiente / Confirmada / Atendida |
+
+**Observación del profesor — por qué `SERVICIOS` y `ESTADOS` son código y no una
+tabla.** El profesor pidió justificarlo con un comentario en el propio código
+(hecho en `models.py`). El razonamiento:
+
+- Son **catálogos cerrados**: 4 servicios y 3 estados fijos, definidos por la
+  veterinaria.
+- **No los administra el usuario** ni cambian mientras el servidor corre.
+- **No tienen datos propios** (precio, duración…), solo el nombre.
+
+Por eso se usan como `choices` del campo —la forma recomendada por Django para
+listas de opciones fijas— y no como una tabla aparte, que solo añadiría un JOIN
+en cada consulta sin aportar nada. Si en el futuro hubiera que gestionarlos
+(agregar servicios, ponerles precio), recién ahí se convertirían en un modelo
+`Servicio` con `ForeignKey` hacia `Cita`. También se eliminó una duplicación de
+esas listas a nivel de módulo que había quedado sin uso.
 
 **`class Meta`:**
 
@@ -50,6 +66,11 @@ en el shell.
 
 ```python
 class Cita(models.Model):
+    # ¿Por qué SERVICIOS y ESTADOS viven en el código y no en una tabla?
+    # Son catálogos cerrados (4 servicios, 3 estados), no los da de alta el
+    # usuario, no cambian en ejecución y no tienen datos propios: por eso se
+    # usan como `choices` del campo y no como una tabla aparte. Si hubiera que
+    # administrarlos, se pasarían a un modelo `Servicio` con `ForeignKey`.
     SERVICIOS = [('Consulta', 'Consulta'), ('Vacunación', 'Vacunación'),
                  ('Cirugía', 'Cirugía'), ('Baño', 'Baño')]
     ESTADOS = [('Pendiente', 'Pendiente'), ('Confirmada', 'Confirmada'),
@@ -74,7 +95,9 @@ class Cita(models.Model):
         return f'{self.mascota} - {self.servicio} ({self.fecha} {self.hora})'
 ```
 
-> A partir de este cambio, `views.py` y `forms.py` todavía referencian la lista
-> `citas` de la Semana 2, por lo que el servidor no arranca hasta rehacer la
-> consulta (Ejercicio 4) y el registro (Ejercicio 5) con el ORM. La estructura
-> de la tabla se crea en el Ejercicio 3.
+El formulario (`vet/forms.py`) toma sus opciones de `Cita.SERVICIOS` en vez de
+tener otra copia de la lista.
+
+> `views.py` todavía referencia la lista `citas` de la Semana 2, por lo que el
+> servidor no arranca hasta rehacer la consulta (Ejercicio 4) y el registro
+> (Ejercicio 5) con el ORM. La estructura de la tabla se crea en el Ejercicio 3.
