@@ -47,10 +47,9 @@ class CitaForm(forms.Form):
         hora = datos.get('hora')
 
         if fecha and hora:
-            # Se consulta la TABLA (ya no una lista en memoria): ¿existe alguna
-            # cita con esa fecha y hora? `.exists()` devuelve True/False sin
-            # traer el registro completo.
-            ocupado = Cita.objects.filter(fecha=fecha, hora=hora).exists()
+            # Se consulta la TABLA (ya no una lista en memoria) con el ORM:
+            # filter() arma un QuerySet con las citas de esa fecha y hora.
+            ocupado = Cita.objects.filter(fecha=fecha, hora=hora)
             if ocupado:
                 # Lanzar ValidationError marca el formulario como no válido y
                 # muestra el mensaje al usuario.
