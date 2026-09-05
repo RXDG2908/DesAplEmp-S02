@@ -105,3 +105,24 @@ El informe completo por ejercicio (explicaciones y casos de prueba) está en
 
 - Renzo León (RXDG2908) — App `vet`, requisitos 1 a 6.
 - Lucas Inga — requisitos 7 a 12, capturas y pruebas del flujo en macOS.
+
+## Laboratorio 03 — Parte 2: App "biblioteca"
+
+**Problemática:** una biblioteca comunitaria de barrio no tiene un registro
+centralizado de su catálogo de libros, categorías, editoriales,
+bibliotecarios ni socios; todo se lleva en cuadernos y hojas sueltas.
+
+**Requisitos funcionales (resumen):** crear, listar, actualizar y eliminar
+Bibliotecarios, Editoriales, Socios y Categorías; crear, listar, actualizar
+y eliminar Libros asociados a una Categoría mediante ForeignKey.
+
+**App creada:** `biblioteca`, con 5 entidades (Bibliotecario, Editorial,
+Socio, Categoria, Libro) y CRUD completo implementado con Class-Based Views
+de Django (ListView, CreateView, UpdateView, DeleteView), usando
+exclusivamente Django ORM y SQLite.
+
+Rutas principales: `/biblioteca/categorias/`, `/biblioteca/libros/`,
+`/biblioteca/editoriales/`, `/biblioteca/socios/`, `/biblioteca/bibliotecarios/`.
+
+El informe completo de esta parte está en
+[`INFORME_Lab03.md`](../INFORME_Lab03.md).
