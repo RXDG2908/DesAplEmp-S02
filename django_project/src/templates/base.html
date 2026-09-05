@@ -19,9 +19,6 @@
         th, td { border: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; font-size: 14px; }
         th { background: #1f3b57; color: #fff; }
         tbody tr:nth-child(even) { background: #f9fafb; }
-        .messages { list-style: none; padding: 12px 16px; margin: 0 0 20px;
-                    background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 6px;
-                    color: #065f46; font-size: 14px; }
         form p { margin: 12px 0; }
         form label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
         form input, form select { padding: 6px 8px; font-size: 14px; border: 1px solid #cbd5e1;
@@ -42,18 +39,11 @@
     </header>
 
     <main>
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
         {% block content %}{% endblock %}
     </main>
 
     <footer>
-        <p>Desarrollo de Aplicaciones Empresariales &middot; Laboratorio 02</p>
+        <p>Desarrollo de Aplicaciones Empresariales &middot; Laboratorio 03</p>
     </footer>
 </body>
 </html>
