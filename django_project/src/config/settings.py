@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'vet',  # Reserva de citas de la veterinaria (Laboratorio 02)
+    'biblioteca' # Catalogo de biblioteca comunitaria (Laboratorio 03 - Parte 2)
 ]
 
 MIDDLEWARE = [

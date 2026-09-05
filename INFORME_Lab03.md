@@ -239,3 +239,126 @@ tabla y no en el código.
 | 4 | Conteo de registros | `count()` devuelve 5 | Correcto |
 | 5 | Reiniciar el servidor y volver a abrir el listado | Las cinco citas siguen ahí | Correcto |
 | 6 | Template sin modificar | Muestra los datos igual que en la Semana 2 | Correcto |
+
+## Ejercicio 5 — Implementar el registro mediante ORM
+
+El formulario de creación (`CitaForm`, ya usado en la Semana 2) no cambió su
+validación; lo que cambió es qué hace la View con los datos una vez que el
+formulario resulta válido: en vez de `citas.append(...)` sobre una lista de
+Python, ahora llama a `Cita.objects.create(...)`, que el ORM traduce en un
+`INSERT` sobre `vet_cita`.
+
+```python
+def cita_crear(request):
+    if request.method == 'POST':
+        form = CitaForm(request.POST)
+        if form.is_valid():
+            datos = form.cleaned_data
+            Cita.objects.create(
+                mascota=datos['mascota'],
+                dueno=datos['dueno'],
+                servicio=datos['servicio'],
+                fecha=datos['fecha'],
+                hora=datos['hora'],
+            )
+            return redirect('vet:cita_list')
+    else:
+        form = CitaForm()
+    return render(request, 'vet/cita_form.html', {'form': form})
+```
+
+**Post/Redirect/Get:** tras el `POST` válido se redirige a `vet:cita_list`,
+que vuelve a consultar la base y muestra la cita recién creada. Esto evita
+que, al refrescar la página, el navegador reenvíe el mismo `POST` y
+duplique el registro.
+
+**Casos de prueba:**
+
+| # | Caso | Resultado esperado | Resultado obtenido |
+|---|------|--------------------|--------------------|
+| 1 | Enviar el formulario con datos válidos | Redirige al listado (302) y la cita aparece | Correcto |
+| 2 | Enviar una cita con la misma fecha/hora que otra ya registrada | El `clean()` del form rechaza el registro | Correcto |
+| 3 | Reiniciar el servidor tras registrar una cita | La cita persiste en el listado | Correcto |
+| 4 | Refrescar el listado tras el redirect | No se duplica el registro (Post/Redirect/Get) | Correcto |
+
+## Ejercicio 6 — Analizar el flujo de persistencia
+
+**Recorrido de una consulta (READ, `GET /`):**
+
+
+**Recorrido de una creación (CREATE, `POST /nueva/`):**
+
+
+**Equivalencia conceptual ORM → SQL:**
+
+| Operación Django ORM | Operación SQL conceptual |
+|---|---|
+| `Cita.objects.order_by('fecha','hora')` | `SELECT * FROM vet_cita ORDER BY fecha, hora` |
+| `Cita.objects.create(**datos)` | `INSERT INTO vet_cita (...) VALUES (...)` |
+| `Cita.objects.filter(fecha=fecha, hora=hora)` | `SELECT * FROM vet_cita WHERE fecha=? AND hora=?` |
+
+**Diferencia entre CRUD y migraciones:** las migraciones (Ejercicio 3)
+cambiaron la **estructura** de la base de datos. El CRUD (Ejercicios 4 y 5)
+cambia los **datos** dentro de esa estructura ya existente, sin tocar el
+esquema.
+
+## Ejercicio 7 — Investigar una problemática real
+
+Una biblioteca comunitaria de barrio administra su catálogo de libros y el
+registro de socios y bibliotecarios en cuadernos y hojas de cálculo sueltas.
+No existe un sistema centralizado que permita saber qué libros hay, a qué
+categoría pertenecen, quién los administra, ni quiénes son los socios
+registrados. Esto genera pérdida de información, libros repetidos o mal
+clasificados, y dificultad para llevar un control ordenado.
+
+**Usuarios involucrados:** el bibliotecario (administra el catálogo), los
+socios (consultan y solicitan libros).
+
+**Proceso a mejorar:** centralizar el registro de libros, categorías,
+editoriales, bibliotecarios y socios en una aplicación web, reemplazando los
+cuadernos y hojas sueltas por una base de datos persistente.
+
+## Ejercicio 8 — Definir los requisitos funcionales
+
+1. El sistema debe permitir registrar nuevas categorías de libros.
+2. El sistema debe permitir listar todas las categorías registradas.
+3. El sistema debe permitir actualizar y eliminar una categoría (si no tiene libros asociados).
+4. El sistema debe permitir registrar nuevos libros, asociándolos a una categoría existente.
+5. El sistema debe permitir listar todos los libros registrados, mostrando su categoría.
+6. El sistema debe permitir actualizar los datos de un libro.
+7. El sistema debe permitir eliminar un libro, previa confirmación.
+8. El sistema debe permitir registrar, listar, actualizar y eliminar editoriales.
+9. El sistema debe permitir registrar, listar, actualizar y eliminar bibliotecarios.
+10. El sistema debe permitir registrar, listar, actualizar y eliminar socios.
+11. El sistema debe impedir eliminar una categoría mientras tenga libros asociados.
+12. El sistema debe mostrar, para cada libro, la categoría a la que pertenece.
+
+## Ejercicio 9 — Diseñar el modelo de datos
+
+**Entidades independientes (no se relacionan entre sí):**
+
+| Entidad | Campos | Tipo | Obligatorio | PK/FK |
+|---|---|---|---|---|
+| Bibliotecario | nombre, dni, turno | CharField, CharField(único), CharField(choices) | Sí | PK: id |
+| Editorial | nombre, pais | CharField, CharField | Sí | PK: id |
+| Socio | nombre, dni, telefono | CharField, CharField(único), CharField | telefono no obligatorio | PK: id |
+
+**Entidades relacionadas (ForeignKey):**
+
+| Entidad | Campos | Tipo | Obligatorio | PK/FK |
+|---|---|---|---|---|
+| Categoria | nombre, descripcion | CharField(único), CharField | descripcion no obligatoria | PK: id |
+| Libro | titulo, autor, isbn, anio_publicacion, categoria | CharField, CharField, CharField(único), PositiveIntegerField, ForeignKey | Sí | PK: id, FK: categoria → Categoria |
+
+**Justificación:** Bibliotecario, Editorial y Socio se modelan aparte porque
+son registros con identidad propia que no dependen de ningún libro en
+particular. Categoria y Libro se relacionan porque muchos libros comparten
+una misma categoría: modelarlo como ForeignKey evita repetir el nombre de la
+categoría en cada libro y permite consultar todos los libros de una
+categoría con una sola relación (`categoria.libros.all()`).
+
+## Ejercicio 10 — Representar las relaciones
+
+Categoria (1) ────< Libro (N)
+
+Entidades sin relación entre sí: Bibliotecario, Editorial, Socio

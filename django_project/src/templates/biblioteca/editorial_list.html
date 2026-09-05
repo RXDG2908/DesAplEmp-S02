@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Editoriales{% endblock %}
+{% block content %}
+<h2>Editoriales</h2>
+<p><a href="{% url 'biblioteca:editorial_crear' %}">Registrar editorial</a></p>
+<table>
+    <thead><tr><th>Nombre</th><th>País</th><th>Acciones</th></tr></thead>
+    <tbody>
+        {% for obj in objetos %}
+            <tr>
+                <td>{{ obj.nombre }}</td><td>{{ obj.pais }}</td>
+                <td>
+                    <a href="{% url 'biblioteca:editorial_editar' obj.pk %}">Editar</a>
+                    &middot;
+                    <a href="{% url 'biblioteca:editorial_eliminar' obj.pk %}">Eliminar</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="3">No hay editoriales registradas todavía.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p>Total: {{ objetos|length }}</p>
+{% endblock %}

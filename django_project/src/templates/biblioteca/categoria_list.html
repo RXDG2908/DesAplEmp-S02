@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Categorías{% endblock %}
+{% block content %}
+<h2>Categorías</h2>
+<p><a href="{% url 'biblioteca:categoria_crear' %}">Registrar categoría</a></p>
+<table>
+    <thead><tr><th>Nombre</th><th>Descripción</th><th>Libros</th><th>Acciones</th></tr></thead>
+    <tbody>
+        {% for obj in objetos %}
+            <tr>
+                <td>{{ obj.nombre }}</td><td>{{ obj.descripcion }}</td><td>{{ obj.libros.count }}</td>
+                <td>
+                    <a href="{% url 'biblioteca:categoria_editar' obj.pk %}">Editar</a>
+                    &middot;
+                    <a href="{% url 'biblioteca:categoria_eliminar' obj.pk %}">Eliminar</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4">No hay categorías registradas todavía.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p>Total: {{ objetos|length }}</p>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Bibliotecarios{% endblock %}
+{% block content %}
+<h2>Bibliotecarios</h2>
+<p><a href="{% url 'biblioteca:bibliotecario_crear' %}">Registrar bibliotecario</a></p>
+<table>
+    <thead><tr><th>Nombre</th><th>DNI</th><th>Turno</th><th>Acciones</th></tr></thead>
+    <tbody>
+        {% for obj in objetos %}
+            <tr>
+                <td>{{ obj.nombre }}</td><td>{{ obj.dni }}</td><td>{{ obj.turno }}</td>
+                <td>
+                    <a href="{% url 'biblioteca:bibliotecario_editar' obj.pk %}">Editar</a>
+                    &middot;
+                    <a href="{% url 'biblioteca:bibliotecario_eliminar' obj.pk %}">Eliminar</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4">No hay bibliotecarios registrados todavía.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p>Total: {{ objetos|length }}</p>
+{% endblock %}
