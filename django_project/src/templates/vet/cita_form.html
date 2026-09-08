@@ -1,3 +1,4 @@
+{# Template del formulario. Recibe 'form' desde la view cita_crear. #}
 {% extends 'base.html' %}
 
 {% block title %}Nueva cita{% endblock %}
@@ -5,6 +6,7 @@
 {% block content %}
 <h2>Registrar nueva cita</h2>
 
+{# Envia por POST a la misma URL. csrf_token es obligatorio en Django. #}
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

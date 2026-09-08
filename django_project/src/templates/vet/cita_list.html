@@ -1,3 +1,4 @@
+{# Template del listado. Recibe 'citas' desde la view cita_list. #}
 {% extends 'base.html' %}
 
 {% block title %}Citas registradas{% endblock %}
@@ -5,8 +6,10 @@
 {% block content %}
 <h2>Citas registradas</h2>
 
+{# Link al formulario de registro. #}
 <p><a href="{% url 'vet:cita_crear' %}">Registrar nueva cita</a></p>
 
+{# Tabla: una fila por cita. #}
 <table>
     <thead>
         <tr>
