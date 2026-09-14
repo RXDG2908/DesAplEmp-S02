@@ -1,0 +1,51 @@
+{# Ejercicio 7: muestra acceso directo, acceso inverso y modelo intermedio. #}
+{% extends 'base.html' %}
+
+{% block title %}Cita de {{ cita.mascota }}{% endblock %}
+
+{% block content %}
+<h2>{{ cita.mascota }} — {{ cita.servicio }}</h2>
+<p>{{ cita.fecha|date:"d/m/Y" }} a las {{ cita.hora|time:"H:i" }} · {{ cita.estado }}
+   · Dueño: {{ cita.dueno }}</p>
+
+{# 1) ACCESO DIRECTO a la FK (1:N): objeto.relacionado #}
+<h3>Veterinario asignado (relación 1:N — acceso directo)</h3>
+<p>{{ cita.veterinario.nombre|default:"Sin asignar" }}
+   {% if cita.veterinario.especialidad %}({{ cita.veterinario.especialidad }}){% endif %}</p>
+
+{# 2) ACCESO INVERSO al 1:1 mediante el related_name 'ficha' #}
+<h3>Ficha clínica (relación 1:1 — acceso inverso)</h3>
+{% if cita.ficha %}
+    <ul>
+        <li>Peso: {{ cita.ficha.peso_kg }} kg</li>
+        <li>Diagnóstico: {{ cita.ficha.diagnostico }}</li>
+        <li>Tratamiento: {{ cita.ficha.tratamiento|default:"—" }}</li>
+        <li>Próximo control: {{ cita.ficha.proximo_control|date:"d/m/Y"|default:"—" }}</li>
+    </ul>
+{% else %}
+    <p>Esta cita aún no tiene ficha clínica (no ha sido atendida).</p>
+{% endif %}
+
+{# 3) RECORRIDO DEL MODELO INTERMEDIO: cita -> consumos -> insumo #}
+<h3>Insumos utilizados (relación N:M — modelo intermedio)</h3>
+<table>
+    <thead>
+        <tr><th>Insumo</th><th>Cantidad</th><th>P. unitario</th><th>Subtotal</th></tr>
+    </thead>
+    <tbody>
+    {% for consumo in cita.consumos.all %}
+        <tr>
+            <td>{{ consumo.insumo.nombre }}</td>
+            <td>{{ consumo.cantidad }} {{ consumo.insumo.unidad }}</td>
+            <td>S/ {{ consumo.precio_unitario }}</td>
+            <td>S/ {{ consumo.subtotal }}</td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="4">No se registraron insumos en esta cita.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+<p><strong>Total en insumos: S/ {{ total }}</strong></p>
+
+<p><a href="{% url 'vet:cita_list' %}">Volver al listado</a></p>
+{% endblock %}
