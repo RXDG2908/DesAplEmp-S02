@@ -39,10 +39,19 @@ class Editorial(models.Model):
 
 
 class Socio(models.Model):
-    """Entidad independiente: persona registrada como socia de la biblioteca."""
+    """Semana 4: deja de ser independiente. Ahora se relaciona con Libro en
+    muchos a muchos a traves del modelo intermedio Prestamo (criterio 4)."""
     nombre = models.CharField(max_length=100)
     dni = models.CharField('DNI', max_length=15, unique=True)
     telefono = models.CharField(max_length=20, blank=True)
+
+    # --- N:M con modelo intermedio (criterio 4) ---
+    libros = models.ManyToManyField(
+        'Libro',
+        through='Prestamo',
+        related_name='socios',
+        blank=True,
+    )
 
     def __str__(self):
         return self.nombre
@@ -75,3 +84,63 @@ class Libro(models.Model):
 
     def __str__(self):
         return f'{self.titulo} ({self.categoria})'
+
+
+class CarnetSocio(models.Model):
+    """UNO A UNO (criterio 3): credencial fisica del socio.
+
+    No son "mas campos de Socio" porque el carnet tiene ciclo de vida propio:
+    se emite, vence, se renueva, se pierde y se reemplaza. Un socio recien
+    inscrito todavia no tiene carnet emitido.
+    CASCADE: el carnet no tiene existencia propia sin su socio.
+    """
+    socio = models.OneToOneField(
+        Socio,
+        on_delete=models.CASCADE,
+        related_name='carnet',
+    )
+    codigo = models.CharField(max_length=20, unique=True)
+    fecha_emision = models.DateField()
+    fecha_vencimiento = models.DateField()
+    vigente = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = 'Carnet de socio'
+        verbose_name_plural = 'Carnets de socios'
+
+    def __str__(self):
+        return f'Carnet {self.codigo} - {self.socio.nombre}'
+
+
+class Prestamo(models.Model):
+    """Modelo intermedio (through) de Socio <-> Libro.
+
+    Sus cuatro atributos pertenecen a la RELACION, no a las entidades: existen
+    solo porque ese socio se llevo ese ejemplar ese dia.
+    PROTECT en ambas FK: el historial de prestamos es un registro contable de
+    la biblioteca; no se puede borrar un socio ni un libro con prestamos.
+    NOTA: a proposito NO se pone unique_together(socio, libro): la relacion es
+    temporal y el mismo socio puede pedir el mismo libro varias veces.
+    """
+    ESTADOS = [
+        ('Activo', 'Activo'),
+        ('Devuelto', 'Devuelto'),
+        ('Atrasado', 'Atrasado'),
+        ('Extraviado', 'Extraviado'),
+    ]
+
+    socio = models.ForeignKey(Socio, on_delete=models.PROTECT,
+                              related_name='prestamos')
+    libro = models.ForeignKey(Libro, on_delete=models.PROTECT,
+                              related_name='prestamos')
+    fecha_prestamo = models.DateField()
+    fecha_devolucion_prevista = models.DateField()
+    fecha_devolucion_real = models.DateField(null=True, blank=True)
+    estado = models.CharField(max_length=15, choices=ESTADOS, default='Activo')
+
+    class Meta:
+        ordering = ['-fecha_prestamo']
+        verbose_name_plural = 'Préstamos'
+
+    def __str__(self):
+        return f'{self.libro.titulo} -> {self.socio.nombre} ({self.fecha_prestamo})'
