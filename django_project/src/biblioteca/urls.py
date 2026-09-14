@@ -16,6 +16,7 @@ urlpatterns = [
     path('editoriales/<int:pk>/eliminar/', views.EditorialDeleteView.as_view(), name='editorial_eliminar'),
 
     path('socios/', views.SocioListView.as_view(), name='socio_list'),
+    path('socios/<int:pk>/', views.SocioDetailView.as_view(), name='socio_detail'),
     path('socios/nuevo/', views.SocioCreateView.as_view(), name='socio_crear'),
     path('socios/<int:pk>/editar/', views.SocioUpdateView.as_view(), name='socio_editar'),
     path('socios/<int:pk>/eliminar/', views.SocioDeleteView.as_view(), name='socio_eliminar'),
@@ -29,4 +30,17 @@ urlpatterns = [
     path('libros/nuevo/', views.LibroCreateView.as_view(), name='libro_crear'),
     path('libros/<int:pk>/editar/', views.LibroUpdateView.as_view(), name='libro_editar'),
     path('libros/<int:pk>/eliminar/', views.LibroDeleteView.as_view(), name='libro_eliminar'),
+
+    # --- Semana 4 -------------------------------------------------------
+    # Ejercicio 13: CRUD del modelo intermedio.
+    path('prestamos/', views.PrestamoListView.as_view(), name='prestamo_list'),
+    path('prestamos/nuevo/', views.PrestamoCreateView.as_view(), name='prestamo_crear'),
+    path('prestamos/<int:pk>/editar/', views.PrestamoUpdateView.as_view(), name='prestamo_editar'),
+    path('prestamos/<int:pk>/eliminar/', views.PrestamoDeleteView.as_view(), name='prestamo_eliminar'),
+
+    # CRUD del carnet (relacion 1:1).
+    path('carnets/', views.CarnetListView.as_view(), name='carnet_list'),
+    path('carnets/nuevo/', views.CarnetCreateView.as_view(), name='carnet_crear'),
+    path('carnets/<int:pk>/editar/', views.CarnetUpdateView.as_view(), name='carnet_editar'),
+    path('carnets/<int:pk>/eliminar/', views.CarnetDeleteView.as_view(), name='carnet_eliminar'),
 ]

@@ -4,10 +4,11 @@
 # DeleteView). Todas usan el ORM de Django; ninguna escribe SQL a mano.
 
 from django.urls import reverse_lazy
-from django.views.generic import ListView
+from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
-from .models import Bibliotecario, Categoria, Editorial, Libro, Socio
+from .models import (Bibliotecario, CarnetSocio, Categoria, Editorial,
+                     Libro, Prestamo, Socio)
 
 # --- Bibliotecario (independiente) --------------------------------------
 
@@ -140,7 +141,12 @@ class LibroListView(ListView):
     model = Libro
     template_name = 'biblioteca/libro_list.html'
     context_object_name = 'objetos'
-    queryset = Libro.objects.select_related('categoria').order_by('titulo')
+    # Ejercicio 12: select_related resuelve la FK; prefetch_related recorre
+    # el modelo intermedio Prestamo y llega hasta el Socio.
+    queryset = (Libro.objects
+                .select_related('categoria')
+                .prefetch_related('prestamos__socio')
+                .order_by('titulo'))
 
 
 class LibroCreateView(CreateView):
@@ -163,3 +169,89 @@ class LibroDeleteView(DeleteView):
     model = Libro
     template_name = 'biblioteca/generic_confirm_delete.html'
     success_url = reverse_lazy('biblioteca:libro_list')
+
+
+# --- Semana 4 ------------------------------------------------------------
+# Ejercicio 12: vista que muestra datos RELACIONADOS (no un listado plano).
+
+
+class SocioDetailView(DetailView):
+    """Muestra el 1:1 (carnet) y el recorrido del modelo intermedio."""
+    model = Socio
+    template_name = 'biblioteca/socio_detail.html'
+    context_object_name = 'socio'
+    # select_related() tambien funciona sobre el 1:1 INVERSO ('carnet').
+    queryset = (Socio.objects
+                .select_related('carnet')
+                .prefetch_related('prestamos__libro__categoria'))
+
+
+# Ejercicio 13: CRUD propio del modelo intermedio Prestamo.
+
+_PRESTAMO_FIELDS = ['socio', 'libro', 'fecha_prestamo',
+                    'fecha_devolucion_prevista', 'fecha_devolucion_real',
+                    'estado']
+
+
+class PrestamoListView(ListView):
+    model = Prestamo
+    template_name = 'biblioteca/prestamo_list.html'
+    context_object_name = 'objetos'
+    queryset = Prestamo.objects.select_related('socio', 'libro')
+
+
+class PrestamoCreateView(CreateView):
+    model = Prestamo
+    fields = _PRESTAMO_FIELDS
+    template_name = 'biblioteca/generic_form.html'
+    success_url = reverse_lazy('biblioteca:prestamo_list')
+    extra_context = {'titulo': 'Registrar préstamo'}
+
+
+class PrestamoUpdateView(UpdateView):
+    model = Prestamo
+    fields = _PRESTAMO_FIELDS
+    template_name = 'biblioteca/generic_form.html'
+    success_url = reverse_lazy('biblioteca:prestamo_list')
+    extra_context = {'titulo': 'Editar préstamo'}
+
+
+class PrestamoDeleteView(DeleteView):
+    model = Prestamo
+    template_name = 'biblioteca/generic_confirm_delete.html'
+    success_url = reverse_lazy('biblioteca:prestamo_list')
+
+
+# CRUD del carnet (1:1), necesario para poder crearlo desde la web.
+
+_CARNET_FIELDS = ['socio', 'codigo', 'fecha_emision', 'fecha_vencimiento',
+                  'vigente']
+
+
+class CarnetListView(ListView):
+    model = CarnetSocio
+    template_name = 'biblioteca/carnet_list.html'
+    context_object_name = 'objetos'
+    queryset = CarnetSocio.objects.select_related('socio')
+
+
+class CarnetCreateView(CreateView):
+    model = CarnetSocio
+    fields = _CARNET_FIELDS
+    template_name = 'biblioteca/generic_form.html'
+    success_url = reverse_lazy('biblioteca:carnet_list')
+    extra_context = {'titulo': 'Emitir carnet'}
+
+
+class CarnetUpdateView(UpdateView):
+    model = CarnetSocio
+    fields = _CARNET_FIELDS
+    template_name = 'biblioteca/generic_form.html'
+    success_url = reverse_lazy('biblioteca:carnet_list')
+    extra_context = {'titulo': 'Editar carnet'}
+
+
+class CarnetDeleteView(DeleteView):
+    model = CarnetSocio
+    template_name = 'biblioteca/generic_confirm_delete.html'
+    success_url = reverse_lazy('biblioteca:carnet_list')
