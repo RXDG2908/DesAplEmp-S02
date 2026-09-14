@@ -1,0 +1,46 @@
+{# Ejercicio 12: vista con datos relacionados (1:1 inverso + intermedio). #}
+{% extends 'base.html' %}
+
+{% block title %}{{ socio.nombre }}{% endblock %}
+
+{% block content %}
+<h2>{{ socio.nombre }}</h2>
+<p>DNI: {{ socio.dni }} · Teléfono: {{ socio.telefono|default:"—" }}</p>
+
+{# Relación 1:1 por related_name — acceso inverso, resuelto con select_related #}
+<h3>Carnet (relación 1:1)</h3>
+{% if socio.carnet %}
+  <p>Código {{ socio.carnet.codigo }} ·
+     emitido el {{ socio.carnet.fecha_emision|date:"d/m/Y" }} ·
+     vence el {{ socio.carnet.fecha_vencimiento|date:"d/m/Y" }} ·
+     {% if socio.carnet.vigente %}vigente{% else %}no vigente{% endif %}</p>
+{% else %}
+  <p>Este socio todavía no tiene carnet emitido.
+     <a href="{% url 'biblioteca:carnet_crear' %}">Emitir carnet</a></p>
+{% endif %}
+
+{# Recorrido del modelo intermedio: socio -> prestamos -> libro -> categoria #}
+<h3>Préstamos (relación N:M con modelo intermedio)</h3>
+<table>
+  <thead>
+    <tr><th>Libro</th><th>Categoría</th><th>Prestado</th><th>Vence</th>
+        <th>Devuelto</th><th>Estado</th></tr>
+  </thead>
+  <tbody>
+  {% for p in socio.prestamos.all %}
+    <tr>
+      <td>{{ p.libro.titulo }}</td>
+      <td>{{ p.libro.categoria.nombre }}</td>
+      <td>{{ p.fecha_prestamo|date:"d/m/Y" }}</td>
+      <td>{{ p.fecha_devolucion_prevista|date:"d/m/Y" }}</td>
+      <td>{{ p.fecha_devolucion_real|date:"d/m/Y"|default:"—" }}</td>
+      <td>{{ p.estado }}</td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="6">Sin préstamos registrados.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<p><a href="{% url 'biblioteca:socio_list' %}">Volver a socios</a></p>
+{% endblock %}

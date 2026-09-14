@@ -10,6 +10,8 @@
             <tr>
                 <td>{{ obj.nombre }}</td><td>{{ obj.dni }}</td><td>{{ obj.telefono }}</td>
                 <td>
+                    <a href="{% url 'biblioteca:socio_detail' obj.pk %}">Ver detalle</a>
+                    &middot;
                     <a href="{% url 'biblioteca:socio_editar' obj.pk %}">Editar</a>
                     &middot;
                     <a href="{% url 'biblioteca:socio_eliminar' obj.pk %}">Eliminar</a>

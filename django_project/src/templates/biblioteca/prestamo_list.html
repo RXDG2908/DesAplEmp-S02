@@ -1,0 +1,33 @@
+{# Ejercicio 13: listado del modelo intermedio con su propio CRUD. #}
+{% extends 'base.html' %}
+{% block title %}Préstamos{% endblock %}
+{% block content %}
+<h2>Préstamos</h2>
+<p><a href="{% url 'biblioteca:prestamo_crear' %}">Registrar préstamo</a></p>
+<table>
+    <thead>
+      <tr><th>Socio</th><th>Libro</th><th>Prestado</th><th>Vence</th>
+          <th>Devuelto</th><th>Estado</th><th>Acciones</th></tr>
+    </thead>
+    <tbody>
+        {% for obj in objetos %}
+            <tr>
+                <td>{{ obj.socio.nombre }}</td>
+                <td>{{ obj.libro.titulo }}</td>
+                <td>{{ obj.fecha_prestamo|date:"d/m/Y" }}</td>
+                <td>{{ obj.fecha_devolucion_prevista|date:"d/m/Y" }}</td>
+                <td>{{ obj.fecha_devolucion_real|date:"d/m/Y"|default:"—" }}</td>
+                <td>{{ obj.estado }}</td>
+                <td>
+                    <a href="{% url 'biblioteca:prestamo_editar' obj.pk %}">Editar</a>
+                    &middot;
+                    <a href="{% url 'biblioteca:prestamo_eliminar' obj.pk %}">Eliminar</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="7">No hay préstamos registrados todavía.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p>Total: {{ objetos|length }}</p>
+{% endblock %}

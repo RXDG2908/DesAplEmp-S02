@@ -4,12 +4,14 @@
 <h2>Libros</h2>
 <p><a href="{% url 'biblioteca:libro_crear' %}">Registrar libro</a></p>
 <table>
-    <thead><tr><th>Título</th><th>Autor</th><th>ISBN</th><th>Año</th><th>Categoría</th><th>Acciones</th></tr></thead>
+    <thead><tr><th>Título</th><th>Autor</th><th>ISBN</th><th>Año</th><th>Categoría</th><th>Préstamos</th><th>Acciones</th></tr></thead>
     <tbody>
         {% for obj in objetos %}
             <tr>
                 <td>{{ obj.titulo }}</td><td>{{ obj.autor }}</td><td>{{ obj.isbn }}</td>
                 <td>{{ obj.anio_publicacion }}</td><td>{{ obj.categoria }}</td>
+                {# Acceso inverso de la FK Prestamo->Libro (related_name='prestamos') #}
+                <td>{{ obj.prestamos.count }}</td>
                 <td>
                     <a href="{% url 'biblioteca:libro_editar' obj.pk %}">Editar</a>
                     &middot;
@@ -17,7 +19,7 @@
                 </td>
             </tr>
         {% empty %}
-            <tr><td colspan="6">No hay libros registrados todavía.</td></tr>
+            <tr><td colspan="7">No hay libros registrados todavía.</td></tr>
         {% endfor %}
     </tbody>
 </table>
