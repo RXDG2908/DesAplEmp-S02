@@ -13,4 +13,6 @@ urlpatterns = [
     # /nueva/  -> formulario para registrar
     path('', views.cita_list, name='cita_list'),
     path('nueva/', views.cita_crear, name='cita_crear'),
+    # Semana 4: detalle con los datos relacionados (1:1, 1:N y el intermedio).
+    path('cita/<int:pk>/', views.cita_detalle, name='cita_detalle'),
 ]
