@@ -126,3 +126,24 @@ Rutas principales: `/biblioteca/categorias/`, `/biblioteca/libros/`,
 
 El informe completo de esta parte está en
 [`INFORME_Lab03.md`](../INFORME_Lab03.md).
+
+## Laboratorio 04 — Relaciones entre modelos
+
+### App `vet` (Parte 1)
+| Relación | Implementación | on_delete |
+|---|---|---|
+| 1:1 | `FichaClinica.cita → Cita` (`related_name='ficha'`) | CASCADE |
+| 1:N | `Cita.veterinario → Veterinario` (`related_name='citas'`) | SET_NULL |
+| N:M | `Cita.insumos → Insumo` through `ConsumoInsumo` (cantidad, precio_unitario) | CASCADE / PROTECT |
+
+### App `biblioteca` (Parte 2) — 7 entidades
+Bibliotecario, Editorial, Socio, Categoria, Libro, CarnetSocio, Prestamo.
+
+| Relación | Implementación | on_delete |
+|---|---|---|
+| 1:N | `Libro.categoria → Categoria` (`related_name='libros'`) | PROTECT |
+| 1:1 | `CarnetSocio.socio → Socio` (`related_name='carnet'`) | CASCADE |
+| N:M | `Socio.libros → Libro` through `Prestamo` (4 atributos propios) | PROTECT |
+
+Rutas nuevas: `/cita/<pk>/`, `/biblioteca/socios/<pk>/`, `/biblioteca/prestamos/`,
+`/biblioteca/carnets/`.
