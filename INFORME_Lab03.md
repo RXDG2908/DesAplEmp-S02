@@ -362,3 +362,28 @@ categoría con una sola relación (`categoria.libros.all()`).
 Categoria (1) ────< Libro (N)
 
 Entidades sin relación entre sí: Bibliotecario, Editorial, Socio
+
+## Ejercicio 20 — Documentar el flujo completo
+
+Entidad elegida: **Libro** (por tener la relación ForeignKey con Categoria,
+esto también evidencia el Ejercicio 18).
+
+### CREATE
+
+
+### READ
+
+Ya evidenciado en el mismo `ej14_libro_list.png`: el listado se arma
+consultando `Libro.objects.select_related('categoria')`, que el ORM traduce
+en un `SELECT` con join a `Categoria`, mostrando el nombre de la categoría
+sin consultas extra por fila.
+
+### UPDATE
+
+
+### DELETE
+
+
+Las cuatro operaciones confirman el mismo patrón de la Parte 1: el
+Navegador nunca habla directo con SQLite — siempre pasa por URL → View →
+Model → Django ORM, y el ORM es el único que genera el SQL real.

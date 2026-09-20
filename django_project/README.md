@@ -147,3 +147,16 @@ Bibliotecario, Editorial, Socio, Categoria, Libro, CarnetSocio, Prestamo.
 
 Rutas nuevas: `/cita/<pk>/`, `/biblioteca/socios/<pk>/`, `/biblioteca/prestamos/`,
 `/biblioteca/carnets/`.
+
+## Laboratorio 5 — Django Admin (biblioteca)
+
+- `biblioteca/admin.py`: `SocioAdmin`, `LibroAdmin` y `PrestamoAdmin` registrados
+  con clase `ModelAdmin`.
+- `list_display` en los tres; `search_fields` en `Socio` (nombre, dni) y en
+  `Libro` (titulo, autor, isbn); `list_filter` en `Libro` (por categoria) y en
+  `Prestamo` (por estado).
+- `CarnetSocioInline` (`StackedInline`, relación 1:1) y `PrestamoInline`
+  (`TabularInline`, relación N:M a través de `Prestamo`) dentro de `SocioAdmin`.
+- Verificado en el Admin: login, listado con filtros/búsqueda, Inlines de las
+  relaciones, y una operación completa de creación, edición y eliminación de
+  un préstamo desde el panel.
