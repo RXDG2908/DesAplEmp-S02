@@ -1,0 +1,4 @@
+<td>{{ prestamo.fecha_prestamo|date:"d/m/Y" }}</td>
+<td>{{ prestamo.fecha_devolucion_prevista|date:"d/m/Y" }}</td>
+<td>{{ prestamo.fecha_devolucion_real|date:"d/m/Y"|default:"—" }}</td>
+<td>{{ prestamo.estado }}</td>

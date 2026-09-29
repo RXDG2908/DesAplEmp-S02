@@ -14,10 +14,7 @@
             <tr>
                 <td>{{ obj.socio.nombre }}</td>
                 <td>{{ obj.libro.titulo }}</td>
-                <td>{{ obj.fecha_prestamo|date:"d/m/Y" }}</td>
-                <td>{{ obj.fecha_devolucion_prevista|date:"d/m/Y" }}</td>
-                <td>{{ obj.fecha_devolucion_real|date:"d/m/Y"|default:"—" }}</td>
-                <td>{{ obj.estado }}</td>
+                {% include "biblioteca/_prestamo_campos.html" with prestamo=obj %}
                 <td>
                     <a href="{% url 'biblioteca:prestamo_editar' obj.pk %}">Editar</a>
                     &middot;

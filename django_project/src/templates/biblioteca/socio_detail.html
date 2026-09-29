@@ -31,10 +31,7 @@
     <tr>
       <td>{{ p.libro.titulo }}</td>
       <td>{{ p.libro.categoria.nombre }}</td>
-      <td>{{ p.fecha_prestamo|date:"d/m/Y" }}</td>
-      <td>{{ p.fecha_devolucion_prevista|date:"d/m/Y" }}</td>
-      <td>{{ p.fecha_devolucion_real|date:"d/m/Y"|default:"—" }}</td>
-      <td>{{ p.estado }}</td>
+      {% include "biblioteca/_prestamo_campos.html" with prestamo=p %}
     </tr>
   {% empty %}
     <tr><td colspan="6">Sin préstamos registrados.</td></tr>

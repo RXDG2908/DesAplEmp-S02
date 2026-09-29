@@ -10,8 +10,7 @@
 
 {# 1) ACCESO DIRECTO a la FK (1:N): objeto.relacionado #}
 <h3>Veterinario asignado (relación 1:N — acceso directo)</h3>
-<p>{{ cita.veterinario.nombre|default:"Sin asignar" }}
-   {% if cita.veterinario.especialidad %}({{ cita.veterinario.especialidad }}){% endif %}</p>
+<p>{% include "vet/_veterinario_info.html" %}</p>
 
 {# 2) ACCESO INVERSO al 1:1 mediante el related_name 'ficha' #}
 <h3>Ficha clínica (relación 1:1 — acceso inverso)</h3>

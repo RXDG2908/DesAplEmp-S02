@@ -160,3 +160,14 @@ Rutas nuevas: `/cita/<pk>/`, `/biblioteca/socios/<pk>/`, `/biblioteca/prestamos/
 - Verificado en el Admin: login, listado con filtros/búsqueda, Inlines de las
   relaciones, y una operación completa de creación, edición y eliminación de
   un préstamo desde el panel.
+
+  ## Laboratorio 6 — Plantillas Django (include)
+
+- `vet/_veterinario_info.html`: fragmento reutilizado con `{% include %}` en
+  `cita_list.html` y `cita_detalle.html` para mostrar el veterinario asignado.
+- `biblioteca/_prestamo_campos.html`: fragmento reutilizado con `{% include %}`
+  en `prestamo_list.html` y `socio_detail.html` para las columnas de fechas y
+  estado de un préstamo.
+- Herencia (`extends`/`block`), filtros (`date`, `length`, `default`) y
+  comentarios (`{# #}`) ya estaban aplicados en los templates desde el
+  Laboratorio 4.

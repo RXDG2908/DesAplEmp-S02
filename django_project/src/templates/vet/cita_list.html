@@ -33,7 +33,7 @@
                 <td>{{ cita.hora|time:"H:i" }}</td>
                 <td>{{ cita.estado }}</td>
                 {# Acceso directo a la FK (1:N) resuelto con select_related. #}
-                <td>{{ cita.veterinario.nombre|default:"—" }}</td>
+                <td>{% include "vet/_veterinario_info.html" %}</td>
                 <td><a href="{% url 'vet:cita_detalle' cita.pk %}">Ver detalle</a></td>
             </tr>
         {% empty %}
