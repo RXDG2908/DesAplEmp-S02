@@ -177,4 +177,4 @@ Rutas nuevas: `/cita/<pk>/`, `/biblioteca/socios/<pk>/`, `/biblioteca/prestamos/
 - Auto-escape verificado: una cita con `<script>` en el nombre de la mascota
   se muestra como texto y no se ejecuta.
 - Estado: Lab 06 completo en código; el informe está en
-  [`INFORME_Lab06.md`](../INFORME_Lab06.md). Pendiente: capturas del Word.
+  [`INFORME_Lab06.md`](../INFORME_Lab06.md). Capturas en `Capturas/Lab06/` y Word en `GLAB-S06-YBESTARD-2026-02-RESUELTO.docx` (Parte 1, app vet).
