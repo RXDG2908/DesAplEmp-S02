@@ -36,15 +36,15 @@
         <tr>
             <td>{{ consumo.insumo.nombre }}</td>
             <td>{{ consumo.cantidad }} {{ consumo.insumo.unidad }}</td>
-            <td>S/ {{ consumo.precio_unitario }}</td>
-            <td>S/ {{ consumo.subtotal }}</td>
+            <td>S/ {{ consumo.precio_unitario|floatformat:2 }}</td>
+            <td>S/ {{ consumo.subtotal|floatformat:2 }}</td>
         </tr>
     {% empty %}
         <tr><td colspan="4">No se registraron insumos en esta cita.</td></tr>
     {% endfor %}
     </tbody>
 </table>
-<p><strong>Total en insumos: S/ {{ total }}</strong></p>
+<p><strong>Total en insumos: S/ {{ total|floatformat:2 }}</strong></p>
 
 <p><a href="{% url 'vet:cita_list' %}">Volver al listado</a></p>
 {% endblock %}

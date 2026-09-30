@@ -26,7 +26,7 @@
     <tbody>
         {% for cita in citas %}
             <tr>
-                <td>{{ cita.mascota }}</td>
+                <td>{{ cita.mascota|title }}</td>
                 <td>{{ cita.dueno }}</td>
                 <td>{{ cita.servicio }}</td>
                 <td>{{ cita.fecha|date:"d/m/Y" }}</td>

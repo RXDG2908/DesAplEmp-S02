@@ -161,7 +161,7 @@ Rutas nuevas: `/cita/<pk>/`, `/biblioteca/socios/<pk>/`, `/biblioteca/prestamos/
   relaciones, y una operación completa de creación, edición y eliminación de
   un préstamo desde el panel.
 
-  ## Laboratorio 6 — Plantillas Django (include)
+## Laboratorio 6 — Plantillas Django (herencia, filtros, include)
 
 - `vet/_veterinario_info.html`: fragmento reutilizado con `{% include %}` en
   `cita_list.html` y `cita_detalle.html` para mostrar el veterinario asignado.
@@ -171,3 +171,10 @@ Rutas nuevas: `/cita/<pk>/`, `/biblioteca/socios/<pk>/`, `/biblioteca/prestamos/
 - Herencia (`extends`/`block`), filtros (`date`, `length`, `default`) y
   comentarios (`{# #}`) ya estaban aplicados en los templates desde el
   Laboratorio 4.
+- Nuevos filtros en `vet`: `floatformat:2` en precios, subtotales y total de
+  insumos (`cita_detalle.html`) y `title` en la mascota (`cita_list.html`).
+- `base.html`: el pie de página indica Laboratorio 06.
+- Auto-escape verificado: una cita con `<script>` en el nombre de la mascota
+  se muestra como texto y no se ejecuta.
+- Estado: Lab 06 completo en código; el informe está en
+  [`INFORME_Lab06.md`](../INFORME_Lab06.md). Pendiente: capturas del Word.
