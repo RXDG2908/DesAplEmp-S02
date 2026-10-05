@@ -3,6 +3,7 @@
 # Semana 4: se agregan los tres tipos de relacion (1:1, 1:N y N:M con through).
 
 from django.db import models
+from django.utils import timezone
 
 
 class Veterinario(models.Model):
@@ -24,6 +25,12 @@ class Insumo(models.Model):
     def __str__(self):
         return self.nombre
 
+class CitaQuerySet(models.QuerySet):
+    def con_estado(self, estado):
+        return self.filter(estado=estado)
+
+    def proximas(self):
+        return self.filter(fecha__gte=timezone.localdate())
 
 class Cita(models.Model):
     # Opciones fijas: van en el codigo, no en una tabla aparte.
@@ -45,6 +52,7 @@ class Cita(models.Model):
     fecha = models.DateField()
     hora = models.TimeField()
     estado = models.CharField(max_length=20, choices=ESTADOS, default='Pendiente')
+    objects = CitaQuerySet.as_manager()
 
     # --- Ejercicio 3: UNO A MUCHOS -------------------------------------
     # La FK va aqui porque Cita es el lado "muchos": un veterinario atiende

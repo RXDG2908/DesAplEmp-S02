@@ -15,4 +15,6 @@ urlpatterns = [
     path('nueva/', views.cita_crear, name='cita_crear'),
     # Semana 4: detalle con los datos relacionados (1:1, 1:N y el intermedio).
     path('cita/<int:pk>/', views.cita_detalle, name='cita_detalle'),
+    path('consumo/nuevo/', views.consumo_registrar, name='consumo_registrar'),
+    path('reporte/', views.reporte, name='reporte'),
 ]

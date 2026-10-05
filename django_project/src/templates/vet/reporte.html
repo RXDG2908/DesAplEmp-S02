@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Reporte{% endblock %}
+
+{% block content %}
+<h2>Reporte de consumos</h2>
+<h3>Citas próximas pendientes</h3>
+<p>{{ pendientes_proximas }}</p>
+
+<h3>Total global consumido</h3>
+<p>S/ {{ total|floatformat:2 }}</p>
+
+<h3>Consumos por cita</h3>
+<table>
+    <thead><tr><th>Mascota</th><th>N.° de consumos</th></tr></thead>
+    <tbody>
+    {% for c in por_cita %}
+        <tr><td>{{ c.mascota }}</td><td>{{ c.n }}</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h3>Citas por estado</h3>
+<table>
+    <thead><tr><th>Estado</th><th>Total</th></tr></thead>
+    <tbody>
+    {% for e in por_estado %}
+        <tr><td>{{ e.estado }}</td><td>{{ e.total }}</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

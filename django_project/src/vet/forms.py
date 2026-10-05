@@ -3,7 +3,7 @@
 
 from django import forms
 
-from .models import Cita
+from .models import Cita, Insumo
 
 
 class CitaForm(forms.Form):
@@ -37,3 +37,9 @@ class CitaForm(forms.Form):
                 )
 
         return datos
+
+class ConsumoForm(forms.Form):
+    cita = forms.ModelChoiceField(queryset=Cita.objects.all(), label='Cita')
+    insumo = forms.ModelChoiceField(queryset=Insumo.objects.all(), label='Insumo')
+    cantidad = forms.IntegerField(label='Cantidad', min_value=1)
+    precio_unitario = forms.DecimalField(label='Precio unitario', min_value=0, max_digits=7, decimal_places=2)
