@@ -35,6 +35,8 @@ urlpatterns = [
     # Ejercicio 13: CRUD del modelo intermedio.
     path('prestamos/', views.PrestamoListView.as_view(), name='prestamo_list'),
     path('prestamos/nuevo/', views.PrestamoCreateView.as_view(), name='prestamo_crear'),
+    path('prestamos/registrar/', views.prestamo_registrar, name='prestamo_registrar'),
+    path('reporte/', views.reporte, name='reporte'),
     path('prestamos/<int:pk>/editar/', views.PrestamoUpdateView.as_view(), name='prestamo_editar'),
     path('prestamos/<int:pk>/eliminar/', views.PrestamoDeleteView.as_view(), name='prestamo_eliminar'),
 

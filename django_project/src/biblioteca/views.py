@@ -3,10 +3,16 @@
 # Class-Based Views genéricas de Django (ListView/CreateView/UpdateView/
 # DeleteView). Todas usan el ORM de Django; ninguna escribe SQL a mano.
 
+from datetime import date, timedelta
+
+from django.db import transaction
+from django.db.models import Count, F, Sum
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
+from .forms import PrestarForm
 from .models import (Bibliotecario, CarnetSocio, Categoria, Editorial,
                      Libro, Prestamo, Socio)
 
@@ -198,6 +204,12 @@ class PrestamoListView(ListView):
     template_name = 'biblioteca/prestamo_list.html'
     context_object_name = 'objetos'
     queryset = Prestamo.objects.select_related('socio', 'libro')
+    def get_queryset(self):
+        qs = super().get_queryset()
+        estado = self.request.GET.get('estado')
+        if estado:
+            qs = qs.con_estado(estado)
+        return qs
 
 
 class PrestamoCreateView(CreateView):
@@ -255,3 +267,47 @@ class CarnetDeleteView(DeleteView):
     model = CarnetSocio
     template_name = 'biblioteca/generic_confirm_delete.html'
     success_url = reverse_lazy('biblioteca:carnet_list')
+
+def prestamo_registrar(request):
+    error = None
+    if request.method == 'POST':
+        form = PrestarForm(request.POST)
+        if form.is_valid():
+            datos = form.cleaned_data
+            hoy = date.today()
+            try:
+                with transaction.atomic():
+                    Prestamo.objects.create(
+                        socio=datos['socio'],
+                        libro=datos['libro'],
+                        fecha_prestamo=hoy,
+                        fecha_devolucion_prevista=hoy + timedelta(days=datos['dias']),
+                        estado='Activo',
+                    )
+                    filas = Libro.objects.filter(
+                        pk=datos['libro'].pk,
+                        copias__gte=1,
+                    ).update(copias=F('copias') - 1)
+                    if filas == 0:
+                        raise ValueError('No hay copias disponibles de ' + datos['libro'].titulo)
+            except ValueError as e:
+                error = str(e)
+            else:
+                return redirect('biblioteca:socio_detail', pk=datos['socio'].pk)
+    else:
+        form = PrestarForm()
+    return render(request, 'biblioteca/prestamo_registrar.html', {'form': form, 'error': error})
+
+def reporte(request):
+    total_multas = Prestamo.objects.aggregate(total=Sum('multa'))['total']
+    por_libro = Libro.objects.annotate(n=Count('prestamos')).order_by('-n')
+    por_estado = (Prestamo.objects.values('estado')
+                  .annotate(total=Count('id'), multas=Sum('multa'))
+                  .order_by('-total'))
+    atrasados_con_multa = Prestamo.objects.con_estado('Atrasado').con_multa().count()
+    return render(request, 'biblioteca/reporte.html', {
+        'total_multas': total_multas,
+        'por_libro': por_libro,
+        'por_estado': por_estado,
+        'atrasados_con_multa': atrasados_con_multa,
+    })

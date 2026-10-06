@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Reporte{% endblock %}
+
+{% block content %}
+<h2>Reporte de la biblioteca</h2>
+
+<h3>Préstamos atrasados con multa</h3>
+<p>{{ atrasados_con_multa }}</p>
+
+<h3>Total de multas</h3>
+<p>S/ {{ total_multas|floatformat:2 }}</p>
+
+<h3>Préstamos por libro</h3>
+<table>
+    <thead><tr><th>Libro</th><th>Préstamos</th></tr></thead>
+    <tbody>
+    {% for l in por_libro %}
+        <tr><td>{{ l.titulo }}</td><td>{{ l.n }}</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h3>Préstamos por estado</h3>
+<table>
+    <thead><tr><th>Estado</th><th>Total</th><th>Multas</th></tr></thead>
+    <tbody>
+    {% for e in por_estado %}
+        <tr><td>{{ e.estado }}</td><td>{{ e.total }}</td><td>S/ {{ e.multas|floatformat:2 }}</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

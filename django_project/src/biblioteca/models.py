@@ -76,6 +76,7 @@ class Libro(models.Model):
     autor = models.CharField(max_length=100)
     isbn = models.CharField('ISBN', max_length=20, unique=True)
     anio_publicacion = models.PositiveIntegerField('Año de publicación')
+    copias = models.PositiveIntegerField('Copias disponibles', default=3)
     categoria = models.ForeignKey(
         Categoria,
         on_delete=models.PROTECT,
@@ -111,6 +112,12 @@ class CarnetSocio(models.Model):
     def __str__(self):
         return f'Carnet {self.codigo} - {self.socio.nombre}'
 
+class PrestamoQuerySet(models.QuerySet):
+    def con_estado(self, estado):
+        return self.filter(estado=estado)
+
+    def con_multa(self):
+        return self.filter(multa__gt=0)
 
 class Prestamo(models.Model):
     """Modelo intermedio (through) de Socio <-> Libro.
@@ -137,6 +144,8 @@ class Prestamo(models.Model):
     fecha_devolucion_prevista = models.DateField()
     fecha_devolucion_real = models.DateField(null=True, blank=True)
     estado = models.CharField(max_length=15, choices=ESTADOS, default='Activo')
+    multa = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    objects = PrestamoQuerySet.as_manager()
 
     class Meta:
         ordering = ['-fecha_prestamo']
