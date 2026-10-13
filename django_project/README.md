@@ -179,35 +179,33 @@ Rutas nuevas: `/cita/<pk>/`, `/biblioteca/socios/<pk>/`, `/biblioteca/prestamos/
 - Estado: Lab 06 completo en código; el informe está en
   [`INFORME_Lab06.md`](../INFORME_Lab06.md). Capturas en `Capturas/Lab06/` y Word en `GLAB-S06-YBESTARD-2026-02-RESUELTO.docx` (Parte 1, app vet).
 
+## Laboratorio 7 — ORM avanzado (transacciones, reportes, QuerySet propio)
 
-## Laboratorio 7 — ORM avanzado (transacciones, agregaciones, QuerySets)
+Parte 1 sobre la app `vet` (Renzo León). La Parte 2 (biblioteca) está a cargo
+de Lucas Inga.
 
-### Parte 1 — App `vet`
-- **Operación transaccional:** `/consumo/nuevo/` registra el consumo de un insumo
-  en una cita dentro de `transaction.atomic()`: crea el `ConsumoInsumo`, marca la
-  `Cita` como Atendida y descuenta `Insumo.stock` con `F()`. Si no hay stock se
-  hace rollback completo y se muestra el error. Aplica Post/Redirect/Get.
-- **Reportes:** `/reporte/` con `aggregate()` (total de consumos), `annotate()`
-  (consumos por cita) y `values().annotate()` (citas por estado), con el filtro
-  `floatformat`.
-- **QuerySet personalizado:** `CitaQuerySet` (`con_estado()`, `proximas()`),
-  asignado con `as_manager()` y usado en `cita_list` (`?estado=`) y `reporte`.
-- **N+1:** `medir_n1.py` mide las consultas con `connection.queries`
-  (veterinario: 6 → 1 con `select_related`; consumos: 15 → 3 con `prefetch_related`).
-- Datos de prueba: `cargar_lab07.py`.
+- **Registrar consumo** (`/consumo/nuevo/`): guarda el consumo, marca la cita
+  como Atendida y descuenta el stock del insumo con `F()`, todo dentro de
+  `transaction.atomic()`. Si el stock no alcanza, se deshace todo y se muestra
+  el mensaje en el formulario; si sale bien, redirige al detalle de la cita.
+- **Reporte** (`/reporte/`): total global con `aggregate()`, consumos por cita
+  y citas por estado con `annotate()`, total con `floatformat:2`.
+- **QuerySet personalizado** `CitaQuerySet` con `con_estado()` y `proximas()`,
+  asignado con `as_manager()`. Lo usan el listado (`/?estado=Pendiente`) y el
+  reporte.
+- **N+1** medido con `medir_n1.py`: el listado baja de 6 a 1 consulta con
+  `select_related()` y las citas con sus consumos de 15 a 3 con
+  `prefetch_related()`.
+- `cargar_lab07.py`: datos de prueba (5 citas, 3 veterinarios, 4 insumos y 8
+  consumos); se puede ejecutar varias veces sin duplicar.
+- El menú de `base.html` tiene enlaces a Registrar consumo y Reporte.
+- Estado: Parte 1 completa. Informe en [`INFORME_Lab07.md`](../INFORME_Lab07.md),
+  capturas en `Capturas/Lab07/` y Word en `GLAB-S07-YBESTARD-2026-02-RESUELTO.docx`.
+- Parte 2 (biblioteca, Lucas Inga): el código ya está subido (registro de
+  préstamo con transacción, reporte, `PrestamoQuerySet`, `medir_n1_bib.py` y
+  la migración 0003). Pendiente: sus capturas y su parte del Word.
 
-### Parte 2 — App `biblioteca`
-- **Campos nuevos (migración `0003`):** `Libro.copias` y `Prestamo.multa`.
-- **Operación transaccional:** `/biblioteca/prestamos/registrar/` crea el
-  `Prestamo` y descuenta `Libro.copias` con `F()` dentro de
-  `transaction.atomic()`; sin copias hace rollback completo.
-- **Reportes:** `/biblioteca/reporte/` con `aggregate(Sum('multa'))`,
-  préstamos por libro con `annotate(Count)` y préstamos por estado con
-  `values().annotate()`.
-- **QuerySet personalizado:** `PrestamoQuerySet` (`con_estado()`, `con_multa()`),
-  usado en `PrestamoListView` (`?estado=`) y en el reporte.
-- **N+1:** `medir_n1_bib.py` (préstamos: 23 → 1 con `select_related`;
-  libros: 26 → 3 con `select_related` + `prefetch_related`).
-- Datos de prueba: `cargar_lab07_bib.py`.
-
-Sin dependencias nuevas: `requirements.txt` no cambia.
+```powershell
+python manage.py shell -c "exec(open('cargar_lab07.py', encoding='utf-8').read())"
+python manage.py shell -c "exec(open('medir_n1.py', encoding='utf-8').read())"
+```
