@@ -178,3 +178,36 @@ Rutas nuevas: `/cita/<pk>/`, `/biblioteca/socios/<pk>/`, `/biblioteca/prestamos/
   se muestra como texto y no se ejecuta.
 - Estado: Lab 06 completo en código; el informe está en
   [`INFORME_Lab06.md`](../INFORME_Lab06.md). Capturas en `Capturas/Lab06/` y Word en `GLAB-S06-YBESTARD-2026-02-RESUELTO.docx` (Parte 1, app vet).
+
+
+## Laboratorio 7 — ORM avanzado (transacciones, agregaciones, QuerySets)
+
+### Parte 1 — App `vet`
+- **Operación transaccional:** `/consumo/nuevo/` registra el consumo de un insumo
+  en una cita dentro de `transaction.atomic()`: crea el `ConsumoInsumo`, marca la
+  `Cita` como Atendida y descuenta `Insumo.stock` con `F()`. Si no hay stock se
+  hace rollback completo y se muestra el error. Aplica Post/Redirect/Get.
+- **Reportes:** `/reporte/` con `aggregate()` (total de consumos), `annotate()`
+  (consumos por cita) y `values().annotate()` (citas por estado), con el filtro
+  `floatformat`.
+- **QuerySet personalizado:** `CitaQuerySet` (`con_estado()`, `proximas()`),
+  asignado con `as_manager()` y usado en `cita_list` (`?estado=`) y `reporte`.
+- **N+1:** `medir_n1.py` mide las consultas con `connection.queries`
+  (veterinario: 6 → 1 con `select_related`; consumos: 15 → 3 con `prefetch_related`).
+- Datos de prueba: `cargar_lab07.py`.
+
+### Parte 2 — App `biblioteca`
+- **Campos nuevos (migración `0003`):** `Libro.copias` y `Prestamo.multa`.
+- **Operación transaccional:** `/biblioteca/prestamos/registrar/` crea el
+  `Prestamo` y descuenta `Libro.copias` con `F()` dentro de
+  `transaction.atomic()`; sin copias hace rollback completo.
+- **Reportes:** `/biblioteca/reporte/` con `aggregate(Sum('multa'))`,
+  préstamos por libro con `annotate(Count)` y préstamos por estado con
+  `values().annotate()`.
+- **QuerySet personalizado:** `PrestamoQuerySet` (`con_estado()`, `con_multa()`),
+  usado en `PrestamoListView` (`?estado=`) y en el reporte.
+- **N+1:** `medir_n1_bib.py` (préstamos: 23 → 1 con `select_related`;
+  libros: 26 → 3 con `select_related` + `prefetch_related`).
+- Datos de prueba: `cargar_lab07_bib.py`.
+
+Sin dependencias nuevas: `requirements.txt` no cambia.
