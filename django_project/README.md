@@ -201,7 +201,9 @@ de Lucas Inga.
 - El menú de `base.html` tiene enlaces a Registrar consumo y Reporte.
 - Estado: Parte 1 completa. Informe en [`INFORME_Lab07.md`](../INFORME_Lab07.md),
   capturas en `Capturas/Lab07/` y Word en `GLAB-S07-YBESTARD-2026-02-RESUELTO.docx`.
-- Pendiente: Parte 2 sobre la app biblioteca (Lucas Inga).
+- Parte 2 (biblioteca, Lucas Inga): el código ya está subido (registro de
+  préstamo con transacción, reporte, `PrestamoQuerySet`, `medir_n1_bib.py` y
+  la migración 0003). Pendiente: sus capturas y su parte del Word.
 
 ```powershell
 python manage.py shell -c "exec(open('cargar_lab07.py', encoding='utf-8').read())"
