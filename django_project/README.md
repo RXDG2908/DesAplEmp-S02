@@ -241,7 +241,7 @@ está a cargo de Lucas Inga.
   `prefetch_related()` en `get_queryset()`.
 - La API no tiene autenticación todavía (cualquiera puede escribir).
 - Estado: Parte 1 completa. Informe en [`INFORME_Lab08.md`](../INFORME_Lab08.md)
-  y capturas en `Capturas/Lab08/`.
+  capturas en `Capturas/Lab08/` y Word en `GLAB-S08-YBESTARD-2026-02-RESUELTO.docx`.
 
 ```powershell
 pip install -r requirements.txt
