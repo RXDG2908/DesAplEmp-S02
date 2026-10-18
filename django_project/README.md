@@ -209,3 +209,41 @@ de Lucas Inga.
 python manage.py shell -c "exec(open('cargar_lab07.py', encoding='utf-8').read())"
 python manage.py shell -c "exec(open('medir_n1.py', encoding='utf-8').read())"
 ```
+
+## Laboratorio 8 — API REST con Django REST Framework
+
+Parte 1 sobre la app `vet` (Renzo León). La Parte 2 (investigación propia)
+está a cargo de Lucas Inga.
+
+- **Instalación:** `djangorestframework==3.18.3` en `requirements.txt` y
+  `'rest_framework'` en `INSTALLED_APPS`. La API se monta en `/api/`
+  (`config/urls.py` → `vet/api_urls.py`).
+- **Serializers** (`vet/serializers.py`): `InsumoSerializer` con la regla
+  `validate_stock` (stock inicial de al menos 1) y `CitaSerializer` con
+  `VeterinarioSerializer`, `FichaClinicaSerializer` y
+  `ConsumoInsumoSerializer` anidados.
+- **Vistas** (`vet/api_views.py`): primera versión con vistas genéricas
+  (`InsumoListCreate`, `InsumoDetail`), reemplazada por `InsumoViewSet`
+  (ModelViewSet) y `CitaViewSet` (ReadOnlyModelViewSet), registrados en un
+  `DefaultRouter`.
+- **Recursos:**
+
+| URL | Métodos | Detalle |
+|---|---|---|
+| `/api/insumos/` | GET, POST | `?search=` (nombre, unidad) y `?ordering=` (nombre, stock) |
+| `/api/insumos/<id>/` | GET, PUT, PATCH, DELETE | |
+| `/api/citas/` | GET | Con veterinario, ficha y consumos anidados; filtro `?estado=` |
+| `/api/citas/<id>/` | GET | |
+| `/api/citas/proximas/` | GET | `@action` que reutiliza `CitaQuerySet.proximas()` |
+
+- **N+1 en la API** medido con `medir_api_n1.py`: serializar las 5 citas con
+  sus relaciones baja de 24 a 3 consultas con `select_related()` y
+  `prefetch_related()` en `get_queryset()`.
+- La API no tiene autenticación todavía (cualquiera puede escribir).
+- Estado: Parte 1 completa. Informe en [`INFORME_Lab08.md`](../INFORME_Lab08.md)
+  y capturas en `Capturas/Lab08/`.
+
+```powershell
+pip install -r requirements.txt
+python manage.py shell -c "exec(open('medir_api_n1.py', encoding='utf-8').read())"
+```
