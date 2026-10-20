@@ -261,3 +261,40 @@ está a cargo de Lucas Inga.
 pip install -r requirements.txt
 python manage.py shell -c "exec(open('medir_api_n1.py', encoding='utf-8').read())"
 ```
+
+### Laboratorio 8 — Parte 2 (biblioteca, Lucas Inga)
+
+API REST sobre la app `biblioteca`, montada en `/api/biblioteca/`
+(`config/urls.py` → `biblioteca/api_urls.py`).
+
+- **Serializers** (`biblioteca/serializers.py`): `CategoriaSerializer`,
+  `LibroSerializer` con la regla `validate_anio_publicacion` (entre 1450 y el
+  año actual) y `PrestamoSerializer` con `SocioResumenSerializer` y
+  `LibroResumenSerializer` anidados.
+- **ViewSets** (`biblioteca/api_views.py`): `CategoriaViewSet` y
+  `LibroViewSet` (ModelViewSet) y `PrestamoViewSet` (ReadOnlyModelViewSet),
+  registrados en un `DefaultRouter`.
+- **Recursos:**
+
+| URL | Métodos | Detalle |
+|---|---|---|
+| `/api/biblioteca/categorias/` | GET, POST | CRUD completo |
+| `/api/biblioteca/libros/` | GET, POST | `?search=` (título, autor, ISBN) y `?ordering=` (título, año, copias) |
+| `/api/biblioteca/libros/<id>/` | GET, PUT, PATCH, DELETE | |
+| `/api/biblioteca/prestamos/` | GET | Con socio y libro anidados; filtro `?estado=` |
+| `/api/biblioteca/prestamos/con_multa/` | GET | `@action` que reutiliza `PrestamoQuerySet.con_multa()` |
+
+- **Códigos verificados con curl:** 200 (lista), 201 (POST válido), 400 (año
+  inválido), 200 (PATCH), 204 (DELETE) y 404 (id inexistente).
+- **N+1 en la API** medido con `medir_api_n1_bib.py`: serializar los 11
+  préstamos baja de 23 a 1 consulta con `select_related('socio', 'libro')`.
+- `probar_serializers_bib.py`: prueba de serializar, validar y guardar en el
+  shell.
+- La API no tiene autenticación todavía (cualquiera puede escribir).
+- Estado: código completo y subido. Pendiente: capturas, informe y su parte
+  del Word.
+
+```powershell
+python manage.py shell -c "exec(open('probar_serializers_bib.py', encoding='utf-8').read())"
+python manage.py shell -c "exec(open('medir_api_n1_bib.py', encoding='utf-8').read())"
+```
