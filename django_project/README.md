@@ -201,9 +201,23 @@ de Lucas Inga.
 - El menú de `base.html` tiene enlaces a Registrar consumo y Reporte.
 - Estado: Parte 1 completa. Informe en [`INFORME_Lab07.md`](../INFORME_Lab07.md),
   capturas en `Capturas/Lab07/` y Word en `GLAB-S07-YBESTARD-2026-02-RESUELTO.docx`.
-- Parte 2 (biblioteca, Lucas Inga): el código ya está subido (registro de
-  préstamo con transacción, reporte, `PrestamoQuerySet`, `medir_n1_bib.py` y
-  la migración 0003). Pendiente: sus capturas y su parte del Word.
+- **Parte 2 (biblioteca, Lucas Inga):**
+  - Migración `0003_libro_copias_prestamo_multa.py`: agrega `Libro.copias` y
+    `Prestamo.multa`.
+  - **Registrar préstamo** (`/biblioteca/prestamos/registrar/`): crea el
+    préstamo y descuenta una copia con `F()`, todo dentro de
+    `transaction.atomic()`. Si no quedan copias, se deshace todo y se muestra
+    el mensaje en el formulario; si sale bien, redirige al detalle del socio.
+  - **Reporte** (`/biblioteca/reporte/`): total de multas con `aggregate()`,
+    préstamos por socio y préstamos por estado con `annotate()`.
+  - **QuerySet personalizado** `PrestamoQuerySet` con `con_estado()` y
+    `con_multa()`, asignado con `as_manager()`. Lo usa el listado
+    (`/biblioteca/prestamos/?estado=Activo`).
+  - **N+1** medido con `medir_n1_bib.py`: el listado de préstamos baja de 23 a
+    1 consulta con `select_related()` y los socios con sus préstamos de 26 a 3
+    con `prefetch_related()`.
+  - `cargar_lab07_bib.py`: datos de prueba de la biblioteca.
+  - Estado: código completo y subido. Pendiente: capturas y su parte del Word.
 
 ```powershell
 python manage.py shell -c "exec(open('cargar_lab07.py', encoding='utf-8').read())"
