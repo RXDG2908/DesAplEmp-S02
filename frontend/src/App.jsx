@@ -1,4 +1,5 @@
 import './App.css'
+import Vet from './Vet.jsx'
 
 const categorias = [
   { id: 1, nombre: 'Ciencia Ficción', descripcion: 'Relatos del futuro' },
@@ -48,6 +49,7 @@ function App() {
 
   return (
     <div className="contenedor">
+      <Vet />
       <h1 className="titulo">{aplicacion}</h1>
       <p>Multa por día: S/ {multaPorDia.toFixed(2)}</p>
       <p>Multa por {diasAtraso} días de atraso: S/ {(multaPorDia * diasAtraso).toFixed(2)}</p>

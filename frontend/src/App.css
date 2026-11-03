@@ -28,3 +28,24 @@ body {
   padding: 12px 16px;
   margin-bottom: 12px;
 }
+.seccion-vet {
+  margin-bottom: 32px;
+}
+
+.seccion-vet .titulo {
+  color: #1f5f5b;
+  border-bottom-color: #6bb5ae;
+}
+
+.sin-stock {
+  color: #b00020;
+  font-weight: bold;
+}
+
+.tarjeta-cita {
+  background-color: #ffffff;
+  border: 1px solid #b9d9d5;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
