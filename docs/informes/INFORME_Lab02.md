@@ -4,7 +4,7 @@
 **Estudiantes:** Renzo León · Lucas Inga
 **Problemática elegida:** Reserva de citas — Veterinaria
 
-> Ver enunciado completo en [GLAB-S02.md](GLAB-S02.md). Este informe se va
+> Ver enunciado completo en [GLAB-S02.md](../guias/GLAB-S02.md). Este informe se va
 > completando ejercicio por ejercicio conforme avanza el laboratorio.
 
 ---

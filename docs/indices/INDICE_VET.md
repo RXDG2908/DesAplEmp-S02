@@ -5,7 +5,7 @@ qué hace**. Vocabulario del material del curso: patrón **MVT**
 (Model–View–Template), ciclo **Request → Response**, **URLs y Views**, **Models y
 ORM**, **migraciones**, **Templates y Context** ([CLAUDE.md](CLAUDE.md)), y el
 **flujo CRUD** `Request → URL → View → Model → ORM → SQLite → Template → Response`
-([GLAB-S03.md](GLAB-S03.md)).
+([GLAB-S03.md](../guias/GLAB-S03.md)).
 
 La App `vet` nació en el **Laboratorio 02** con datos en memoria y en el
 **Laboratorio 03 (Parte 1)** se pasó a **Django ORM + SQLite**.
@@ -35,25 +35,25 @@ Para correr el servidor: abrir una terminal **en `django_project/src/`** y ejecu
 
 | Archivo | Rol en MVT | Qué contiene | Cómo llegar |
 |---|---|---|---|
-| [vet/models.py](django_project/src/vet/models.py) | **Model** (datos) | Clase `Cita` | `src/vet/models.py` |
-| [vet/views.py](django_project/src/vet/views.py) | **View** (procesa el request) | `cita_list`, `cita_crear` | `src/vet/views.py` |
-| [vet/forms.py](django_project/src/vet/forms.py) | Apoyo a la View | `CitaForm` (valida el formulario) | `src/vet/forms.py` |
-| [vet/urls.py](django_project/src/vet/urls.py) | **URLs** (enrutado) | Rutas de la App | `src/vet/urls.py` |
-| [vet/apps.py](django_project/src/vet/apps.py) | Config | `VetConfig` (registra la App) | `src/vet/apps.py` |
-| [vet/admin.py](django_project/src/vet/admin.py) | Admin | Vacío (la App no usa el panel) | `src/vet/admin.py` |
-| [vet/tests.py](django_project/src/vet/tests.py) | Pruebas | Plantilla vacía de `startapp` | `src/vet/tests.py` |
-| [vet/migrations/0001_initial.py](django_project/src/vet/migrations/0001_initial.py) | **Migración** | Crea la tabla `vet_cita` | `src/vet/migrations/` |
-| [vet/__init__.py](django_project/src/vet/__init__.py) | — | Marca la carpeta como paquete Python | `src/vet/__init__.py` |
-| [templates/vet/cita_list.html](django_project/src/templates/vet/cita_list.html) | **Template** | Tabla de citas | `src/templates/vet/` |
-| [templates/vet/cita_form.html](django_project/src/templates/vet/cita_form.html) | **Template** | Formulario de registro | `src/templates/vet/` |
-| [templates/base.html](django_project/src/templates/base.html) | **Template** base | Layout común (`{% block %}`) | `src/templates/` |
+| [vet/models.py](../../django_project/src/vet/models.py) | **Model** (datos) | Clase `Cita` | `src/vet/models.py` |
+| [vet/views.py](../../django_project/src/vet/views.py) | **View** (procesa el request) | `cita_list`, `cita_crear` | `src/vet/views.py` |
+| [vet/forms.py](../../django_project/src/vet/forms.py) | Apoyo a la View | `CitaForm` (valida el formulario) | `src/vet/forms.py` |
+| [vet/urls.py](../../django_project/src/vet/urls.py) | **URLs** (enrutado) | Rutas de la App | `src/vet/urls.py` |
+| [vet/apps.py](../../django_project/src/vet/apps.py) | Config | `VetConfig` (registra la App) | `src/vet/apps.py` |
+| [vet/admin.py](../../django_project/src/vet/admin.py) | Admin | Vacío (la App no usa el panel) | `src/vet/admin.py` |
+| [vet/tests.py](../../django_project/src/vet/tests.py) | Pruebas | Plantilla vacía de `startapp` | `src/vet/tests.py` |
+| [vet/migrations/0001_initial.py](../../django_project/src/vet/migrations/0001_initial.py) | **Migración** | Crea la tabla `vet_cita` | `src/vet/migrations/` |
+| [vet/__init__.py](../../django_project/src/vet/__init__.py) | — | Marca la carpeta como paquete Python | `src/vet/__init__.py` |
+| [templates/vet/cita_list.html](../../django_project/src/templates/vet/cita_list.html) | **Template** | Tabla de citas | `src/templates/vet/` |
+| [templates/vet/cita_form.html](../../django_project/src/templates/vet/cita_form.html) | **Template** | Formulario de registro | `src/templates/vet/` |
+| [templates/base.html](../../django_project/src/templates/base.html) | **Template** base | Layout común (`{% block %}`) | `src/templates/` |
 
 **Fuera de la App pero necesarios para que funcione:**
 
 | Archivo | Qué aporta a `vet` | Cómo llegar |
 |---|---|---|
-| [config/settings.py](django_project/src/config/settings.py) | `'vet'` en `INSTALLED_APPS`; `DATABASES` = SQLite; carpeta `templates/` | `src/config/settings.py` |
-| [config/urls.py](django_project/src/config/urls.py) | `path('', include('vet.urls'))` → la raíz `/` la maneja `vet` | `src/config/urls.py` |
+| [config/settings.py](../../django_project/src/config/settings.py) | `'vet'` en `INSTALLED_APPS`; `DATABASES` = SQLite; carpeta `templates/` | `src/config/settings.py` |
+| [config/urls.py](../../django_project/src/config/urls.py) | `path('', include('vet.urls'))` → la raíz `/` la maneja `vet` | `src/config/urls.py` |
 | `db.sqlite3` | Base de datos real (no se sube a Git; se regenera con `migrate`) | `src/db.sqlite3` |
 
 ---

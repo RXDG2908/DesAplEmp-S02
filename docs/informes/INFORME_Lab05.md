@@ -208,7 +208,7 @@ verificado:
   `0002_carnetsocio_prestamo_socio_libros`, ambas `[X]` aplicadas.
 
 Ejercicios 9-14 de la Parte 2: **pendientes** — ver
-[LUCAS_TODO_Lab05.md](LUCAS_TODO_Lab05.md) para el detalle de lo que falta
+[LUCAS_TODO_Lab05.md](../pendientes/LUCAS_TODO_Lab05.md) para el detalle de lo que falta
 completar sobre `biblioteca`.
 
 ## Conclusiones (Parte 1 — Ejercicios 1 a 8, app `vet`)

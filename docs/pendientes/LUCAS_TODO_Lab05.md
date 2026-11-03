@@ -9,7 +9,7 @@ Este documento explica exactamente qué falta: la **Parte 2**, sobre la app
 ## Contexto que ya está resuelto (no lo repitas)
 
 - La Parte 1 del Laboratorio 5 (Ejercicios 1-8, sobre `vet`) está completa:
-  ver [INFORME_Lab05.md](INFORME_Lab05.md) y `django_project/src/vet/admin.py`.
+  ver [INFORME_Lab05.md](../informes/INFORME_Lab05.md) y `django_project/src/vet/admin.py`.
 - Puedes usar `vet/admin.py` como plantilla de estilo: usa
   `admin.site.register(Modelo, ModeloAdmin)`, clases `ModelAdmin` con
   `list_display` / `search_fields` / `list_filter`, y clases

@@ -270,7 +270,7 @@ paso a paso una app Django:
   `config` → `core` (urls, views, models, admin, templates) con el vocabulario
   MVT.
 - El laboratorio de esta semana (nueva App con datos estáticos y formulario)
-  está documentado aparte en [GLAB-S02.md](GLAB-S02.md).
+  está documentado aparte en [GLAB-S02.md](docs/guias/GLAB-S02.md).
 - Referencia rápida de comandos, si hace falta relanzar el proyecto real:
 
 ```powershell

@@ -63,9 +63,9 @@ de la Semana 6** (el hueco que rellena el hijo) y también a lo que un
 `CitaCard` muestra los consumos con un `ConsumoItem` por cada uno y calcula
 el total con `reduce`. El campo de la API `dueno` se recibe como
 `propietario` (`dueno: propietario`). **Un componente no debe modificar sus
-props** porque son solo lectura: el dato pertenece al padre, y en modo
-estricto React muestra un error de tipo "Cannot assign to read only
-property…" si se intenta.
+props** porque son solo lectura: el dato pertenece al padre, y cambiarlo no
+redibuja la pantalla. Al intentarlo (`props.cantidad = 99`), ESLint marca
+"Modifying component props or hook arguments is not allowed".
 
 ## Paso 6 — Estado y evento de clic (Ejercicio 6)
 

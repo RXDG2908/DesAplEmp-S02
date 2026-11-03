@@ -99,7 +99,7 @@ python manage.py runserver
 - [x] Ejercicio 10 — Publicar en GitHub
 
 El informe completo por ejercicio (explicaciones y casos de prueba) está en
-[`INFORME_Lab02.md`](../INFORME_Lab02.md).
+[`INFORME_Lab02.md`](../docs/informes/INFORME_Lab02.md).
 
 ## Autores
 
@@ -125,7 +125,7 @@ Rutas principales: `/biblioteca/categorias/`, `/biblioteca/libros/`,
 `/biblioteca/editoriales/`, `/biblioteca/socios/`, `/biblioteca/bibliotecarios/`.
 
 El informe completo de esta parte está en
-[`INFORME_Lab03.md`](../INFORME_Lab03.md).
+[`INFORME_Lab03.md`](../docs/informes/INFORME_Lab03.md).
 
 ## Laboratorio 04 — Relaciones entre modelos
 
@@ -177,7 +177,7 @@ Rutas nuevas: `/cita/<pk>/`, `/biblioteca/socios/<pk>/`, `/biblioteca/prestamos/
 - Auto-escape verificado: una cita con `<script>` en el nombre de la mascota
   se muestra como texto y no se ejecuta.
 - Estado: Lab 06 completo en código; el informe está en
-  [`INFORME_Lab06.md`](../INFORME_Lab06.md). Capturas en `Capturas/Lab06/` y Word en `GLAB-S06-YBESTARD-2026-02-RESUELTO.docx` (Parte 1, app vet).
+  [`INFORME_Lab06.md`](../docs/informes/INFORME_Lab06.md). Capturas en `Capturas/Lab06/` y Word en `entregas/GLAB-S06-YBESTARD-2026-02-RESUELTO.docx` (Parte 1, app vet).
 
 ## Laboratorio 7 — ORM avanzado (transacciones, reportes, QuerySet propio)
 
@@ -199,8 +199,8 @@ de Lucas Inga.
 - `cargar_lab07.py`: datos de prueba (5 citas, 3 veterinarios, 4 insumos y 8
   consumos); se puede ejecutar varias veces sin duplicar.
 - El menú de `base.html` tiene enlaces a Registrar consumo y Reporte.
-- Estado: Parte 1 completa. Informe en [`INFORME_Lab07.md`](../INFORME_Lab07.md),
-  capturas en `Capturas/Lab07/` y Word en `GLAB-S07-YBESTARD-2026-02-RESUELTO.docx`.
+- Estado: Parte 1 completa. Informe en [`INFORME_Lab07.md`](../docs/informes/INFORME_Lab07.md),
+  capturas en `Capturas/Lab07/` y Word en `entregas/GLAB-S07-YBESTARD-2026-02-RESUELTO.docx`.
 - **Parte 2 (biblioteca, Lucas Inga):**
   - Migración `0003_libro_copias_prestamo_multa.py`: agrega `Libro.copias` y
     `Prestamo.multa`.
@@ -254,8 +254,8 @@ está a cargo de Lucas Inga.
   sus relaciones baja de 24 a 3 consultas con `select_related()` y
   `prefetch_related()` en `get_queryset()`.
 - La API no tiene autenticación todavía (cualquiera puede escribir).
-- Estado: Parte 1 completa. Informe en [`INFORME_Lab08.md`](../INFORME_Lab08.md)
-  capturas en `Capturas/Lab08/` y Word en `GLAB-S08-YBESTARD-2026-02-RESUELTO.docx`.
+- Estado: Parte 1 completa. Informe en [`INFORME_Lab08.md`](../docs/informes/INFORME_Lab08.md)
+  capturas en `Capturas/Lab08/` y Word en `entregas/GLAB-S08-YBESTARD-2026-02-RESUELTO.docx`.
 
 ```powershell
 pip install -r requirements.txt
