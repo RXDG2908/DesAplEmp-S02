@@ -5,9 +5,12 @@ REST de la Semana 8. Todavía no consume la API.
 
 ## Qué muestra
 
-- `src/Vet.jsx` — veterinaria: lista de insumos (con "Sin stock" y "¡Última
-  unidad!"), citas con ficha clínica opcional y lista anidada de consumos con
-  total por cita.
+- `src/Vet.jsx` — veterinaria, armada con componentes y datos de
+  `src/datos.js`.
+- `src/components/` — `InsumoCard` (botón Reservar con `useState`),
+  `InsumoLista` (búsqueda controlada y formulario con validación de stock),
+  `CitaCard` (cita con sus consumos), `ConsumoItem` (un consumo) y `Tarjeta`
+  (contenedor con `children`).
 - `src/App.jsx` — biblioteca: categorías, libros y socios con sus préstamos y
   multas. Importa y muestra `Vet`.
 - `src/App.css` — estilos de ambas secciones.
