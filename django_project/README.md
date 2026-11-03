@@ -298,3 +298,31 @@ API REST sobre la app `biblioteca`, montada en `/api/biblioteca/`
 python manage.py shell -c "exec(open('probar_serializers_bib.py', encoding='utf-8').read())"
 python manage.py shell -c "exec(open('medir_api_n1_bib.py', encoding='utf-8').read())"
 ```
+
+## Laboratorio 9 — Introducción a React (Vite)
+
+Parte 2 sobre la investigación propia, la biblioteca (Lucas Inga). El proyecto
+de React está en la carpeta `frontend/`, en la raíz del repositorio.
+
+- **Qué muestra la interfaz** (`frontend/src/App.jsx`): con datos escritos a
+  mano, con la misma forma que la respuesta de la API de la Semana 8.
+  - **Categorías** y **Libros**: dos listas con `map()` y `key` basada en el id.
+  - **Renderizado condicional:** ternario ("Agotado" o "Copias: n"), `&&`
+    ("¡Última copia!") y mensaje "No hay registros" cuando la lista está vacía.
+  - **Relación 1:N anidada:** socios con sus préstamos (`map()` dentro de
+    `map()`), con el total de multas por socio calculado con `reduce()`.
+  - **Estilos:** `className` con `frontend/src/App.css` y `style={{ }}`.
+- **Cómo instalar y ejecutar:**
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Se abre en http://localhost:5173/.
+
+- `npm run lint` y `npm run build` terminan sin errores. `node_modules` y
+  `dist` no se suben al repositorio (están en `frontend/.gitignore`).
+- Todavía no consume la API de la Semana 8: los datos están escritos a mano.
+- Estado: Parte 2 completa en código. Pendiente: capturas y su parte del Word.
