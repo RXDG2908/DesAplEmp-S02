@@ -201,6 +201,8 @@ de Lucas Inga.
 - El menú de `base.html` tiene enlaces a Registrar consumo y Reporte.
 - Estado: Parte 1 completa. Informe en [`INFORME_Lab07.md`](../docs/informes/INFORME_Lab07.md),
   capturas en `Capturas/Lab07/` y Word en `entregas/GLAB-S07-YBESTARD-2026-02-RESUELTO.docx`.
+- Exposición en [`EXPOSICION_Lab07_Parte1.md`](../docs/exposiciones/EXPOSICION_Lab07_Parte1.md)
+  y guion en [`GUION-Lab07-Parte1.md`](../docs/guiones/GUION-Lab07-Parte1.md).
 - **Parte 2 (biblioteca, Lucas Inga):**
   - Migración `0003_libro_copias_prestamo_multa.py`: agrega `Libro.copias` y
     `Prestamo.multa`.
@@ -359,3 +361,11 @@ Se abre en http://localhost:5173/.
 - Los libros nuevos solo viven en el estado del navegador: todavía no se
   guardan en la base de datos de Django. Falta conectar con la API (Semana 12).
 - Estado: Parte 2 completa en código. Pendiente: capturas y su parte del Word.
+
+## Repaso para la exposición (Labs 7 a 10)
+
+- [`docs/REPASO_Labs07-10.md`](../docs/REPASO_Labs07-10.md): una página con
+  los conceptos, archivos, números y preguntas probables de la Parte 1 de los
+  cuatro laboratorios, más cómo levantar la demo.
+- Los Words de los Labs 9 y 10 (`entregas/`) ya tienen las conclusiones;
+  su Parte 2 (biblioteca, Lucas Inga) sigue pendiente en el documento.
