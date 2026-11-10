@@ -326,3 +326,36 @@ Se abre en http://localhost:5173/.
   `dist` no se suben al repositorio (están en `frontend/.gitignore`).
 - Todavía no consume la API de la Semana 8: los datos están escritos a mano.
 - Estado: Parte 2 completa en código. Pendiente: capturas y su parte del Word.
+
+## Laboratorio 10 — Componentes, props, estado y eventos (React)
+
+Parte 2 sobre la investigación propia, la biblioteca (Lucas Inga). Está en
+`frontend/src/`; los datos escritos a mano están en `datosBiblioteca.js`.
+
+| Componente | Archivo | Qué hace |
+|---|---|---|
+| `LibroCard` | `components/LibroCard.jsx` | Muestra un libro con props desestructuradas y valor por defecto en `categoria`. Tiene el botón **Reservar** con `useState`, que se desactiva si no hay copias. |
+| `LibroLista` | `components/LibroLista.jsx` | Lista de libros con `map()` y `key`. Incluye el buscador controlado (`value` y `onChange`) y el formulario controlado con `onSubmit` y `preventDefault`. Valida que el año esté entre 1450 y el año actual, regla de la API de la Semana 8. |
+| `Panel` | `components/Panel.jsx` | Contenedor que recibe un título y `children`. |
+| `SocioCard` | `components/SocioCard.jsx` | Socio con su relación 1:N; usa `PrestamoItem` por cada préstamo y calcula el total de multas. |
+| `PrestamoItem` | `components/PrestamoItem.jsx` | Un préstamo (libro, estado y multa). |
+
+- **Estado y eventos:** `useState` para el contador de reservas, el texto de
+  búsqueda, los campos del formulario y la lista de libros; eventos `onClick`,
+  `onChange` y `onSubmit`. El libro nuevo se agrega con un arreglo nuevo
+  (`[...lista, nuevo]`), sin `push`.
+- **Cómo ejecutar:**
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Se abre en http://localhost:5173/.
+
+- `npm run lint` y `npm run build` terminan sin errores; `node_modules` y
+  `dist` no se suben al repositorio.
+- Los libros nuevos solo viven en el estado del navegador: todavía no se
+  guardan en la base de datos de Django. Falta conectar con la API (Semana 12).
+- Estado: Parte 2 completa en código. Pendiente: capturas y su parte del Word.
