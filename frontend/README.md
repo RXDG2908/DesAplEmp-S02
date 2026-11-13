@@ -22,6 +22,12 @@ REST de la Semana 8. Todavía no consume la API.
   y `Aviso`.
 - `src/App.jsx` — botones para ver Inicio, la práctica de cafetería o el panel de
   citas.
+- `src/components/PanelPrestadores.jsx` — Laboratorio 11, Parte 2: panel
+  administrativo del proyecto integrador Chamba PE. El padre guarda los
+  prestadores (`src/datosChamba.js`) y reparte a `PrestadorListado`/
+  `PrestadorFila` (Aprobar, Suspender y Eliminar), `PrestadorForm` (alta con
+  validación de nombres y tarifa mayor que cero), `ResumenPrestadores` (conteo
+  por estado y tarifa promedio), `BuscadorPrestadores` y `Aviso`.
 - `src/App.css` — estilos de ambas secciones.
 
 ## Cómo ejecutarlo
