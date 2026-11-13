@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 function Aviso({ mensaje, onTerminar }) {
   useEffect(() => {
     if (mensaje === '') return
-    const temporizador = setTimeout(onTerminar, 3000)
+    const temporizador = setTimeout(() => onTerminar(''), 3000)
     // Limpieza: cancela el temporizador si el componente se desmonta o cambia el mensaje
     return () => clearTimeout(temporizador)
   }, [mensaje, onTerminar])

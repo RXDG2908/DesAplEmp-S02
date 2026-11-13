@@ -44,7 +44,7 @@ function Practica() {
       <Buscador valor={busqueda} onCambiar={setBusqueda} />
       <Catalogo productos={visibles} onAgregar={agregarAlCarrito} />
       <Carrito lineas={carrito} onQuitar={quitarDelCarrito} onVaciar={vaciarCarrito} />
-      <Aviso mensaje={aviso} onTerminar={() => setAviso('')} />
+      <Aviso mensaje={aviso} onTerminar={setAviso} />
     </div>
   )
 }

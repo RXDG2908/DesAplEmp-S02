@@ -43,7 +43,7 @@ function PanelPrestadores() {
     <div className="seccion-vet">
       <h2>Chamba PE — Panel administrativo: prestadores</h2>
       <PrestadorForm onGuardar={guardarPrestador} />
-      <Aviso mensaje={aviso} onTerminar={() => setAviso('')} />
+      <Aviso mensaje={aviso} onTerminar={setAviso} />
       <BuscadorPrestadores valor={busqueda} onCambiar={setBusqueda} />
       <PrestadorListado
         prestadores={visibles}

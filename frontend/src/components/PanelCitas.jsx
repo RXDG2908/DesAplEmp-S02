@@ -39,7 +39,7 @@ function PanelCitas() {
     <div className="seccion-vet">
       <h2>Panel administrativo: citas</h2>
       <CitaForm onGuardar={guardarCita} />
-      <Aviso mensaje={aviso} onTerminar={() => setAviso('')} />
+      <Aviso mensaje={aviso} onTerminar={setAviso} />
       <BuscadorCitas valor={busqueda} onCambiar={setBusqueda} />
       <CitaListado citas={visibles} onConfirmar={confirmarCita} onEliminar={eliminarCita} />
       <ResumenCitas citas={citas} />
