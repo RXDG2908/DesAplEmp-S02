@@ -1,4 +1,7 @@
+import { useState } from 'react'
 import './App.css'
+import Practica from './practica/Practica.jsx'
+import PanelCitas from './components/PanelCitas.jsx'
 import Vet from './Vet.jsx'
 import Panel from './components/Panel.jsx'
 import LibroLista from './components/LibroLista.jsx'
@@ -9,9 +12,19 @@ function App() {
   const aplicacion = 'Biblioteca Comunitaria'
   const multaPorDia = 1.5
   const diasAtraso = 4
+  const [vista, setVista] = useState('inicio')
 
   return (
     <div className="contenedor">
+      <div className="menu-vistas">
+        <button onClick={() => setVista('inicio')}>Inicio</button>
+        <button onClick={() => setVista('practica')}>Práctica: insumos</button>
+        <button onClick={() => setVista('panel')}>Panel de citas</button>
+      </div>
+      {vista === 'practica' && <Practica />}
+      {vista === 'panel' && <PanelCitas />}
+      {vista === 'inicio' && (
+        <>
       <Vet />
       <h1 className="titulo">{aplicacion}</h1>
       <p>Multa por día: S/ {multaPorDia.toFixed(2)}</p>
@@ -41,6 +54,8 @@ function App() {
           />
         ))}
       </Panel>
+        </>
+      )}
     </div>
   )
 }

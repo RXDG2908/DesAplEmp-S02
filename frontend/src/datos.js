@@ -44,3 +44,13 @@ export const citas = [
     consumos: [],
   },
 ]
+
+// Citas del panel administrativo, con la forma de la respuesta de /api/citas/
+export const citasPanel = [
+  { id: 1, mascota: 'Firulais', dueno: 'Marta Quispe', servicio: 'Vacunacion', hora: '09:00', estado: 'Atendida' },
+  { id: 2, mascota: 'Michi', dueno: 'Jorge Paredes', servicio: 'Consulta', hora: '10:30', estado: 'Confirmada' },
+  { id: 3, mascota: 'Rocky', dueno: 'Carla Rios', servicio: 'Cirugia', hora: '15:00', estado: 'Pendiente' },
+  { id: 4, mascota: 'Luna', dueno: 'Pedro Soto', servicio: 'Consulta', hora: '11:15', estado: 'Pendiente' },
+  { id: 5, mascota: 'Toby', dueno: 'Rosa Medina', servicio: 'Vacunacion', hora: '16:30', estado: 'Confirmada' },
+  { id: 6, mascota: 'Nala', dueno: 'Diego Salas', servicio: 'Consulta', hora: '08:45', estado: 'Pendiente' },
+]
