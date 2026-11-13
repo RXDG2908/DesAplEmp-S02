@@ -1,15 +1,15 @@
-import InsumoCard from './InsumoCard.jsx'
+import ProductoCard from './ProductoCard.jsx'
 
-// Recibe la lista ya filtrada y entrega cada insumo a su tarjeta
-function Catalogo({ insumos, onAgregar }) {
-  if (insumos.length === 0) {
-    return <p>No hay insumos que coincidan</p>
+// Recibe la lista ya filtrada y entrega cada producto a su tarjeta
+function Catalogo({ productos, onAgregar }) {
+  if (productos.length === 0) {
+    return <p>No hay productos que coincidan</p>
   }
 
   return (
     <ul>
-      {insumos.map((insumo) => (
-        <InsumoCard key={insumo.id} insumo={insumo} onAgregar={onAgregar} />
+      {productos.map((producto) => (
+        <ProductoCard key={producto.id} producto={producto} onAgregar={onAgregar} />
       ))}
     </ul>
   )

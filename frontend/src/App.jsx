@@ -18,7 +18,7 @@ function App() {
     <div className="contenedor">
       <div className="menu-vistas">
         <button onClick={() => setVista('inicio')}>Inicio</button>
-        <button onClick={() => setVista('practica')}>Práctica: insumos</button>
+        <button onClick={() => setVista('practica')}>Práctica: cafetería</button>
         <button onClick={() => setVista('panel')}>Panel de citas</button>
       </div>
       {vista === 'practica' && <Practica />}

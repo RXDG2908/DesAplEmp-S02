@@ -1,49 +1,49 @@
 import { useState } from 'react'
-import { insumos } from './datos.js'
+import { productos } from './datos.js'
 import Catalogo from './Catalogo.jsx'
-import Consumo from './Consumo.jsx'
+import Carrito from './Carrito.jsx'
 import Buscador from './Buscador.jsx'
 import Aviso from '../components/Aviso.jsx'
 
-// Componente padre: guarda el consumo, el texto de búsqueda y el aviso
+// Componente padre: guarda el carrito, el texto de búsqueda y el aviso
 function Practica() {
-  const [consumo, setConsumo] = useState([])
+  const [carrito, setCarrito] = useState([])
   const [busqueda, setBusqueda] = useState('')
   const [aviso, setAviso] = useState('')
 
-  const visibles = insumos.filter((i) =>
-    i.nombre.toLowerCase().includes(busqueda.toLowerCase())
+  const visibles = productos.filter((p) =>
+    p.nombre.toLowerCase().includes(busqueda.toLowerCase())
   )
 
-  function agregarAlConsumo(insumo) {
-    const existe = consumo.some((l) => l.id === insumo.id)
+  function agregarAlCarrito(producto) {
+    const existe = carrito.some((l) => l.id === producto.id)
     if (existe) {
-      setConsumo(
-        consumo.map((l) => (l.id === insumo.id ? { ...l, cantidad: l.cantidad + 1 } : l))
+      setCarrito(
+        carrito.map((l) => (l.id === producto.id ? { ...l, cantidad: l.cantidad + 1 } : l))
       )
     } else {
-      setConsumo([
-        ...consumo,
-        { id: insumo.id, nombre: insumo.nombre, precio: insumo.precio, cantidad: 1 },
+      setCarrito([
+        ...carrito,
+        { id: producto.id, nombre: producto.nombre, precio: producto.precio, cantidad: 1 },
       ])
     }
-    setAviso(`Agregado: ${insumo.nombre}`)
+    setAviso(`Agregado: ${producto.nombre}`)
   }
 
-  function quitarDelConsumo(id) {
-    setConsumo(consumo.filter((l) => l.id !== id))
+  function quitarDelCarrito(id) {
+    setCarrito(carrito.filter((l) => l.id !== id))
   }
 
-  function vaciarConsumo() {
-    setConsumo([])
+  function vaciarCarrito() {
+    setCarrito([])
   }
 
   return (
     <div className="seccion-vet">
-      <h2>Veterinaria: comunicación entre componentes</h2>
+      <h2>Cafetería: comunicación entre componentes</h2>
       <Buscador valor={busqueda} onCambiar={setBusqueda} />
-      <Catalogo insumos={visibles} onAgregar={agregarAlConsumo} />
-      <Consumo lineas={consumo} onQuitar={quitarDelConsumo} onVaciar={vaciarConsumo} />
+      <Catalogo productos={visibles} onAgregar={agregarAlCarrito} />
+      <Carrito lineas={carrito} onQuitar={quitarDelCarrito} onVaciar={vaciarCarrito} />
       <Aviso mensaje={aviso} onTerminar={() => setAviso('')} />
     </div>
   )

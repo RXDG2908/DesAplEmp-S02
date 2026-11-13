@@ -1,20 +1,20 @@
 import { useEffect } from 'react'
 
-// Muestra los insumos usados en la cita y avisa al padre al quitar o vaciar
-function Consumo({ lineas, onQuitar, onVaciar }) {
+// Muestra las líneas del carrito y avisa al padre al quitar o vaciar
+function Carrito({ lineas, onQuitar, onVaciar }) {
   // Datos derivados: se calculan en cada dibujo, no necesitan su propio estado
   const total = lineas.reduce((suma, l) => suma + Number(l.precio) * l.cantidad, 0)
   const unidades = lineas.reduce((suma, l) => suma + l.cantidad, 0)
 
   useEffect(() => {
-    document.title = `Consumo (${unidades}) · Veterinaria`
-    console.log('Efecto del consumo: unidades =', unidades)
+    document.title = `Carrito (${unidades}) · Cafetería`
+    console.log('Efecto del carrito: unidades =', unidades)
   }, [unidades])
 
   return (
     <div>
-      <h3>Consumo de la cita</h3>
-      {lineas.length === 0 && <p>El consumo está vacío</p>}
+      <h3>Carrito</h3>
+      {lineas.length === 0 && <p>El carrito está vacío</p>}
       <ul>
         {lineas.map((l) => (
           <li key={l.id}>
@@ -25,9 +25,9 @@ function Consumo({ lineas, onQuitar, onVaciar }) {
       </ul>
       <p>Unidades: {unidades}</p>
       <p>Total: S/ {total.toFixed(2)}</p>
-      <button onClick={onVaciar}>Vaciar consumo</button>
+      <button onClick={onVaciar}>Vaciar carrito</button>
     </div>
   )
 }
 
-export default Consumo
+export default Carrito
