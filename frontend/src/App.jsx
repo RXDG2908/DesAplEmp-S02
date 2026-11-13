@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import Practica from './practica/Practica.jsx'
+import PracticaLucas from './practica_lucas/PracticaLucas.jsx'
 import PanelCitas from './components/PanelCitas.jsx'
 import Vet from './Vet.jsx'
 import Panel from './components/Panel.jsx'
@@ -20,9 +21,11 @@ function App() {
         <button onClick={() => setVista('inicio')}>Inicio</button>
         <button onClick={() => setVista('practica')}>Práctica: insumos</button>
         <button onClick={() => setVista('panel')}>Panel de citas</button>
+        <button onClick={() => setVista('cafeteria')}>Práctica: cafetería</button>
       </div>
       {vista === 'practica' && <Practica />}
       {vista === 'panel' && <PanelCitas />}
+      {vista === 'cafeteria' && <PracticaLucas />}
       {vista === 'inicio' && (
         <>
       <Vet />
