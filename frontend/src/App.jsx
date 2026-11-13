@@ -3,6 +3,7 @@ import './App.css'
 import Practica from './practica/Practica.jsx'
 import PracticaLucas from './practica_lucas/PracticaLucas.jsx'
 import PanelCitas from './components/PanelCitas.jsx'
+import PanelPrestadores from './components/PanelPrestadores.jsx'
 import Vet from './Vet.jsx'
 import Panel from './components/Panel.jsx'
 import LibroLista from './components/LibroLista.jsx'
@@ -19,13 +20,15 @@ function App() {
     <div className="contenedor">
       <div className="menu-vistas">
         <button onClick={() => setVista('inicio')}>Inicio</button>
-        <button onClick={() => setVista('practica')}>Práctica: insumos</button>
+        <button onClick={() => setVista('practica')}>Práctica: cafetería</button>
         <button onClick={() => setVista('panel')}>Panel de citas</button>
-        <button onClick={() => setVista('cafeteria')}>Práctica: cafetería</button>
+        <button onClick={() => setVista('cafeteria')}>Práctica Lucas: cafetería</button>
+        <button onClick={() => setVista('chamba')}>Panel Chamba PE</button>
       </div>
       {vista === 'practica' && <Practica />}
       {vista === 'panel' && <PanelCitas />}
       {vista === 'cafeteria' && <PracticaLucas />}
+      {vista === 'chamba' && <PanelPrestadores />}
       {vista === 'inicio' && (
         <>
       <Vet />
