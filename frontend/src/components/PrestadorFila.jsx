@@ -1,21 +1,28 @@
 // Una fila del listado: muestra al prestador y avisa al padre con las funciones recibidas
-function PrestadorFila({ prestador, onAprobar, onSuspender, onEliminar }) {
+function PrestadorFila({ prestador, confirmando, onEditar, onCambiarEstado, onEliminar }) {
   return (
     <tr>
       <td>
         {prestador.nombres} {prestador.apellidos}
       </td>
       <td>{prestador.rubro}</td>
-      <td>S/ {Number(prestador.tarifa).toFixed(2)}</td>
+      <td>S/ {prestador.tarifa.toFixed(2)}</td>
       <td>{prestador.estado}</td>
       <td>
-        <button onClick={() => onAprobar(prestador.id)} disabled={prestador.estado === 'Aprobado'}>
+        <button onClick={() => onEditar(prestador)}>Editar</button>{' '}
+        <button
+          onClick={() => onCambiarEstado(prestador, 'Aprobado')}
+          disabled={prestador.estado === 'Aprobado'}
+        >
           Aprobar
         </button>{' '}
-        <button onClick={() => onSuspender(prestador.id)} disabled={prestador.estado === 'Suspendido'}>
+        <button
+          onClick={() => onCambiarEstado(prestador, 'Suspendido')}
+          disabled={prestador.estado === 'Suspendido'}
+        >
           Suspender
         </button>{' '}
-        <button onClick={() => onEliminar(prestador.id)}>Eliminar</button>
+        <button onClick={() => onEliminar(prestador.id)}>{confirmando ? 'Confirmar' : 'Eliminar'}</button>
       </td>
     </tr>
   )

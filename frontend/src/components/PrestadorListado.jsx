@@ -1,7 +1,7 @@
 import PrestadorFila from './PrestadorFila.jsx'
 
 // Tabla de prestadores: recibe la lista por props y entrega cada prestador a su fila
-function PrestadorListado({ prestadores, onAprobar, onSuspender, onEliminar }) {
+function PrestadorListado({ prestadores, porEliminar, onEditar, onCambiarEstado, onEliminar }) {
   if (prestadores.length === 0) {
     return <p>No hay prestadores que coincidan</p>
   }
@@ -22,8 +22,9 @@ function PrestadorListado({ prestadores, onAprobar, onSuspender, onEliminar }) {
           <PrestadorFila
             key={prestador.id}
             prestador={prestador}
-            onAprobar={onAprobar}
-            onSuspender={onSuspender}
+            confirmando={porEliminar === prestador.id}
+            onEditar={onEditar}
+            onCambiarEstado={onCambiarEstado}
             onEliminar={onEliminar}
           />
         ))}

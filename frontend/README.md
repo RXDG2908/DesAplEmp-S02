@@ -41,6 +41,50 @@ npm run dev
 Abrir http://localhost:5173/. Otros scripts: `npm run lint` y `npm run build`.
 `node_modules` y `dist` no se suben al repositorio.
 
+## Laboratorio 12: React consume la API de Django
+
+La dirección del servidor está solo en `src/api.js` (instancia de Axios).
+
+- **Parte 1** — `src/practica/ListaPractica.jsx` (botón *Insumos desde la API*):
+  lista, crea, cambia el stock y elimina insumos de `/api/insumos/`, con
+  estados de carga, error y lista vacía, y búsqueda con `?search=`.
+- **Parte 2** — `src/components/PanelPrestadores.jsx` (botón *Panel Chamba PE*):
+  el panel de prestadores del proyecto integrador ya no usa datos a mano. Lista
+  con GET, registra con POST, edita, aprueba y suspende con PATCH, y elimina con
+  DELETE tras un segundo clic de confirmación (maneja 204 y 404). Busca por
+  nombre y filtra por estado enviando parámetros a la API. El resumen se calcula
+  con los datos recibidos.
+
+### Ejecutar Django y React a la vez
+
+```bash
+# Terminal 1: Django (puerto 8000)
+cd django_project/src
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py shell < cargar_chamba.py   # prestadores de ejemplo
+python manage.py runserver
+
+# Terminal 2: React (puerto 5173)
+cd frontend
+npm install
+npm run dev
+```
+
+### CORS
+
+`django-cors-headers` está en `INSTALLED_APPS`, su middleware va al inicio de
+`MIDDLEWARE` y `CORS_ALLOWED_ORIGINS` permite `http://localhost:5173`
+(`config/settings.py`).
+
+### Endpoints que usa el panel (app `chamba`)
+
+- `GET /api/chamba/prestadores/` con `?search=` (nombres y apellidos),
+  `?estado=` y `?ordering=`
+- `POST /api/chamba/prestadores/` (400 si la tarifa no es mayor que cero)
+- `PATCH /api/chamba/prestadores/<id>/` y `DELETE /api/chamba/prestadores/<id>/`
+
 ## Pendiente
 
-Los datos siguen escritos a mano; falta consumir la API de Django con `fetch`.
+La API sigue abierta a cualquier persona: faltan la autenticación y los permisos
+(en Chamba PE el panel solo debería usarlo el administrador).
