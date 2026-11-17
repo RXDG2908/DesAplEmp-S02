@@ -1,6 +1,14 @@
-# cargar_chamba.py
-# Carga los prestadores de ejemplo de Chamba PE (los mismos del panel con datos a mano).
-# Uso: python manage.py shell < cargar_chamba.py
+# ==================================================================
+# ARCHIVO  : cargar_chamba.py
+# PROYECTO : CHAMBA PE (proyecto integrador)
+# ROL      : SCRIPT DE DATOS DE PRUEBA.
+# ------------------------------------------------------------------
+# LAB 12 - EJ 9: CARGA los 6 PRESTADORES de ejemplo (los mismos que el panel
+#                del Lab 11 tenía escritos a mano).
+# NOTA     : BORRA los prestadores existentes antes de cargar (no duplica).
+# ------------------------------------------------------------------
+# USO      : python manage.py shell < cargar_chamba.py
+# ==================================================================
 
 from chamba.models import Prestador
 

@@ -1,4 +1,12 @@
-// Filtro de texto controlado: el valor y el cambio los maneja el padre
+// ==================================================================
+// ARCHIVO  : components/BuscadorPrestadores.jsx
+// PROYECTO : CHAMBA PE (proyecto integrador)
+// ------------------------------------------------------------------
+// LAB 11 - EJ 13: BUSCADOR CONTROLADO POR EL PADRE (valor + onCambiar).
+// LAB 12 - EJ 13: el texto viaja a la API como ?search=.
+// ------------------------------------------------------------------
+// USADO EN : ./PanelPrestadores.jsx
+// ==================================================================
 function BuscadorPrestadores({ valor, onCambiar }) {
   return (
     <input

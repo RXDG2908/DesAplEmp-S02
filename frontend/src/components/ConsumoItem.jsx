@@ -1,9 +1,12 @@
 // ==================================================================
-// GUIA: ARCHIVO  components/ConsumoItem.jsx
-// LAB     : 10 Ej.5  -  PARTE 1 (vet)
-// QUE HACE : una linea de consumo (insumo x cantidad - subtotal). Usado en ./CitaCard.jsx.
+// ARCHIVO  : components/ConsumoItem.jsx
+// PARTE 1  : VET (reserva de citas de la veterinaria)
+// ROL      : UNA LÍNEA de consumo -> insumo × cantidad — subtotal.
+// ------------------------------------------------------------------
+// LAB 10 - EJ 5: ELEMENTO ANIDADO de la cita (un registro del MODELO INTERMEDIO N:M).
+// ------------------------------------------------------------------
+// USADO EN : ./CitaCard.jsx
 // ==================================================================
-// Un elemento anidado de la cita: un consumo de insumo (modelo intermedio N:M).
 function ConsumoItem({ insumo, cantidad, subtotal }) {
   return (
     <li>

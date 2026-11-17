@@ -1,16 +1,22 @@
 // ==================================================================
-// GUIA: ARCHIVO  components/InsumoLista.jsx
-// LAB     : 10 Ej.3, 7 y 8  -  PARTE 1 (vet)
-// QUE HACE : lista de InsumoCard con campo de busqueda controlado (Ej.7) y formulario controlado
-//           que valida (stock >= 1, igual que validate_stock del Lab 08) y agrega un insumo (Ej.8).
-// NOTA    : el insumo nuevo solo vive en el estado de React; se pierde al recargar (falta fetch a la API).
-// USADO EN: ../Vet.jsx
+// ARCHIVO  : components/InsumoLista.jsx
+// PARTE 1  : VET (reserva de citas de la veterinaria)
+// ROL      : LISTA de InsumoCard con BUSCADOR y FORMULARIO de alta.
+// ------------------------------------------------------------------
+// LAB 10 - EJ 3: ARMA LA LISTA pasando a cada InsumoCard sus datos por props.
+// LAB 10 - EJ 7: CAMPO CONTROLADO (value + onChange) que FILTRA por nombre
+//                sin distinguir mayúsculas.
+// LAB 10 - EJ 8: FORMULARIO CONTROLADO con onSubmit + preventDefault que VALIDA
+//                y agrega el insumo con un ARREGLO NUEVO (spread, sin push).
+// NOTA     : el insumo nuevo SOLO VIVE en el estado de React; se pierde al
+//            recargar (en el Lab 12 se guarda en la API).
+// ------------------------------------------------------------------
+// USADO EN : ../Vet.jsx
 // ==================================================================
 import { useState } from 'react'
 import InsumoCard from './InsumoCard.jsx'
 
-// Lista con estado: busqueda controlada y formulario que agrega un insumo.
-// Regla de la API (Lab 08, validate_stock): el stock inicial debe ser >= 1.
+// LAB 10 - EJ 8: la validación repite la REGLA de la API (Lab 8, validate_stock): stock inicial >= 1.
 function InsumoLista({ insumosIniciales }) {
   const [insumos, setInsumos] = useState(insumosIniciales)
   const [busqueda, setBusqueda] = useState('')
@@ -18,10 +24,12 @@ function InsumoLista({ insumosIniciales }) {
   const [stock, setStock] = useState('')
   const [error, setError] = useState('')
 
+  // LAB 10 - EJ 7: DATO DERIVADO -> la lista filtrada se calcula en cada dibujo.
   const visibles = insumos.filter((i) =>
     i.nombre.toLowerCase().includes(busqueda.toLowerCase()),
   )
 
+  // LAB 10 - EJ 8: preventDefault() evita que el navegador RECARGUE la página al enviar.
   const enviar = (e) => {
     e.preventDefault()
     if (nombre.trim() === '') {

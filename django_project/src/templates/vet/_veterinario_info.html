@@ -1,7 +1,8 @@
 {# ================================================================== #}
-{# GUIA: ARCHIVO  templates/vet/_veterinario_info.html  (fragmento reutilizable) #}
-{# LAB     : 07 (fragmento con include); usado en ./cita_list.html y ./cita_detalle.html #}
+{# ARCHIVO  : templates/vet/_veterinario_info.html #}
+{# PARTE 1  : VET (reserva de citas de la veterinaria) #}
+{# ROL      : FRAGMENTO REUTILIZABLE (creado en el Lab 6); se inserta con {% include %}. #}
+{# USADO EN : ./cita_list.html y ./cita_detalle.html (usa la variable 'cita' de quien lo incluye). #}
 {# ================================================================== #}
-{# Fragmento reutilizable. Se inserta con {% include %} en cita_list y cita_detalle; usa la variable 'cita' de quien lo incluye. #}
-{# default: si la cita no tiene veterinario muestra "Sin asignar"; la especialidad solo se agrega si existe. #}
+{# FILTRO default: sin veterinario muestra "Sin asignar"; la especialidad SOLO se agrega si existe. #}
 {{ cita.veterinario.nombre|default:"Sin asignar" }}{% if cita.veterinario.especialidad %} ({{ cita.veterinario.especialidad }}){% endif %}

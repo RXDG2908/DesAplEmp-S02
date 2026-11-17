@@ -1,17 +1,21 @@
 # ==================================================================
-# GUIA: ARCHIVO  vet/api_views.py  (vistas de la API: devuelven JSON y codigos HTTP)
-# LAB     : 08 (API REST con DRF) - Parte 1, app vet
-# EJERCICIO: Ej.4 vistas genericas / Ej.5 InsumoViewSet / Ej.6 codigos HTTP /
-#           Ej.7 CitaViewSet anidado / Ej.8 search, ordering, ?estado= y @action proximas
-# QUE HACE : expone Insumo (CRUD completo) y Cita (solo lectura) reutilizando CitaQuerySet del Lab 07.
-# SE PRUEBA: /api/insumos/?search=jer&ordering=-stock - /api/citas/?estado=Pendiente - /api/citas/proximas/
-# DOCS    : ../../../docs/guiones/GUION-Lab08-Parte1.md - ../../../docs/exposiciones/EXPOSICION_Lab08_Parte1.md
+# ARCHIVO  : vet/api_views.py
+# PARTE 1  : VET (reserva de citas de la veterinaria)
+# ROL      : VISTAS DE LA API. Igual que ./views.py reciben el REQUEST, pero en
+#            lugar de renderizar un Template devuelven JSON + CÓDIGO HTTP.
+#            Reutilizan el mismo Model y el CitaQuerySet del Lab 7.
+# ------------------------------------------------------------------
+# LAB 8 - EJ 4: InsumoListCreate / InsumoDetail -> VISTAS GENÉRICAS (1.ª versión).
+# LAB 8 - EJ 5: InsumoViewSet -> MODELVIEWSET que reemplaza a las genéricas.
+# LAB 8 - EJ 6: CRUD probado con CÓDIGOS HTTP 200, 201, 400, 404 y 204.
+# LAB 8 - EJ 7: CitaViewSet -> SOLO LECTURA con relaciones ANIDADAS y sin N+1.
+# LAB 8 - EJ 8: ?search=, ?ordering=, ?estado= y la ACCIÓN PROPIA /proximas/.
+# ------------------------------------------------------------------
+# SE PRUEBA: /api/insumos/?search=jer&ordering=-stock
+#            /api/citas/?estado=Pendiente  ·  /api/citas/proximas/
+# DOCS     : ../../../docs/guiones/GUION-Lab08-Parte1.md
+#            ../../../docs/exposiciones/EXPOSICION_Lab08_Parte1.md
 # ==================================================================
-# vet/api_views.py
-# Lab 08 - las Views de la API. Igual que ./views.py reciben el request,
-# pero en lugar de renderizar un Template devuelven JSON con un codigo HTTP.
-# Reutilizan el mismo Model, las mismas relaciones y el CitaQuerySet de la
-# Lab 07.
 
 from rest_framework import filters, generics, viewsets
 from rest_framework.decorators import action
@@ -21,9 +25,9 @@ from .models import Cita, Insumo
 from .serializers import CitaSerializer, InsumoSerializer
 
 
-# --- Lab 08 Ej.4: vistas genericas (primera version) -------------------
-# Quedan como referencia: en el Ej.5 se reemplazaron por el
-# InsumoViewSet de abajo y ya no estan enlazadas en ./api_urls.py.
+# --- LAB 8 - EJ 4: VISTAS GENÉRICAS (primera versión) ------------------
+# Quedan como REFERENCIA: en el EJ 5 se REEMPLAZARON por el InsumoViewSet
+# de abajo y ya NO están enlazadas en ./api_urls.py.
 class InsumoListCreate(generics.ListCreateAPIView):
     """GET /api/insumos/ (lista) y POST /api/insumos/ (crear)."""
     queryset = Insumo.objects.order_by('nombre')
@@ -36,36 +40,37 @@ class InsumoDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = InsumoSerializer
 
 
-# --- Lab 08 Ej.5 y 8: recurso simple con ModelViewSet -------------------
+# --- LAB 8 - EJ 5 y 8: recurso SIMPLE con ModelViewSet (CRUD COMPLETO) ---
 class InsumoViewSet(viewsets.ModelViewSet):
     queryset = Insumo.objects.order_by('nombre')
     serializer_class = InsumoSerializer
-    # Lab 08 Ej.8 - ?search=texto y ?ordering=campo (o -campo).
+    # LAB 8 - EJ 8: BÚSQUEDA con ?search=texto y ORDEN con ?ordering=campo (o -campo).
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['nombre', 'unidad']
     ordering_fields = ['nombre', 'stock']
 
 
-# --- Lab 08 Ej.7 y 8: recurso con relaciones, solo lectura -------------
+# --- LAB 8 - EJ 7 y 8: recurso CON RELACIONES, SOLO LECTURA ------------
 class CitaViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CitaSerializer
 
     def get_queryset(self):
+        # LAB 8 - EJ 7: QUERYSET OPTIMIZADO (de 24 a 3 consultas, ver ../medir_api_n1.py).
         # select_related: veterinario (FK) y ficha (1:1) con JOIN.
-        # prefetch_related: consumos y su insumo, en dos consultas extra.
+        # prefetch_related: consumos y su insumo, en DOS consultas extra.
         citas = (Cita.objects
                  .select_related('veterinario', 'ficha')
                  .prefetch_related('consumos__insumo')
                  .order_by('fecha', 'hora'))
-        # Lab 08 Ej.8 - filtro por parametro: /api/citas/?estado=Pendiente
+        # LAB 8 - EJ 8: FILTRO POR PARÁMETRO -> /api/citas/?estado=Pendiente
         estado = self.request.query_params.get('estado')
         if estado:
             citas = citas.con_estado(estado)
         return citas
 
-    # Lab 08 Ej.8 - accion propia: GET /api/citas/proximas/
-    # Reutiliza CitaQuerySet.proximas() del Lab 07 sobre el queryset ya
-    # optimizado (y filtrado por ?estado= si se envio).
+    # LAB 8 - EJ 8: ACCIÓN PROPIA -> GET /api/citas/proximas/
+    # REUTILIZA CitaQuerySet.proximas() del Lab 7 sobre el queryset ya
+    # optimizado (y filtrado por ?estado= si se envió).
     @action(detail=False)
     def proximas(self, request):
         citas = self.get_queryset().proximas()

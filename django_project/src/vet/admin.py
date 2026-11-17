@@ -1,16 +1,13 @@
 # ==================================================================
-# GUIA: ARCHIVO  vet/admin.py  (Django Admin de la veterinaria)
-# LAB     : (apoyo) Django Admin para ver los datos de prueba de los Labs 7 a 10
-# EJERCICIO: ninguno de los Labs 7-10 (solo apoyo)
-# QUE HACE : personaliza /admin/ para Cita, Veterinario e Insumo sin escribir views ni templates.
-# DOCS    : (sin guion: no es parte de los Labs 7-10)
+# ARCHIVO  : vet/admin.py
+# PARTE 1  : VET (reserva de citas de la veterinaria)
+# ROL      : DJANGO ADMIN -> personaliza /admin/ para Cita, Veterinario e Insumo.
+# ------------------------------------------------------------------
+# LAB 5        : aquí se creó (ModelAdmin, list_display, filtros e INLINES).
+# LAB 7 - EJ 2 : sirve de APOYO para revisar los DATOS DE PRUEBA.
+# NOTA     : no agrega modelos nuevos; el Admin REUTILIZA el Model y el ORM,
+#            así que NO hace falta escribir views, urls ni templates.
 # ==================================================================
-# vet/admin.py
-# Django Admin (apoyo para los Labs 7-10).
-# No se agregan modelos nuevos: se registra y personaliza en el Admin lo ya
-# implementado antes (Cita, Veterinario, Insumo y sus 3 relaciones).
-# El Admin reutiliza el Model y el ORM: no hace falta escribir views, urls
-# ni templates para estas pantallas, Django las genera solo.
 
 from django.contrib import admin
 

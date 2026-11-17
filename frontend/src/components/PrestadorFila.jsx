@@ -1,4 +1,15 @@
-// Una fila del listado: muestra al prestador y avisa al padre con las funciones recibidas
+// ==================================================================
+// ARCHIVO  : components/PrestadorFila.jsx
+// PROYECTO : CHAMBA PE (proyecto integrador)
+// ------------------------------------------------------------------
+// LAB 11 - EJ 10: UNA FILA con nombre, rubro, tarifa y estado del prestador.
+// LAB 11 - EJ 11: botones Aprobar, Suspender y Eliminar que AVISAN AL PADRE;
+//                 la fila NO MODIFICA la lista por sí misma.
+// LAB 12 - EJ 11: botón Editar -> el padre llena el formulario con este registro.
+// LAB 12 - EJ 12: el botón cambia a 'Confirmar' antes de eliminar.
+// ------------------------------------------------------------------
+// USADO EN : ./PrestadorListado.jsx
+// ==================================================================
 function PrestadorFila({ prestador, confirmando, onEditar, onCambiarEstado, onEliminar }) {
   return (
     <tr>

@@ -1,9 +1,19 @@
 // ==================================================================
-// GUIA: ARCHIVO  App.jsx  (componente raiz)
-// LAB     : 09 y 10
-// PARTE 1 : <Vet /> = la veterinaria (Renzo).  PARTE 2: el resto = la biblioteca (Lucas).
-// QUE HACE : junta las dos aplicaciones en una sola pagina; la biblioteca usa Panel, LibroLista y SocioCard.
-// DOCS    : ../../docs/guiones/GUION-Lab09-Parte1.md - ../../docs/guiones/GUION-Lab10-Parte1.md
+// ARCHIVO  : App.jsx
+// ROL      : COMPONENTE RAÍZ. Un MENÚ con useState elige qué VISTA se muestra.
+// ------------------------------------------------------------------
+// PARTE 1 (Renzo) : <Vet /> = VETERINARIA, <Practica /> y <PanelCitas />.
+// PROYECTO (Renzo): <PanelPrestadores /> = CHAMBA PE.
+// PARTE 2 (Lucas) : biblioteca (Panel, LibroLista, SocioCard) y <PracticaLucas />.
+// ------------------------------------------------------------------
+// LAB 9 - EJ 4 : JSX con EXPRESIONES entre llaves (Parte 2: multa por días).
+// LAB 10       : cada sección usa COMPONENTES con props y children.
+// LAB 11 - EJ 1: vista 'practica' -> mini catálogo con carrito (cafetería).
+// LAB 11 - EJ 10-13: vistas 'panel' (VET) y 'chamba' (CHAMBA PE).
+// LAB 12 - EJ 4: vista 'api' -> insumos leídos desde la API de Django.
+// ------------------------------------------------------------------
+// DOCS     : ../../docs/guiones/GUION-Lab09-Parte1.md
+//            ../../docs/guiones/GUION-Lab10-Parte1.md
 // ==================================================================
 import { useState } from 'react'
 import './App.css'

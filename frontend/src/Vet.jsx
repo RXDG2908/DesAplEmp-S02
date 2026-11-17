@@ -1,10 +1,19 @@
 // ==================================================================
-// GUIA: ARCHIVO  Vet.jsx  (pantalla de la veterinaria)
-// LAB     : 09 Ej.4-8 (JSX, map+key, condicionales, relacion anidada); en el Lab 10 se dividio en componentes
-// QUE HACE : muestra el precio con IGV (toFixed), la lista de insumos (InsumoLista) y las citas con
-//           sus consumos (CitaCard). Los datos vienen de ./datos.js, con la forma del JSON del Lab 08.
-// COMPONENTES: ./components/InsumoLista.jsx, ./components/CitaCard.jsx
-// DOCS    : ../../docs/guiones/GUION-Lab09-Parte1.md - ../../docs/exposiciones/EXPOSICION_Lab09_Parte1.md
+// ARCHIVO  : Vet.jsx
+// PARTE 1  : VET (reserva de citas de la veterinaria)
+// ROL      : PANTALLA PRINCIPAL de la veterinaria.
+// ------------------------------------------------------------------
+// LAB 9 - EJ 4: JSX con EXPRESIONES -> precio de la consulta con IGV y toFixed(2).
+// LAB 9 - EJ 5: LISTA con map() y KEY (hoy dentro de InsumoLista).
+// LAB 9 - EJ 6: RENDERIZADO CONDICIONAL (hoy dentro de InsumoCard y CitaCard).
+// LAB 9 - EJ 7: RELACIÓN 1:N con LISTAS ANIDADAS (citas con sus consumos).
+// LAB 9 - EJ 8: ESTILOS con className (../App.css) y con style={{ }}.
+// LAB 10 - EJ 1: este JSX se DIVIDIÓ en componentes (InsumoLista, CitaCard).
+// ------------------------------------------------------------------
+// DATOS    : ./datos.js (con la MISMA FORMA del JSON de la API del Lab 8)
+// USA      : ./components/InsumoLista.jsx, ./components/CitaCard.jsx
+// DOCS     : ../../docs/guiones/GUION-Lab09-Parte1.md
+//            ../../docs/exposiciones/EXPOSICION_Lab09_Parte1.md
 // ==================================================================
 import { insumos, citas } from './datos.js'
 import InsumoLista from './components/InsumoLista.jsx'
@@ -21,9 +30,11 @@ function Vet() {
       <p>Consulta base: S/ {precioConsulta.toFixed(2)}</p>
       <p>Consulta con IGV ({igv * 100}%): S/ {(precioConsulta * (1 + igv)).toFixed(2)}</p>
 
+      {/* LAB 9 - EJ 8: ESTILO EN LÍNEA con style={{ }} */}
       <h2 style={{ color: '#1f5f5b' }}>Insumos</h2>
       <InsumoLista insumosIniciales={insumos} />
 
+      {/* LAB 9 - EJ 7 / LAB 10 - EJ 5: una CitaCard por cita, con map() y key = id */}
       <h2 style={{ color: '#1f5f5b' }}>Citas y sus consumos</h2>
       {citas.map((cita) => (
         <CitaCard

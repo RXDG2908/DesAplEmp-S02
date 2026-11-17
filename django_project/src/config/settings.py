@@ -1,7 +1,12 @@
 # ==================================================================
-# GUIA: ARCHIVO  config/settings.py  (configuracion del Project)
-# LAB     : 'rest_framework' (INSTALLED_APPS) se agrego en el Lab 08
-# QUE HACE : apps instaladas (vet, biblioteca, rest_framework), base SQLite, templates/ y archivos estaticos.
+# ARCHIVO  : config/settings.py
+# ROL      : CONFIGURACIÓN DEL PROJECT: apps instaladas, MIDDLEWARE,
+#            base de datos SQLite, templates/ y archivos estáticos.
+# ------------------------------------------------------------------
+# LAB 8 - EJ 1 : agrega 'rest_framework' (Django REST Framework) a INSTALLED_APPS.
+# LAB 12 - EJ 2: agrega CORS ('corsheaders' + CorsMiddleware + CORS_ALLOWED_ORIGINS)
+#                para que React (puerto 5173) pueda llamar a la API (puerto 8000).
+# LAB 12 - EJ 9: agrega la app 'chamba' (proyecto integrador CHAMBA PE).
 # ==================================================================
 """
 Django settings for config project.
@@ -42,15 +47,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'vet',  # Reserva de citas de la veterinaria (Labs 7-10, Parte 1)
-    'biblioteca', # Catalogo de biblioteca comunitaria (Labs 7-10, Parte 2)
-    'rest_framework',  # Django REST Framework (Laboratorio 08)
-    'corsheaders',  # Permite que React (otro puerto) llame a la API
-    'chamba',  # Panel administrativo del proyecto integrador Chamba PE
+    'vet',  # PARTE 1: reserva de citas de la VETERINARIA (Renzo)
+    'biblioteca',  # PARTE 2: biblioteca comunitaria (Lucas)
+    'rest_framework',  # LAB 8 - EJ 1: Django REST Framework
+    'corsheaders',  # LAB 12 - EJ 2: CORS, deja que React (otro puerto) llame a la API
+    'chamba',  # LAB 12 - EJ 9: proyecto integrador CHAMBA PE
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # va en la parte alta
+    'corsheaders.middleware.CorsMiddleware',  # LAB 12 - EJ 2: va en la PARTE ALTA
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -132,7 +137,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Origen de React (Vite) autorizado para llamar a la API
+# LAB 12 - EJ 2: ORIGEN de React (Vite) AUTORIZADO para llamar a la API.
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
 ]

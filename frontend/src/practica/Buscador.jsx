@@ -1,4 +1,13 @@
-// Campo de texto controlado: el valor vive en el padre
+// ==================================================================
+// ARCHIVO  : practica/Buscador.jsx
+// PARTE 1  : práctica del Lab 11 (mini catálogo con carrito: CAFETERÍA)
+// ------------------------------------------------------------------
+// LAB 11 - EJ 7: CAMPO CONTROLADO; el VALOR vive en el padre y cada cambio se
+//                AVISA con onCambiar. Buscador y Catalogo son HERMANOS: no se
+//                hablan directamente, se comunican A TRAVÉS DEL PADRE.
+// ------------------------------------------------------------------
+// USADO EN : ./Practica.jsx
+// ==================================================================
 function Buscador({ valor, onCambiar }) {
   return (
     <input

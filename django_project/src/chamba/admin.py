@@ -1,3 +1,8 @@
+# ==================================================================
+# ARCHIVO  : chamba/admin.py
+# PROYECTO : CHAMBA PE (proyecto integrador)
+# ROL      : DJANGO ADMIN para revisar los prestadores (columnas y filtros).
+# ==================================================================
 from django.contrib import admin
 
 from .models import Prestador

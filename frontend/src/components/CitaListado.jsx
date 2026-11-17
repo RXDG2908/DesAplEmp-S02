@@ -1,6 +1,16 @@
+// ==================================================================
+// ARCHIVO  : components/CitaListado.jsx
+// PARTE 1  : VET (panel de citas, primera versión del Lab 11)
+// ------------------------------------------------------------------
+// LAB 11 - EJ 10: TABLA de citas; recibe la lista por props y dibuja una CitaFila
+//                 por cita con map() y key = id.
+// LAB 11 - EJ 13: muestra un MENSAJE cuando la búsqueda no da resultados.
+// ------------------------------------------------------------------
+// USADO EN : ./PanelCitas.jsx  ·  USA: ./CitaFila.jsx
+// ==================================================================
 import CitaFila from './CitaFila.jsx'
 
-// Tabla de citas: recibe la lista por props y entrega cada cita a su fila
+// Recibe la lista por props y solo PASA las funciones del padre a cada fila.
 function CitaListado({ citas, onConfirmar, onEliminar }) {
   if (citas.length === 0) {
     return <p>No hay citas que coincidan</p>

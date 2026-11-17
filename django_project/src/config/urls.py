@@ -1,8 +1,16 @@
 # ==================================================================
-# GUIA: ARCHIVO  config/urls.py  (enrutador raiz del Project)
-# LAB     : /api/ es del Lab 08 (vet) y /api/biblioteca/ del Lab 08 Parte 2
-# QUE HACE : / -> vet.urls - /biblioteca/ -> biblioteca.urls - /api/ -> API de vet
-#           - /api/biblioteca/ -> API de biblioteca - /admin/ -> Django Admin.
+# ARCHIVO  : config/urls.py
+# ROL      : ENRUTADOR RAÍZ del Project ("director de tráfico"):
+#            /                -> vet.urls (páginas HTML de la VETERINARIA)
+#            /biblioteca/     -> biblioteca.urls (Parte 2)
+#            /api/            -> API de VET
+#            /api/biblioteca/ -> API de la biblioteca (Parte 2)
+#            /api/chamba/     -> API de CHAMBA PE
+#            /admin/          -> Django Admin
+# ------------------------------------------------------------------
+# LAB 8 - EJ 4 y 5: monta la API de vet bajo /api/.
+# LAB 12 - EJ 9   : monta la API de CHAMBA PE bajo /api/chamba/.
+# NOTA     : las rutas /api/... van ANTES de '' para que no las capture vet.urls.
 # ==================================================================
 """
 URL configuration for config project.
@@ -26,8 +34,8 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/biblioteca/', include('biblioteca.api_urls')),
-    path('api/chamba/', include('chamba.api_urls')),  # Chamba PE
-    path('api/', include('vet.api_urls')),  # Laboratorio 08 - API REST
+    path('api/chamba/', include('chamba.api_urls')),  # LAB 12 - EJ 9: API de CHAMBA PE
+    path('api/', include('vet.api_urls')),  # LAB 8 - EJ 5: API REST de VET
     path('', include('vet.urls')),
     path('biblioteca/', include('biblioteca.urls')),
 ]

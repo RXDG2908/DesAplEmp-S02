@@ -1,22 +1,24 @@
 # ==================================================================
-# GUIA: ARCHIVO  vet/models.py  (la "M" de MVT: las tablas)
-# LAB     : 07 (CitaQuerySet) - Parte 1, app vet. Las tablas ya existian
-# EJERCICIO: Lab 07 Ej.1 (campos clave) y Ej.7 (QuerySet)
-# QUE HACE : define Veterinario, Insumo, Cita, FichaClinica y ConsumoInsumo.
-#           Lab 07 NO crea tablas nuevas: solo agrega CitaQuerySet (con_estado, proximas).
-# QUIEN LO USA: ./views.py, ./forms.py, ./serializers.py (Lab 8), ./admin.py
-# DOCS    : ../../../docs/guiones/GUION-Lab07-Parte1.md - ../../../docs/exposiciones/EXPOSICION_Lab07_Parte1.md
+# ARCHIVO  : vet/models.py
+# PARTE 1  : VET (reserva de citas de la veterinaria)
+# ROL      : la "M" de MVT -> cada clase Model es una TABLA.
+# ------------------------------------------------------------------
+# LAB 7 - EJ 1: CAMPOS CLAVE -> Insumo.stock (lo que se DESCUENTA) y Cita.estado.
+# LAB 7 - EJ 7: QUERYSET PERSONALIZADO CitaQuerySet (con_estado, proximas).
+# NOTA     : el Lab 7 NO crea tablas nuevas; reutiliza las relaciones
+#            1:1, 1:N y N:M (con through) que ya existían desde el Lab 4.
+# ------------------------------------------------------------------
+# USADO EN : ./views.py, ./forms.py, ./serializers.py, ./api_views.py, ./admin.py
+# DOCS     : ../../../docs/guiones/GUION-Lab07-Parte1.md
+#            ../../../docs/exposiciones/EXPOSICION_Lab07_Parte1.md
 # ==================================================================
-# vet/models.py
-# La "M" de MVT: los datos. Cada clase Model = una tabla.
-# Relaciones 1:1, 1:N y N:M con through (ya existian; el Lab 07 las reutiliza).
 
 from django.db import models
 from django.utils import timezone
 
 
 class Veterinario(models.Model):
-    """Lado "1" de la relacion uno a muchos."""
+    """Lado "1" de la relación UNO A MUCHOS (un veterinario, muchas citas)."""
     nombre = models.CharField(max_length=100)
     colegiatura = models.CharField('N° de colegiatura', max_length=20, unique=True)
     especialidad = models.CharField(max_length=60, blank=True)
@@ -25,9 +27,9 @@ class Veterinario(models.Model):
         return self.nombre
 
 
-# Lab 07 Ej.1: el campo `stock` de aqui es el numero que consumo_registrar descuenta.
+# LAB 7 - EJ 1: el campo STOCK es el número que consumo_registrar DESCUENTA con F().
 class Insumo(models.Model):
-    """El otro extremo de la relacion muchos a muchos."""
+    """El otro extremo de la relación MUCHOS A MUCHOS con Cita."""
     nombre = models.CharField(max_length=80, unique=True)
     unidad = models.CharField('Unidad de medida', max_length=20, default='unidad')
     stock = models.PositiveIntegerField(default=0)
@@ -35,21 +37,22 @@ class Insumo(models.Model):
     def __str__(self):
         return self.nombre
 
-# --- LAB 07, EJERCICIO 7: QuerySet personalizado ---------------------------
-# Las reglas de consulta viven en UN solo lugar y se reutilizan en la vista
-# (cita_list, reporte) y en la API del Lab 08 (CitaViewSet). Se activa abajo con
-# `objects = CitaQuerySet.as_manager()`.
+# --- LAB 7 - EJ 7: QUERYSET PERSONALIZADO ---------------------------------
+# Las REGLAS DE CONSULTA viven en UN SOLO LUGAR y se REUTILIZAN en las vistas
+# (cita_list, reporte) y en la API del Lab 8 (CitaViewSet).
+# Se activa más abajo con: objects = CitaQuerySet.as_manager()
+# Los métodos son ENCADENABLES: Cita.objects.proximas().con_estado('Pendiente')
 class CitaQuerySet(models.QuerySet):
-    # Lab 07 Ej.7: filtra por estado -> Cita.objects.con_estado('Pendiente').
+    # LAB 7 - EJ 7: FILTRA POR ESTADO -> Cita.objects.con_estado('Pendiente').
     def con_estado(self, estado):
         return self.filter(estado=estado)
 
-    # Lab 07 Ej.7: citas de hoy en adelante -> Cita.objects.proximas().
+    # LAB 7 - EJ 7: citas de HOY EN ADELANTE -> Cita.objects.proximas().
     def proximas(self):
         return self.filter(fecha__gte=timezone.localdate())
 
 class Cita(models.Model):
-    # Opciones fijas: van en el codigo, no en una tabla aparte.
+    # OPCIONES FIJAS (choices): van en el código, no en una tabla aparte.
     SERVICIOS = [
         ('Consulta', 'Consulta'),
         ('Vacunación', 'Vacunación'),
@@ -68,16 +71,16 @@ class Cita(models.Model):
     fecha = models.DateField()
     hora = models.TimeField()
     estado = models.CharField(max_length=20, choices=ESTADOS, default='Pendiente')
-    # Lab 07 Ej.7: activa el QuerySet propio como manager (Cita.objects.con_estado(...)).
+    # LAB 7 - EJ 7: ACTIVA el QuerySet propio como MANAGER -> Cita.objects.con_estado(...).
     objects = CitaQuerySet.as_manager()
 
-    # --- UNO A MUCHOS -------------------------------------
-    # La FK va aqui porque Cita es el lado "muchos": un veterinario atiende
-    # muchas citas, pero cada cita la atiende un solo veterinario.
-    # SET_NULL: si un veterinario deja la clinica, su historial de citas NO
-    # debe borrarse; la cita queda registrada como "sin asignar".
-    # null=True es ademas obligatorio aqui: la tabla ya tenia filas cuando se
-    # agrego la columna, y sin null Django pediria un valor por defecto.
+    # --- UNO A MUCHOS (1:N) -------------------------------
+    # La FOREIGN KEY va aquí porque Cita es el lado "MUCHOS": un veterinario
+    # atiende muchas citas, pero cada cita la atiende un solo veterinario.
+    # SET_NULL: si un veterinario deja la clínica, su historial de citas NO
+    # se borra; la cita queda registrada como "sin asignar".
+    # null=True es además OBLIGATORIO: la tabla ya tenía filas cuando se
+    # agregó la columna y, sin null, Django pediría un valor por defecto.
     veterinario = models.ForeignKey(
         Veterinario,
         on_delete=models.SET_NULL,
@@ -86,9 +89,9 @@ class Cita(models.Model):
         related_name='citas',
     )
 
-    # --- MUCHOS A MUCHOS con modelo intermedio ------------
-    # La relacion guarda datos propios (cantidad y precio), por eso NO puede
-    # ser un M2M simple: necesita el modelo intermedio ConsumoInsumo.
+    # --- MUCHOS A MUCHOS (N:M) con MODELO INTERMEDIO ------
+    # La relación guarda DATOS PROPIOS (cantidad y precio); por eso NO puede
+    # ser un M2M simple: necesita el modelo intermedio ConsumoInsumo (through).
     insumos = models.ManyToManyField(
         Insumo,
         through='ConsumoInsumo',
@@ -101,10 +104,10 @@ class Cita(models.Model):
 
 
 class FichaClinica(models.Model):
-    """UNO A UNO: ficha complementaria de la cita.
+    """UNO A UNO (1:1): ficha complementaria de la cita.
 
-    Solo existe si la cita fue atendida y, como maximo, una por cita.
-    CASCADE: una ficha clinica sin su cita es un dato huerfano; se elimina
+    Solo existe si la cita fue ATENDIDA y, como máximo, hay UNA por cita.
+    CASCADE: una ficha clínica sin su cita es un dato huérfano; se elimina
     junto con ella.
     """
     cita = models.OneToOneField(
@@ -126,10 +129,10 @@ class FichaClinica(models.Model):
 
 
 class ConsumoInsumo(models.Model):
-    """Modelo intermedio (through) de Cita <-> Insumo.
+    """MODELO INTERMEDIO (through) de Cita <-> Insumo.
 
-    Guarda dos atributos que NO pertenecen ni a Cita ni a Insumo: cuantas
-    unidades se usaron y a que precio se cobraron ese dia.
+    Guarda dos atributos que NO pertenecen ni a Cita ni a Insumo: CUÁNTAS
+    unidades se usaron y a QUÉ PRECIO se cobraron ese día.
     """
     cita = models.ForeignKey(Cita, on_delete=models.CASCADE,
                              related_name='consumos')

@@ -1,4 +1,13 @@
-// Una fila del listado: muestra la cita y avisa al padre con las funciones recibidas
+// ==================================================================
+// ARCHIVO  : components/CitaFila.jsx
+// PARTE 1  : VET (panel de citas, primera versión del Lab 11)
+// ------------------------------------------------------------------
+// LAB 11 - EJ 10: UNA FILA del listado con los datos de la cita.
+// LAB 11 - EJ 11: botones Confirmar y Eliminar que AVISAN AL PADRE con las
+//                 funciones recibidas; la fila NO MODIFICA la lista por sí misma.
+// ------------------------------------------------------------------
+// USADO EN : ./CitaListado.jsx
+// ==================================================================
 function CitaFila({ cita, onConfirmar, onEliminar }) {
   return (
     <tr>

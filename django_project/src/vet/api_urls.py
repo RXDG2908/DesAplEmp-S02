@@ -1,26 +1,27 @@
 # ==================================================================
-# GUIA: ARCHIVO  vet/api_urls.py  (rutas de la API)
-# LAB     : 08 (API REST con DRF) - Parte 1, app vet
-# EJERCICIO: Ej.5 DefaultRouter genera lista, detalle y la raiz /api/
-# QUE HACE : registra InsumoViewSet y CitaViewSet; ../config/urls.py lo monta bajo /api/.
-# DOCS    : ../../../docs/guiones/GUION-Lab08-Parte1.md
+# ARCHIVO  : vet/api_urls.py
+# PARTE 1  : VET (reserva de citas de la veterinaria)
+# ROL      : RUTAS DE LA API. ../config/urls.py las MONTA bajo /api/.
+# ------------------------------------------------------------------
+# LAB 8 - EJ 4: rutas manuales de las VISTAS GENÉRICAS (comentadas al final).
+# LAB 8 - EJ 5: DEFAULTROUTER -> genera LISTA, DETALLE y la RAÍZ /api/.
+# ------------------------------------------------------------------
+# DOCS     : ../../../docs/guiones/GUION-Lab08-Parte1.md
 # ==================================================================
-# vet/api_urls.py
-# Lab 08 - rutas de la API. ../config/urls.py las monta bajo /api/.
 
 from rest_framework.routers import DefaultRouter
 
 from . import api_views
 
-# Lab 08 Ej.5 - el router genera las rutas de lista y detalle de cada
-# ViewSet, y ademas la raiz /api/ con los recursos registrados.
+# LAB 8 - EJ 5: el ROUTER genera las rutas de LISTA y DETALLE de cada
+# ViewSet, y además la RAÍZ /api/ con los recursos registrados.
 router = DefaultRouter()
 router.register('insumos', api_views.InsumoViewSet, basename='insumo')
 router.register('citas', api_views.CitaViewSet, basename='cita')
 
 urlpatterns = router.urls
 
-# Lab 08 Ej.4 - version anterior con vistas genericas (reemplazada):
+# LAB 8 - EJ 4: VERSIÓN ANTERIOR con vistas genéricas (REEMPLAZADA por el router):
 # from django.urls import path
 # urlpatterns = [
 #     path('insumos/', api_views.InsumoListCreate.as_view()),

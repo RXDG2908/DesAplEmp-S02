@@ -1,4 +1,12 @@
-// Resumen hermano del listado: todo se calcula con las citas recibidas, sin estado propio
+// ==================================================================
+// ARCHIVO  : components/ResumenCitas.jsx
+// PARTE 1  : VET (panel de citas, primera versión del Lab 11)
+// ------------------------------------------------------------------
+// LAB 11 - EJ 13: RESUMEN HERMANO del listado; el CONTEO POR ESTADO se calcula
+//                 con las citas recibidas, SIN useState (DATOS DERIVADOS).
+// ------------------------------------------------------------------
+// USADO EN : ./PanelCitas.jsx
+// ==================================================================
 function ResumenCitas({ citas }) {
   const pendientes = citas.filter((c) => c.estado === 'Pendiente').length
   const confirmadas = citas.filter((c) => c.estado === 'Confirmada').length

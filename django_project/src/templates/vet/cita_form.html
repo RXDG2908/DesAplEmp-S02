@@ -1,11 +1,10 @@
 {# ================================================================== #}
-{# GUIA: ARCHIVO  templates/vet/cita_form.html #}
-{# LAB     : (apoyo) formulario base de citas; no es parte de los Labs 7-10 #}
-{# VISTA   : ../../vet/views.py -> cita_crear   - RUTA: /nueva/ #}
-{# QUE HACE : dibuja CitaForm con {{ form.as_p }} y envia por POST. #}
+{# ARCHIVO  : templates/vet/cita_form.html #}
+{# PARTE 1  : VET (reserva de citas de la veterinaria) #}
+{# ROL      : FORMULARIO BASE de citas (desde el Lab 2); NO es ejercicio de los Labs 7 a 11. #}
+{# VISTA    : ../../vet/views.py -> cita_crear  ·  RUTA: /nueva/ #}
 {# ================================================================== #}
-{# Template del formulario. Recibe 'form' desde la view cita_crear. #}
-{# Hereda de ../base.html: solo define su titulo y su contenido. #}
+{# Recibe 'form' desde la view cita_crear y lo dibuja con {{ form.as_p }}. HEREDA de ../base.html. #}
 {% extends 'base.html' %}
 
 {% block title %}Nueva cita{% endblock %}
@@ -13,10 +12,10 @@
 {% block content %}
 <h2>Registrar nueva cita</h2>
 
-{# Envia por POST a la misma URL. csrf_token es obligatorio en Django. #}
+{# Envía por POST a la misma URL. csrf_token es OBLIGATORIO en Django. #}
 <form method="post">
     {% csrf_token %}
-    {# as_p: dibuja cada campo con su etiqueta y sus errores de validacion. #}
+    {# as_p: dibuja cada campo con su etiqueta y sus ERRORES DE VALIDACIÓN. #}
     {{ form.as_p }}
     <button type="submit">Guardar cita</button>
     <a href="{% url 'vet:cita_list' %}">Cancelar</a>

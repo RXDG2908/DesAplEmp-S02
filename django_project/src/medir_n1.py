@@ -1,9 +1,14 @@
 # ==================================================================
-# GUIA: ARCHIVO  medir_n1.py  (script de medicion)
-# LAB     : 07 Parte 1 (vet)  -  EJERCICIO: Ej.8 problema N+1
-# QUE HACE : cuenta las consultas SQL con y sin select_related / prefetch_related (6 -> 1 y 15 -> 3).
-# USO     : python ./manage.py shell -c "exec(open('medir_n1.py', encoding='utf-8').read())"
-# DOCS    : ../../docs/guiones/GUION-Lab07-Parte1.md
+# ARCHIVO  : medir_n1.py
+# PARTE 1  : VET (reserva de citas de la veterinaria)
+# ROL      : SCRIPT DE MEDICIÓN de consultas SQL.
+# ------------------------------------------------------------------
+# LAB 7 - EJ 8: MIDE el PROBLEMA N+1 con connection.queries y reset_queries:
+#               veterinario  SIN vs CON select_related   (6 -> 1 consulta)
+#               consumos     SIN vs CON prefetch_related (15 -> 3 consultas)
+# ------------------------------------------------------------------
+# USO      : python ./manage.py shell -c "exec(open('medir_n1.py', encoding='utf-8').read())"
+# DOCS     : ../../docs/guiones/GUION-Lab07-Parte1.md
 # ==================================================================
 from django.db import connection, reset_queries
 from vet.models import Cita

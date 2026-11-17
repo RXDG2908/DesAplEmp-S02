@@ -1,8 +1,18 @@
+// ==================================================================
+// ARCHIVO  : components/CitaForm.jsx
+// PARTE 1  : VET (panel de citas, primera versión del Lab 11)
+// ------------------------------------------------------------------
+// LAB 11 - EJ 12: FORMULARIO HIJO CONTROLADO que VALIDA dos reglas
+//                 (mascota y dueño OBLIGATORIOS, hora entre 08:00 y 18:00)
+//                 y ENTREGA la cita nueva al padre con onGuardar.
+// ------------------------------------------------------------------
+// USADO EN : ./PanelCitas.jsx
+// ==================================================================
 import { useState } from 'react'
 
 const formularioVacio = { mascota: '', dueno: '', servicio: 'Consulta', hora: '' }
 
-// Formulario controlado: valida y entrega la cita nueva al padre con onGuardar
+// Un solo objeto 'form' guarda todos los campos; manejarCambio usa el atributo name.
 function CitaForm({ onGuardar }) {
   const [form, setForm] = useState(formularioVacio)
   const [error, setError] = useState('')
@@ -21,6 +31,7 @@ function CitaForm({ onGuardar }) {
       setError('La hora debe estar entre 08:00 y 18:00.')
       return
     }
+    // Datos VÁLIDOS: se envían al padre y los campos QUEDAN VACÍOS.
     onGuardar({
       mascota: form.mascota.trim(),
       dueno: form.dueno.trim(),

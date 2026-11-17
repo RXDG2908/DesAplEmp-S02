@@ -1,10 +1,15 @@
 // ==================================================================
-// GUIA: ARCHIVO  datos.js  (datos de la veterinaria escritos a mano)
-// LAB     : 09 (se importan en ./Vet.jsx)
-// QUE HACE : insumos y citas con la MISMA forma que /api/insumos/ y /api/citas/ (Lab 08).
-//           Mas adelante se reemplazaran por fetch a la API.
+// ARCHIVO  : datos.js
+// PARTE 1  : VET (reserva de citas de la veterinaria)
+// ROL      : DATOS ESCRITOS A MANO con la MISMA FORMA que la API del Lab 8
+//            (/api/insumos/ y /api/citas/; los decimales como TEXTO).
+// ------------------------------------------------------------------
+// LAB 9 - EJ 5 : insumos -> ARREGLO de la entidad principal (lista con map y key).
+// LAB 9 - EJ 7 : citas   -> relación 1:N (cada cita trae su arreglo de CONSUMOS).
+// LAB 11 - EJ 10: citasPanel -> registros del PANEL DE CITAS (estado en PanelCitas).
+// ------------------------------------------------------------------
+// USADO EN : ./Vet.jsx y ./components/PanelCitas.jsx
 // ==================================================================
-// Datos escritos a mano con la forma de /api/insumos/ y /api/citas/ (Lab 08).
 
 export const insumos = [
   { id: 1, nombre: 'Jeringa 5ml', unidad: 'unidad', stock: 100 },
@@ -51,7 +56,7 @@ export const citas = [
   },
 ]
 
-// Citas del panel administrativo, con la forma de la respuesta de /api/citas/
+// LAB 11 - EJ 10: CITAS del PANEL ADMINISTRATIVO, con la forma de la respuesta de /api/citas/.
 export const citasPanel = [
   { id: 1, mascota: 'Firulais', dueno: 'Marta Quispe', servicio: 'Vacunacion', hora: '09:00', estado: 'Atendida' },
   { id: 2, mascota: 'Michi', dueno: 'Jorge Paredes', servicio: 'Consulta', hora: '10:30', estado: 'Confirmada' },

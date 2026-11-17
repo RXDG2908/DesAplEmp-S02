@@ -1,4 +1,13 @@
-// Resumen hermano del listado: todo se calcula con los prestadores recibidos, sin estado propio
+// ==================================================================
+// ARCHIVO  : components/ResumenPrestadores.jsx
+// PROYECTO : CHAMBA PE (proyecto integrador)
+// ------------------------------------------------------------------
+// LAB 11 - EJ 13: RESUMEN HERMANO del listado -> TOTAL, CONTEO POR ESTADO y
+//                 TARIFA PROMEDIO, calculados SIN useState (DATOS DERIVADOS).
+// LAB 12 - EJ 13: ahora se calcula con los datos RECIBIDOS DE LA API.
+// ------------------------------------------------------------------
+// USADO EN : ./PanelPrestadores.jsx
+// ==================================================================
 function ResumenPrestadores({ prestadores }) {
   const aprobados = prestadores.filter((p) => p.estado === 'Aprobado').length
   const pendientes = prestadores.filter((p) => p.estado === 'Pendiente').length

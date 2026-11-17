@@ -1,15 +1,21 @@
 // ==================================================================
-// GUIA: ARCHIVO  components/CitaCard.jsx
-// LAB     : 10 Ej.5  -  PARTE 1 (vet)
-// QUE HACE : una cita dentro de <Tarjeta>; recorre sus consumos con map() y suma el total con reduce().
-// USADO EN: ../Vet.jsx   -   usa: ./Tarjeta.jsx y ./ConsumoItem.jsx
+// ARCHIVO  : components/CitaCard.jsx
+// PARTE 1  : VET (reserva de citas de la veterinaria)
+// ROL      : UNA CITA dentro de <Tarjeta> con la lista de sus consumos.
+// ------------------------------------------------------------------
+// LAB 10 - EJ 4: usa el CONTENEDOR <Tarjeta> (lo de adentro llega como children).
+// LAB 10 - EJ 5: COMPONENTE DENTRO DE COMPONENTE -> un ConsumoItem por consumo
+//                (relación 1:N) y el TOTAL calculado con reduce().
+// ------------------------------------------------------------------
+// USADO EN : ../Vet.jsx  ·  USA: ./Tarjeta.jsx y ./ConsumoItem.jsx
 // ==================================================================
 import Tarjeta from './Tarjeta.jsx'
 import ConsumoItem from './ConsumoItem.jsx'
 
-// Relacion 1:N con listas anidadas: la cita usa ConsumoItem por cada consumo.
-// El prop de la API "dueno" se recibe como "propietario" (nombre propio del componente).
+// LAB 10 - EJ 5: RELACIÓN 1:N con LISTAS ANIDADAS. consumos = [] es un VALOR POR DEFECTO.
+// La prop de la API "dueno" se RENOMBRA a "propietario" al desestructurar.
 function CitaCard({ mascota, dueno: propietario, servicio, hora, estado, veterinario, consumos = [] }) {
+  // LAB 10 - EJ 5: TOTAL DERIVADO; Number() convierte el subtotal que la API envía como texto.
   const total = consumos.reduce((suma, c) => suma + Number(c.subtotal), 0)
 
   return (

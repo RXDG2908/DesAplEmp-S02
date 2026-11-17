@@ -1,10 +1,20 @@
-# chamba/models.py
-# Prestador de Chamba PE: la entidad principal del panel administrativo.
+# ==================================================================
+# ARCHIVO  : chamba/models.py
+# PROYECTO : CHAMBA PE (proyecto integrador)
+# ROL      : la "M" de MVT -> define la TABLA Prestador.
+# ------------------------------------------------------------------
+# LAB 12 - EJ 9: PRESTADOR = ENTIDAD PRINCIPAL del panel administrativo.
+#                Se creó para que el panel del Lab 11 (datos a mano) pase a
+#                leer y escribir en una API REAL.
+# ------------------------------------------------------------------
+# USADO EN : ./serializers.py, ./api_views.py, ./admin.py, ../cargar_chamba.py
+# ==================================================================
 
 from django.db import models
 
 
 class Prestador(models.Model):
+    # OPCIONES FIJAS (choices): los mismos valores del <select> de PrestadorForm.jsx.
     RUBROS = [
         ('Gasfitería', 'Gasfitería'),
         ('Electricidad', 'Electricidad'),

@@ -1,4 +1,15 @@
-// Muestra un producto y avisa al padre cuando se pulsa Agregar
+// ==================================================================
+// ARCHIVO  : practica/ProductoCard.jsx
+// PARTE 1  : práctica del Lab 11 (mini catálogo con carrito: CAFETERÍA)
+// ------------------------------------------------------------------
+// LAB 11 - EJ 1: muestra nombre, precio con Number(...).toFixed(2) y AGOTADO si stock = 0.
+// LAB 11 - EJ 2: la prop producto es de SOLO LECTURA; esta tarjeta NO la modifica.
+// LAB 11 - EJ 3: el botón Agregar (DESACTIVADO sin stock) AVISA AL PADRE con onAgregar.
+//                Se escribe () => onAgregar(producto); con onAgregar(producto) a secas
+//                la función se EJECUTARÍA AL DIBUJAR, no al hacer clic.
+// ------------------------------------------------------------------
+// USADO EN : ./Catalogo.jsx
+// ==================================================================
 function ProductoCard({ producto, onAgregar }) {
   return (
     <li>

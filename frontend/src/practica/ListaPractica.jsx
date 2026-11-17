@@ -1,9 +1,21 @@
+// ==================================================================
+// ARCHIVO  : practica/ListaPractica.jsx
+// PARTE 1  : VET -> insumos leídos desde la API de Django (práctica del Lab 12)
+// ------------------------------------------------------------------
+// LAB 12 - EJ 4: GET con await api.get(...) dentro de un useEffect; lista con map() y key.
+// LAB 12 - EJ 5: estados CARGANDO, ERROR y LISTA VACÍA con try / catch / finally.
+// LAB 12 - EJ 6: POST con formulario controlado; muestra el ERROR 400 de validate_stock.
+// LAB 12 - EJ 7: DELETE (204) con filter() y PATCH (+1 stock, 200) con map().
+// LAB 12 - EJ 8: BÚSQUEDA enviada como ?search= y efecto con dependencia [buscar].
+// ------------------------------------------------------------------
+// USADO EN : ../App.jsx (vista 'api')
+// ==================================================================
 import { useEffect, useState } from 'react'
 import api, { textoError } from '../api.js'
 
 const formularioVacio = { nombre: '', unidad: 'unidad', stock: '' }
 
-// Insumos leídos de la API de Django: lista, alta, cambio de stock y baja
+// INSUMOS de la API de Django: LISTA, ALTA, CAMBIO DE STOCK y BAJA.
 function ListaPractica() {
   const [insumos, setInsumos] = useState([])
   const [cargando, setCargando] = useState(true)
@@ -12,7 +24,8 @@ function ListaPractica() {
   const [form, setForm] = useState(formularioVacio)
   const [errorForm, setErrorForm] = useState('')
 
-  // La petición va en un efecto: se ejecuta después de dibujar y cada vez que cambia buscar
+  // LAB 12 - EJ 4 y 8: la petición va en un EFECTO -> se ejecuta DESPUÉS DE DIBUJAR y cada
+  // vez que cambia buscar. La función del efecto NO es async: se declara cargar() aparte.
   useEffect(() => {
     async function cargar() {
       try {

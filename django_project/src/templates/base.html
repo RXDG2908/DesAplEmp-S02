@@ -1,8 +1,8 @@
 {# ================================================================== #}
-{# GUIA: ARCHIVO  templates/base.html  (plantilla padre de TODAS las paginas de Django) #}
-{# LAB     : 07 (menu con Registrar consumo y Reporte) #}
-{# QUE HACE : menu, estilos y los {% block title %} / {% block content %} que rellenan los hijos. #}
-{#           Equivale al ../../../frontend/index.html de React (Lab 09): el punto de entrada visual. #}
+{# ARCHIVO  : templates/base.html #}
+{# ROL      : PLANTILLA PADRE de TODAS las páginas: menú, estilos y los bloques title / content. #}
+{# LAB 7 - EJ 3 y 6: el MENÚ agrega 'Registrar consumo' y 'Reporte'. #}
+{# NOTA     : equivale al ../../../frontend/index.html de React (Lab 9): el PUNTO DE ENTRADA visual. #}
 {# ================================================================== #}
 <!DOCTYPE html>
 <html lang="es">
@@ -36,11 +36,11 @@
     </style>
 </head>
 <body>
-    {# Plantilla base: todas las paginas heredan de aqui con extends. #}
-    {# Encabezado, menu y pie se escriben una sola vez; el bloque title pone el titulo de cada pagina. #}
+    {# HERENCIA: todas las páginas heredan de aquí con extends. #}
+    {# Encabezado, menú y pie se escriben UNA SOLA VEZ; el bloque title pone el título de cada página. #}
     <header>
         <h1>Reserva de citas — Veterinaria</h1>
-        {# Menu comun. {% url %} arma cada enlace a partir del nombre de la ruta. #}
+        {# MENÚ COMÚN: {% url %} arma cada enlace a partir del NOMBRE de la ruta. #}
         <nav>
             <a href="{% url 'vet:cita_list' %}">Citas</a>
             <a href="{% url 'vet:cita_crear' %}">Nueva cita</a>
@@ -54,11 +54,11 @@
     </header>
 
     <main>
-        {# Bloque 'content': espacio vacio que llena cada pagina hija. #}
+        {# BLOQUE 'content': espacio vacío que LLENA cada página hija. #}
         {% block content %}{% endblock %}
     </main>
 
-    {# Pie comun: se cambia aqui y se actualiza en todas las paginas. #}
+    {# PIE COMÚN: se cambia aquí y se actualiza en TODAS las páginas. #}
     <footer>
         <p>Desarrollo de Aplicaciones Empresariales &middot; Laboratorio 07</p>
     </footer>

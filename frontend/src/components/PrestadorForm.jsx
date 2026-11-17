@@ -1,8 +1,21 @@
+// ==================================================================
+// ARCHIVO  : components/PrestadorForm.jsx
+// PROYECTO : CHAMBA PE (proyecto integrador)
+// ------------------------------------------------------------------
+// LAB 11 - EJ 12: FORMULARIO HIJO CONTROLADO que VALIDA (nombres y apellidos
+//                 OBLIGATORIOS) y entrega el registro al padre con onGuardar.
+// LAB 12 - EJ 11: sirve para ALTA (POST) y EDICIÓN (PATCH) y MUESTRA el
+//                 ERROR 400 que devuelve la API (p. ej. validate_tarifa).
+// NOTA     : el padre le pasa key={id}; al cambiar de registro, React lo
+//            CREA DE NUEVO y el estado inicial toma los datos correctos.
+// ------------------------------------------------------------------
+// USADO EN : ./PanelPrestadores.jsx
+// ==================================================================
 import { useState } from 'react'
 
 const formularioVacio = { nombres: '', apellidos: '', rubro: 'Gasfitería', tarifa: '' }
 
-// Formulario controlado para alta y edición. Si recibe un prestador, parte con sus datos
+// Si recibe un prestador, el formulario PARTE CON SUS DATOS (modo EDICIÓN).
 function PrestadorForm({ prestador, onGuardar, onCancelar }) {
   const [form, setForm] = useState(
     prestador
@@ -17,7 +30,7 @@ function PrestadorForm({ prestador, onGuardar, onCancelar }) {
 
   async function manejarEnvio(e) {
     e.preventDefault()
-    // Validación previa en el navegador; la API vuelve a validar y responde 400 si algo falla
+    // VALIDACIÓN PREVIA en el navegador; la API VUELVE A VALIDAR y responde 400 si algo falla.
     if (form.nombres.trim() === '' || form.apellidos.trim() === '') {
       setError('Los nombres y los apellidos son obligatorios.')
       return
@@ -28,6 +41,7 @@ function PrestadorForm({ prestador, onGuardar, onCancelar }) {
       rubro: form.rubro,
       tarifa: form.tarifa,
     })
+    // '' = guardado OK (se limpian los campos en alta); otro texto = ERROR DE LA API.
     if (mensaje === '') {
       if (!prestador) setForm(formularioVacio)
       setError('')

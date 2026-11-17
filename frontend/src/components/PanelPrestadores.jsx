@@ -1,3 +1,22 @@
+// ==================================================================
+// ARCHIVO  : components/PanelPrestadores.jsx
+// PROYECTO : CHAMBA PE (proyecto integrador)
+// ROL      : COMPONENTE PADRE del PANEL ADMINISTRATIVO de prestadores.
+// ------------------------------------------------------------------
+// LAB 11 - EJ 10: ESTADO ELEVADO -> los prestadores viven AQUÍ y bajan por props.
+// LAB 11 - EJ 11: aprobar / suspender con map() y eliminar con filter().
+// LAB 11 - EJ 12: guardarPrestador recibe el registro del FORMULARIO HIJO.
+// LAB 11 - EJ 13: BUSCADOR, RESUMEN hermano y useEffect (título de la pestaña).
+// LAB 12 - EJ 10: la lista se CARGA DE LA API con GET dentro de un useEffect;
+//                 estados CARGANDO y ERROR + función ADAPTADORA de la tarifa.
+// LAB 12 - EJ 11: ALTA con POST y EDICIÓN con PATCH (estado actualizado con map()).
+// LAB 12 - EJ 12: ELIMINAR con CONFIRMACIÓN (segundo clic) + DELETE; maneja el 404.
+// LAB 12 - EJ 13: ?search= y ?estado= viajan a la API; AbortController cancela
+//                 la petición pendiente.
+// ------------------------------------------------------------------
+// USA      : ../api.js, ./PrestadorForm, ./Aviso, ./BuscadorPrestadores,
+//            ./FiltroEstadoPrestador, ./PrestadorListado, ./ResumenPrestadores
+// ==================================================================
 import { useEffect, useState } from 'react'
 import api, { textoError } from '../api.js'
 import PrestadorListado from './PrestadorListado.jsx'
@@ -7,12 +26,14 @@ import BuscadorPrestadores from './BuscadorPrestadores.jsx'
 import FiltroEstadoPrestador from './FiltroEstadoPrestador.jsx'
 import Aviso from './Aviso.jsx'
 
-// Función adaptadora: la API entrega la tarifa como texto ("60.00") y el panel la usa como número
+// LAB 12 - EJ 10: FUNCIÓN ADAPTADORA -> la API entrega la tarifa como TEXTO ("60.00")
+// y el panel la usa como NÚMERO.
 function adaptar(prestador) {
   return { ...prestador, tarifa: Number(prestador.tarifa) }
 }
 
-// Componente padre del panel de Chamba PE: guarda los prestadores y los estados de la petición
+// COMPONENTE PADRE: guarda los prestadores, los ESTADOS DE LA PETICIÓN
+// (cargando / error), el filtro, el registro EN EDICIÓN y el que espera CONFIRMACIÓN.
 function PanelPrestadores() {
   const [prestadores, setPrestadores] = useState([])
   const [cargando, setCargando] = useState(true)
@@ -23,7 +44,7 @@ function PanelPrestadores() {
   const [porEliminar, setPorEliminar] = useState(null)
   const [aviso, setAviso] = useState('')
 
-  // Se vuelve a pedir la lista cuando cambian la búsqueda o el filtro
+  // LAB 12 - EJ 10 y 13: GET a la API; se VUELVE A PEDIR cuando cambian la búsqueda o el filtro.
   useEffect(() => {
     const controlador = new AbortController()
     async function cargar() {
@@ -42,16 +63,17 @@ function PanelPrestadores() {
       setCargando(false)
     }
     cargar()
-    // Limpieza: cancela la petición pendiente si cambian los parámetros
+    // LIMPIEZA: CANCELA la petición pendiente si cambian los parámetros (AbortController).
     return () => controlador.abort()
   }, [busqueda, estado])
 
-  // El título de la pestaña sigue la cantidad de prestadores
+  // LAB 11 - EJ 13: el TÍTULO DE LA PESTAÑA sigue la cantidad de prestadores.
   useEffect(() => {
     document.title = `Panel Chamba PE (${prestadores.length})`
   }, [prestadores.length])
 
-  // Devuelve el texto del error de la API, o vacío si todo salió bien
+  // LAB 12 - EJ 11: PATCH si hay un prestador EN EDICIÓN, POST si es NUEVO.
+  // Devuelve el TEXTO DEL ERROR 400 de la API, o '' (vacío) si todo salió bien.
   async function guardarPrestador(datos) {
     try {
       if (editando) {
@@ -70,6 +92,7 @@ function PanelPrestadores() {
     }
   }
 
+  // LAB 11 - EJ 11 / LAB 12 - EJ 11: APROBAR o SUSPENDER con PATCH y map().
   async function cambiarEstado(prestador, nuevoEstado) {
     try {
       const respuesta = await api.patch(`/chamba/prestadores/${prestador.id}/`, { estado: nuevoEstado })
@@ -79,7 +102,8 @@ function PanelPrestadores() {
     }
   }
 
-  // Primer clic en Eliminar: pide confirmar. Segundo clic (Confirmar): borra en la API
+  // LAB 12 - EJ 12: PRIMER CLIC en Eliminar pide CONFIRMAR; SEGUNDO CLIC borra en la API (204).
+  // Si el servidor responde 404 (YA NO EXISTE), se quita de la lista y se avisa.
   async function eliminarPrestador(id) {
     if (porEliminar !== id) {
       setPorEliminar(id)

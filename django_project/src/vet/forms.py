@@ -1,13 +1,15 @@
 # ==================================================================
-# GUIA: ARCHIVO  vet/forms.py  (formularios: que se pide y como se valida)
-# LAB     : 07 (ConsumoForm) - Parte 1, app vet
-# EJERCICIO: Lab 07 Ej.3 formulario de consumo
-# QUE HACE : CitaForm evita dos citas en el mismo horario; ConsumoForm pide cita, insumo,
-#           cantidad (>= 1) y precio, y alimenta a consumo_registrar.
-# DOCS    : ../../../docs/guiones/GUION-Lab07-Parte1.md
+# ARCHIVO  : vet/forms.py
+# PARTE 1  : VET (reserva de citas de la veterinaria)
+# ROL      : FORMULARIOS -> definen QUÉ DATOS se piden y CÓMO SE VALIDAN.
+# ------------------------------------------------------------------
+# LAB 7 - EJ 3: ConsumoForm -> pide cita, insumo, cantidad (>= 1) y precio
+#               para la TRANSACCIÓN de consumo_registrar.
+# NOTA     : CitaForm ya existía (Lab 2-3); evita DOS CITAS en el mismo horario.
+# ------------------------------------------------------------------
+# USADO EN : ./views.py (cita_crear y consumo_registrar)
+# DOCS     : ../../../docs/guiones/GUION-Lab07-Parte1.md
 # ==================================================================
-# vet/forms.py
-# El formulario: define que datos se piden y como se validan.
 
 from django import forms
 
@@ -15,9 +17,9 @@ from .models import Cita, Insumo
 
 
 class CitaForm(forms.Form):
-    # Se usa forms.Form (no ModelForm), como en el material.
+    # Se usa forms.Form (NO ModelForm), como en el material del curso.
 
-    # Campos que ve el usuario.
+    # CAMPOS que ve el usuario.
     mascota = forms.CharField(label='Mascota', max_length=100)
     dueno = forms.CharField(label='Dueño', max_length=100)
     servicio = forms.ChoiceField(label='Servicio', choices=Cita.SERVICIOS)
@@ -30,14 +32,14 @@ class CitaForm(forms.Form):
         widget=forms.TimeInput(attrs={'type': 'time'}),
     )
 
-    # Validacion extra: no permitir dos citas en el mismo horario.
+    # VALIDACIÓN EXTRA: no permitir DOS CITAS en la misma fecha y hora.
     def clean(self):
         datos = super().clean()
         fecha = datos.get('fecha')
         hora = datos.get('hora')
 
         if fecha and hora:
-            # Consulta la base con el ORM.
+            # CONSULTA la base de datos con el ORM.
             ocupado = Cita.objects.filter(fecha=fecha, hora=hora)
             if ocupado:
                 raise forms.ValidationError(
@@ -46,8 +48,9 @@ class CitaForm(forms.Form):
 
         return datos
 
-# --- LAB 07, EJERCICIO 3: formulario de la pantalla 'Registrar consumo' ---
-# Lo procesa ./views.py -> consumo_registrar y lo dibuja ../templates/vet/consumo_form.html.
+# --- LAB 7 - EJ 3: FORMULARIO de la pantalla 'Registrar consumo' ----------
+# Lo PROCESA ./views.py -> consumo_registrar y lo DIBUJA ../templates/vet/consumo_form.html.
+# min_value=1 en cantidad: no se puede registrar un consumo de CERO unidades.
 class ConsumoForm(forms.Form):
     cita = forms.ModelChoiceField(queryset=Cita.objects.all(), label='Cita')
     insumo = forms.ModelChoiceField(queryset=Insumo.objects.all(), label='Insumo')

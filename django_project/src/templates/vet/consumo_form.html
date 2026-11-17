@@ -1,9 +1,10 @@
 {# ================================================================== #}
-{# GUIA: ARCHIVO  templates/vet/consumo_form.html #}
-{# LAB     : 07 Parte 1  -  EJERCICIO: Ej.3 (transaction.atomic + F) #}
-{# VISTA   : ../../vet/views.py -> consumo_registrar   - RUTA: /consumo/nuevo/ #}
-{# QUE HACE : formulario de ConsumoForm; muestra {{ error }} (p. ej. 'Stock insuficiente') si la transaccion se deshace. #}
-{# DOCS    : ../../../../docs/guiones/GUION-Lab07-Parte1.md #}
+{# ARCHIVO  : templates/vet/consumo_form.html #}
+{# PARTE 1  : VET (reserva de citas de la veterinaria) #}
+{# LAB 7 - EJ 3: FORMULARIO de la TRANSACCIÓN (transaction.atomic + F) que registra un consumo. #}
+{#               Si la transacción se DESHACE muestra {{ error }} (p. ej. 'Stock insuficiente de ...'). #}
+{# VISTA    : ../../vet/views.py -> consumo_registrar  ·  RUTA: /consumo/nuevo/ #}
+{# DOCS     : ../../../../docs/guiones/GUION-Lab07-Parte1.md #}
 {# ================================================================== #}
 {% extends 'base.html' %}
 
