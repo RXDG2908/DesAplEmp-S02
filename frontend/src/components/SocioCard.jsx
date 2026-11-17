@@ -1,3 +1,8 @@
+// ==================================================================
+// GUIA: ARCHIVO  components/SocioCard.jsx
+// LAB     : 10 (relacion anidada)  -  PARTE 2 (biblioteca)
+// QUE HACE : un socio con sus prestamos (PrestamoItem) y el total de multas; equivale a ./CitaCard.jsx de vet.
+// ==================================================================
 import PrestamoItem from './PrestamoItem.jsx'
 
 function SocioCard({ nombre, dni, prestamos }) {

@@ -1,3 +1,9 @@
+# ==================================================================
+# GUIA: ARCHIVO  cargar_lab07_bib.py  (script de datos de prueba)
+# LAB     : 07 Parte 2 (biblioteca)  -  EJERCICIO: datos de prueba
+# QUE HACE : crea categorias, libros, socios y prestamos para probar registrar, reporte y N+1.
+# USO     : python ./manage.py shell -c "exec(open('cargar_lab07_bib.py', encoding='utf-8').read())"
+# ==================================================================
 from datetime import date, timedelta
 from biblioteca.models import Categoria, Libro, Socio, Prestamo
 

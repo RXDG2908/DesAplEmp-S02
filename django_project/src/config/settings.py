@@ -1,3 +1,8 @@
+# ==================================================================
+# GUIA: ARCHIVO  config/settings.py  (configuracion del Project)
+# LAB     : 'rest_framework' (INSTALLED_APPS) se agrego en el Lab 08
+# QUE HACE : apps instaladas (vet, biblioteca, rest_framework), base SQLite, templates/ y archivos estaticos.
+# ==================================================================
 """
 Django settings for config project.
 
@@ -37,8 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'vet',  # Reserva de citas de la veterinaria (Laboratorio 02)
-    'biblioteca', # Catalogo de biblioteca comunitaria (Laboratorio 03 - Parte 2)
+    'vet',  # Reserva de citas de la veterinaria (Labs 7-10, Parte 1)
+    'biblioteca', # Catalogo de biblioteca comunitaria (Labs 7-10, Parte 2)
     'rest_framework',  # Django REST Framework (Laboratorio 08)
 ]
 

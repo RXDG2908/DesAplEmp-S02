@@ -1,4 +1,10 @@
-// Datos escritos a mano con la forma de /api/insumos/ y /api/citas/ (Semana 8).
+// ==================================================================
+// GUIA: ARCHIVO  datos.js  (datos de la veterinaria escritos a mano)
+// LAB     : 09 (se importan en ./Vet.jsx)
+// QUE HACE : insumos y citas con la MISMA forma que /api/insumos/ y /api/citas/ (Lab 08).
+//           Mas adelante se reemplazaran por fetch a la API.
+// ==================================================================
+// Datos escritos a mano con la forma de /api/insumos/ y /api/citas/ (Lab 08).
 
 export const insumos = [
   { id: 1, nombre: 'Jeringa 5ml', unidad: 'unidad', stock: 100 },

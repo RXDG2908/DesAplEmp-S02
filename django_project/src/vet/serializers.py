@@ -1,5 +1,14 @@
+# ==================================================================
+# GUIA: ARCHIVO  vet/serializers.py  (Model <-> JSON)
+# LAB     : 08 (API REST con Django REST Framework) - Parte 1, app vet
+# EJERCICIO: Ej.2-3 InsumoSerializer + validate_stock / Ej.7 CitaSerializer anidado
+# QUE HACE : es el "Form" de la API: convierte instancias a JSON y valida el JSON entrante.
+# QUIEN LO USA: ./api_views.py
+# SE PRUEBA: /api/insumos/ - /api/citas/
+# DOCS    : ../../../docs/guiones/GUION-Lab08-Parte1.md - ../../../docs/exposiciones/EXPOSICION_Lab08_Parte1.md
+# ==================================================================
 # vet/serializers.py
-# Semana 8 - Django REST Framework.
+# Lab 08 - Django REST Framework.
 # Un serializer convierte instancias del Model a JSON (serializar) y valida
 # el JSON que llega antes de guardarlo (deserializar). Es el equivalente al
 # Form de las Views HTML, pero para la API.
@@ -9,13 +18,13 @@ from rest_framework import serializers
 from .models import Cita, ConsumoInsumo, FichaClinica, Insumo, Veterinario
 
 
-# --- Ejercicio 2 y 3: recurso SIMPLE con una regla de negocio ----------
+# --- Lab 08 Ej.2 y 3: recurso SIMPLE con una regla de negocio ----------
 class InsumoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Insumo
         fields = ['id', 'nombre', 'unidad', 'stock']
 
-    # Ejercicio 3 - validate_<campo>: DRF lo llama solo dentro de is_valid().
+    # Lab 08 Ej.3 - validate_<campo>: DRF lo llama solo dentro de is_valid().
     # Regla de negocio: un insumo se da de alta con al menos una unidad en
     # stock; registrar un insumo sin existencias no tiene sentido en almacen.
     def validate_stock(self, value):
@@ -25,7 +34,7 @@ class InsumoSerializer(serializers.ModelSerializer):
         return value
 
 
-# --- Ejercicio 7: recurso CON RELACIONES (solo lectura, anidado) -------
+# --- Lab 08 Ej.7: recurso CON RELACIONES (solo lectura, anidado) -------
 class VeterinarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Veterinario

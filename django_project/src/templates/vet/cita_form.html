@@ -1,4 +1,11 @@
+{# ================================================================== #}
+{# GUIA: ARCHIVO  templates/vet/cita_form.html #}
+{# LAB     : (apoyo) formulario base de citas; no es parte de los Labs 7-10 #}
+{# VISTA   : ../../vet/views.py -> cita_crear   - RUTA: /nueva/ #}
+{# QUE HACE : dibuja CitaForm con {{ form.as_p }} y envia por POST. #}
+{# ================================================================== #}
 {# Template del formulario. Recibe 'form' desde la view cita_crear. #}
+{# Hereda de ../base.html: solo define su titulo y su contenido. #}
 {% extends 'base.html' %}
 
 {% block title %}Nueva cita{% endblock %}
@@ -9,6 +16,7 @@
 {# Envia por POST a la misma URL. csrf_token es obligatorio en Django. #}
 <form method="post">
     {% csrf_token %}
+    {# as_p: dibuja cada campo con su etiqueta y sus errores de validacion. #}
     {{ form.as_p }}
     <button type="submit">Guardar cita</button>
     <a href="{% url 'vet:cita_list' %}">Cancelar</a>

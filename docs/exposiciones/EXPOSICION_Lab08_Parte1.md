@@ -31,9 +31,9 @@ programa** —una app móvil, o el frontend en React que se verá en la Semana
 
 Esa es la idea central que atraviesa todo el laboratorio: **la API no
 reemplaza al ORM ni a las consultas que ya existían, las reutiliza.** No se
-cambió ni una línea de `models.py` y no se creó ninguna migración; todo el
-trabajo vive en tres archivos nuevos de `vet`: `serializers.py`,
-`api_views.py` y `api_urls.py`.
+cambió ni una línea de [`models.py`](../../django_project/src/vet/models.py) y no se creó ninguna migración; todo el
+trabajo vive en tres archivos nuevos de `vet`: [`serializers.py`](../../django_project/src/vet/serializers.py),
+[`api_views.py`](../../django_project/src/vet/api_views.py) y [`api_urls.py`](../../django_project/src/vet/api_urls.py).
 
 El recorrido de una petición a la API queda así:
 
@@ -44,12 +44,62 @@ Cliente (navegador o curl) → /api/citas/ → DefaultRouter → CitaViewSet
 
 ---
 
+## Arquitectura: cómo funciona y para qué sirve
+
+**Idea central.** Una API REST permite que **otro programa** (React, una app móvil, otro sistema) use los datos de la veterinaria. En lugar de devolver HTML con un Template, devuelve **JSON** y un **código HTTP**. El backend y la interfaz quedan separados: el mismo backend puede alimentar a muchos clientes.
+
+```
+Cliente (React / app / navegador / curl)
+        │  GET /api/citas/?estado=Pendiente
+        ▼
+config/urls.py  →  vet/api_urls.py  (Router)
+        ▼
+ViewSet (vet/api_views.py)   ← decide qué hacer según el verbo HTTP
+        ▼
+Serializer (vet/serializers.py)  ← valida / traduce Model ↔ JSON
+        ▼
+Model + ORM (vet/models.py, sin cambios)  →  SQLite
+        ▼
+Response: JSON + código (200, 201, 400, 204, 404)
+```
+
+| Pieza | Para qué sirve | Equivale en la web HTML a… |
+|---|---|---|
+| **Router** (`DefaultRouter`) | Genera solo las rutas de lista, detalle y la raíz `/api/` | `urls.py` |
+| **ViewSet** | Une cada verbo HTTP con una acción (ver tabla de abajo) | la View |
+| **Serializer** | Convierte instancias a JSON y valida el JSON que llega (`validate_stock`) | el Form + el Template |
+| **Model / ORM** | Siguen igual; la API reutiliza todo lo del Lab 7 | el Model |
+
+| Verbo HTTP | URL | Acción | Código si sale bien |
+|---|---|---|---|
+| GET | `/api/insumos/` | listar | 200 |
+| POST | `/api/insumos/` | crear (valida stock ≥ 1) | 201 (400 si es inválido) |
+| GET / PUT / PATCH | `/api/insumos/<id>/` | ver / reemplazar / modificar | 200 (404 si no existe) |
+| DELETE | `/api/insumos/<id>/` | eliminar | 204 |
+| GET | `/api/citas/proximas/` | acción propia con `@action` | 200 |
+
+**Cómo funciona una petición** (`GET /api/citas/?estado=Pendiente`):
+
+1. El Router encuentra el `CitaViewSet` por la ruta `citas`.
+2. `get_queryset()` arma la consulta con `select_related` + `prefetch_related` y, si hay `?estado=`, aplica `con_estado()` del Lab 7.
+3. `CitaSerializer` convierte cada cita a JSON incluyendo el veterinario (1:N), la ficha (1:1, puede ser `null`) y los consumos (N:M).
+4. DRF responde con el JSON y el código 200.
+
+**Por qué se diseñó así:**
+
+- **Separación backend / frontend**: Django solo entrega datos; la pantalla la puede hacer React (Labs 9 y 10).
+- **ModelViewSet** reemplaza dos vistas genéricas y todo su CRUD; **ReadOnlyModelViewSet** en citas porque solo se consultan.
+- **Serializer = Form de la API**: la regla de negocio vive en un solo lugar y se valida igual venga de donde venga el JSON.
+- **Reutilización**: la API usa `con_estado()` y `proximas()` del Lab 7; no se duplicó ninguna regla ni se tocó `models.py`.
+- **Anidado + optimización**: sin `select_related`/`prefetch_related` la API de citas hacía 24 consultas; con ellas, 3.
+- **Pendiente**: seguridad (la API está abierta).
+
 ## Paso 1 — Instalar DRF y elegir los dos recursos (Ejercicio 1)
 
 Se instaló el paquete con `pip install djangorestframework` (versión
 3.18.3), se agregó `'rest_framework'` a `INSTALLED_APPS` en
-`config/settings.py` y se añadió la línea `djangorestframework==3.18.3` a
-`requirements.txt`, para que cualquiera que clone el repositorio lo instale
+[`config/settings.py`](../../django_project/src/config/settings.py) y se añadió la línea `djangorestframework==3.18.3` a
+[`requirements.txt`](../../django_project/src/requirements.txt), para que cualquiera que clone el repositorio lo instale
 con `pip install -r requirements.txt`.
 
 Luego se decidió qué exponer, usando la tabla de equivalencias de la guía
@@ -135,7 +185,7 @@ Es el mismo patrón que ya conocíamos de los formularios (`is_valid()` →
 ## Paso 4 — Primera versión con vistas genéricas (Ejercicio 4)
 
 Para exponer el insumo en la web se crearon dos vistas genéricas de DRF en
-`vet/api_views.py`:
+[`vet/api_views.py`](../../django_project/src/vet/api_views.py):
 
 ```python
 class InsumoListCreate(generics.ListCreateAPIView):
@@ -156,8 +206,8 @@ Al abrir esas URLs en el navegador apareció la **API navegable** de DRF: una
 página que muestra el JSON de respuesta, los métodos permitidos y un
 formulario para probar la API sin herramientas extra.
 
-Las dos clases siguen en `api_views.py` como referencia, pero sus rutas
-quedaron comentadas en `api_urls.py`, porque en el paso siguiente se
+Las dos clases siguen en [`api_views.py`](../../django_project/src/vet/api_views.py) como referencia, pero sus rutas
+quedaron comentadas en [`api_urls.py`](../../django_project/src/vet/api_urls.py), porque en el paso siguiente se
 reemplazaron.
 
 ---
@@ -172,7 +222,7 @@ class InsumoViewSet(viewsets.ModelViewSet):
     serializer_class = InsumoSerializer
 ```
 
-y en `vet/api_urls.py` se registró en un router:
+y en [`vet/api_urls.py`](../../django_project/src/vet/api_urls.py) se registró en un router:
 
 ```python
 router = DefaultRouter()
@@ -181,7 +231,7 @@ router.register('citas', api_views.CitaViewSet, basename='cita')
 urlpatterns = router.urls
 ```
 
-Finalmente, en `config/urls.py` se montó todo bajo `/api/` con
+Finalmente, en [`config/urls.py`](../../django_project/src/config/urls.py) se montó todo bajo `/api/` con
 `path('api/', include('vet.api_urls'))`.
 
 Sin escribir ninguna ruta a mano, el router generó:
@@ -268,7 +318,7 @@ def get_queryset(self):
              .order_by('fecha', 'hora'))
 ```
 
-Se midió con el script `medir_api_n1.py`, que serializa las 5 citas y cuenta
+Se midió con el script [`medir_api_n1.py`](../../django_project/src/medir_api_n1.py), que serializa las 5 citas y cuenta
 `connection.queries`:
 
 | Queryset | Consultas |

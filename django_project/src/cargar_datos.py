@@ -1,4 +1,10 @@
-"""Datos de prueba para las capturas del Laboratorio 04.
+# ==================================================================
+# GUIA: ARCHIVO  cargar_datos.py  (script de datos de prueba)
+# LAB     : (apoyo) datos iniciales sobre los que trabajan los Labs 7 a 10
+# QUE HACE : crea datos de vet y biblioteca. Usa create(): ejecutarlo UNA sola vez.
+#           (para repetir sin duplicar, usar ./cargar_lab07.py)
+# ==================================================================
+"""Datos de prueba iniciales de vet y biblioteca (base de los Labs 7 a 10).
 
 Uso:  python manage.py shell < cargar_datos.py
 """

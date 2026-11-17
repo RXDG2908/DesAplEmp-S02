@@ -1,8 +1,17 @@
+# ==================================================================
+# GUIA: ARCHIVO  vet/api_views.py  (vistas de la API: devuelven JSON y codigos HTTP)
+# LAB     : 08 (API REST con DRF) - Parte 1, app vet
+# EJERCICIO: Ej.4 vistas genericas / Ej.5 InsumoViewSet / Ej.6 codigos HTTP /
+#           Ej.7 CitaViewSet anidado / Ej.8 search, ordering, ?estado= y @action proximas
+# QUE HACE : expone Insumo (CRUD completo) y Cita (solo lectura) reutilizando CitaQuerySet del Lab 07.
+# SE PRUEBA: /api/insumos/?search=jer&ordering=-stock - /api/citas/?estado=Pendiente - /api/citas/proximas/
+# DOCS    : ../../../docs/guiones/GUION-Lab08-Parte1.md - ../../../docs/exposiciones/EXPOSICION_Lab08_Parte1.md
+# ==================================================================
 # vet/api_views.py
-# Semana 8 - las Views de la API. Igual que vet/views.py reciben el request,
+# Lab 08 - las Views de la API. Igual que ./views.py reciben el request,
 # pero en lugar de renderizar un Template devuelven JSON con un codigo HTTP.
 # Reutilizan el mismo Model, las mismas relaciones y el CitaQuerySet de la
-# Semana 7.
+# Lab 07.
 
 from rest_framework import filters, generics, viewsets
 from rest_framework.decorators import action
@@ -12,9 +21,9 @@ from .models import Cita, Insumo
 from .serializers import CitaSerializer, InsumoSerializer
 
 
-# --- Ejercicio 4: vistas genericas (primera version) -------------------
-# Quedan como referencia: en el Ejercicio 5 se reemplazaron por el
-# InsumoViewSet de abajo y ya no estan enlazadas en api_urls.py.
+# --- Lab 08 Ej.4: vistas genericas (primera version) -------------------
+# Quedan como referencia: en el Ej.5 se reemplazaron por el
+# InsumoViewSet de abajo y ya no estan enlazadas en ./api_urls.py.
 class InsumoListCreate(generics.ListCreateAPIView):
     """GET /api/insumos/ (lista) y POST /api/insumos/ (crear)."""
     queryset = Insumo.objects.order_by('nombre')
@@ -27,17 +36,17 @@ class InsumoDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = InsumoSerializer
 
 
-# --- Ejercicio 5 y 8: recurso simple con ModelViewSet -------------------
+# --- Lab 08 Ej.5 y 8: recurso simple con ModelViewSet -------------------
 class InsumoViewSet(viewsets.ModelViewSet):
     queryset = Insumo.objects.order_by('nombre')
     serializer_class = InsumoSerializer
-    # Ejercicio 8 - ?search=texto y ?ordering=campo (o -campo).
+    # Lab 08 Ej.8 - ?search=texto y ?ordering=campo (o -campo).
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['nombre', 'unidad']
     ordering_fields = ['nombre', 'stock']
 
 
-# --- Ejercicio 7 y 8: recurso con relaciones, solo lectura -------------
+# --- Lab 08 Ej.7 y 8: recurso con relaciones, solo lectura -------------
 class CitaViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CitaSerializer
 
@@ -48,14 +57,14 @@ class CitaViewSet(viewsets.ReadOnlyModelViewSet):
                  .select_related('veterinario', 'ficha')
                  .prefetch_related('consumos__insumo')
                  .order_by('fecha', 'hora'))
-        # Ejercicio 8 - filtro por parametro: /api/citas/?estado=Pendiente
+        # Lab 08 Ej.8 - filtro por parametro: /api/citas/?estado=Pendiente
         estado = self.request.query_params.get('estado')
         if estado:
             citas = citas.con_estado(estado)
         return citas
 
-    # Ejercicio 8 - accion propia: GET /api/citas/proximas/
-    # Reutiliza CitaQuerySet.proximas() de la Semana 7 sobre el queryset ya
+    # Lab 08 Ej.8 - accion propia: GET /api/citas/proximas/
+    # Reutiliza CitaQuerySet.proximas() del Lab 07 sobre el queryset ya
     # optimizado (y filtrado por ?estado= si se envio).
     @action(detail=False)
     def proximas(self, request):

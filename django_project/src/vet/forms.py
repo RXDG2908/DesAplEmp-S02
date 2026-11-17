@@ -1,3 +1,11 @@
+# ==================================================================
+# GUIA: ARCHIVO  vet/forms.py  (formularios: que se pide y como se valida)
+# LAB     : 07 (ConsumoForm) - Parte 1, app vet
+# EJERCICIO: Lab 07 Ej.3 formulario de consumo
+# QUE HACE : CitaForm evita dos citas en el mismo horario; ConsumoForm pide cita, insumo,
+#           cantidad (>= 1) y precio, y alimenta a consumo_registrar.
+# DOCS    : ../../../docs/guiones/GUION-Lab07-Parte1.md
+# ==================================================================
 # vet/forms.py
 # El formulario: define que datos se piden y como se validan.
 
@@ -38,6 +46,8 @@ class CitaForm(forms.Form):
 
         return datos
 
+# --- LAB 07, EJERCICIO 3: formulario de la pantalla 'Registrar consumo' ---
+# Lo procesa ./views.py -> consumo_registrar y lo dibuja ../templates/vet/consumo_form.html.
 class ConsumoForm(forms.Form):
     cita = forms.ModelChoiceField(queryset=Cita.objects.all(), label='Cita')
     insumo = forms.ModelChoiceField(queryset=Insumo.objects.all(), label='Insumo')

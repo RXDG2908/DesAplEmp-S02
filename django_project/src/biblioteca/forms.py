@@ -1,3 +1,9 @@
+# ==================================================================
+# GUIA: ARCHIVO  biblioteca/forms.py
+# LAB     : 07 Parte 2 (biblioteca)
+# EJERCICIO: formulario de la pantalla 'Registrar prestamo'
+# QUE HACE : PrestarForm pide socio, libro y dias (1-60); lo procesa views.prestamo_registrar.
+# ==================================================================
 from django import forms
 
 from .models import Libro, Socio

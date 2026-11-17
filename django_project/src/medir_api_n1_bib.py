@@ -1,3 +1,8 @@
+# ==================================================================
+# GUIA: ARCHIVO  medir_api_n1_bib.py  (script de medicion)
+# LAB     : 08 Parte 2 (biblioteca)
+# QUE HACE : mide las consultas de PrestamoSerializer antes y despues de optimizar.
+# ==================================================================
 from django.db import connection, reset_queries
 from django.test.utils import CaptureQueriesContext
 

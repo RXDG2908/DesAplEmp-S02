@@ -13,6 +13,24 @@ anteriores.
 
 ---
 
+## Conceptos clave (lectura rápida)
+
+- **Django Admin:** panel de administración **generado automáticamente** por Django para el **staff**; **reutiliza el Model y el ORM**.
+- **Superusuario:** cuenta con **todos los permisos**; se crea con **`createsuperuser`**.
+- **`admin.site.register(Modelo, ClaseAdmin)`:** hace que un modelo **aparezca** en el Admin.
+- **`ModelAdmin`:** clase para **personalizar** cómo se ve y administra un modelo.
+  - **`list_display`** → **columnas** del listado.
+  - **`search_fields`** → **caja de búsqueda**.
+  - **`list_filter`** → **panel de filtros** lateral.
+  - **`inlines`** → modelos relacionados editables **dentro de la misma pantalla**.
+- **Inline:** edita un modelo relacionado **sin salir** de la pantalla del modelo principal.
+  - **`StackedInline`** → campos **apilados**; ideal para **1:1** (la ficha clínica).
+  - **`TabularInline`** → **tabla** con varias filas; ideal para **N:M** (los consumos de insumos).
+  - **`extra`** → cuántos formularios **vacíos** extra se muestran.
+- **Admin vs. vistas propias:** el Admin es para el **personal interno**; las pantallas para el **cliente final** y las **reglas de negocio** siguen necesitando View y Template propios.
+
+---
+
 ## De dónde partimos
 
 Antes de tocar nada de este laboratorio, la app `vet` ya tenía un camino
@@ -41,6 +59,8 @@ se ve y se administra lo que ya existía.
 ---
 
 ## Paso 1 — Confirmar el punto de partida (Ejercicio 1)
+
+**Ver en el código:** [vet/migrations/ (L1)](django_project/src/vet/migrations/0002_insumo_veterinario_fichaclinica_consumoinsumo_and_more.py#L1) · [vet/admin.py (L1)](django_project/src/vet/admin.py#L1)
 
 Antes de escribir código se hizo un chequeo de estado: correr
 `python manage.py showmigrations vet` para confirmar que las dos migraciones
@@ -71,6 +91,8 @@ arranca y funciona antes de empezar a agregarle cosas.
 
 ## Paso 3 — Registrar los tres modelos principales (Ejercicio 3)
 
+**Ver en el código:** [vet/admin.py — registros (L65)](django_project/src/vet/admin.py#L65)
+
 Se registraron en `admin.py` los tres modelos que tiene sentido administrar
 como listados independientes: `Cita`, `Veterinario` e `Insumo`.
 
@@ -94,6 +116,8 @@ hace en los Pasos 5 y 6.
 ---
 
 ## Paso 4 — Personalizar el listado con `ModelAdmin` (Ejercicio 4)
+
+**Ver en el código:** [vet/admin.py — `CitaAdmin` (L41)](django_project/src/vet/admin.py#L41) · [`list_display` (L43)](django_project/src/vet/admin.py#L43) · [`search_fields` (L45)](django_project/src/vet/admin.py#L45) · [`VeterinarioAdmin` (L53)](django_project/src/vet/admin.py#L53)
 
 El registro simple (`admin.site.register(Modelo)`) usa una tabla genérica.
 Para que el listado sea realmente útil se reemplazó por una clase
@@ -121,6 +145,8 @@ correctamente.
 
 ## Paso 5 — Agregar filtros por el panel lateral (Ejercicio 5)
 
+**Ver en el código:** [vet/admin.py — `list_filter` (L47)](django_project/src/vet/admin.py#L47)
+
 Sobre la misma `CitaAdmin` se agregó `list_filter = ('estado', 'servicio',
 'fecha')`. Esto hace aparecer, a la derecha del listado, un panel con tres
 filtros: **Por estado** (Pendiente / Confirmada / Atendida), **Por servicio**
@@ -132,6 +158,8 @@ correctamente en cada caso.
 ---
 
 ## Paso 6 — Exponer la relación 1:1 con `StackedInline` (Ejercicio 6)
+
+**Ver en el código:** [vet/admin.py — `FichaClinicaInline` (L19)](django_project/src/vet/admin.py#L19) · [`inlines` (L49)](django_project/src/vet/admin.py#L49)
 
 ```python
 class FichaClinicaInline(admin.StackedInline):
@@ -152,6 +180,8 @@ eso.
 
 ## Paso 7 — Exponer la relación N:M con `TabularInline` (Ejercicio 7)
 
+**Ver en el código:** [vet/admin.py — `ConsumoInsumoInline` (L31)](django_project/src/vet/admin.py#L31) · [`inlines` (L49)](django_project/src/vet/admin.py#L49)
+
 ```python
 class ConsumoInsumoInline(admin.TabularInline):
     model = ConsumoInsumo
@@ -170,6 +200,8 @@ para agregar una fila más.
 ---
 
 ## Paso 8 — Probar el flujo completo y sacar la conclusión pedida (Ejercicio 8)
+
+**Ver en el código:** [vet/admin.py (L41)](django_project/src/vet/admin.py#L41) · [vet/forms.py — validación de horario (L26)](django_project/src/vet/forms.py#L26)
 
 Con todo ya registrado y personalizado, se hizo una prueba real de extremo a
 extremo: sobre la cita "Michi" (Ana Torres, Vacunación) se completó por

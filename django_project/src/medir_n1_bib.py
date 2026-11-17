@@ -1,3 +1,8 @@
+# ==================================================================
+# GUIA: ARCHIVO  medir_n1_bib.py  (script de medicion)
+# LAB     : 07 Parte 2 (biblioteca)  -  EJERCICIO: N+1 en Prestamo
+# QUE HACE : cuenta consultas de Prestamo con y sin select_related.
+# ==================================================================
 from django.db import connection, reset_queries
 from biblioteca.models import Libro, Prestamo
 

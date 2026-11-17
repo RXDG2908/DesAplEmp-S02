@@ -11,11 +11,17 @@ relaciones que ya teníamos desde la Semana 4 para cuatro cosas: registrar
 una operación de forma segura con una transacción, sacar reportes con
 `aggregate()` y `annotate()`, guardar las reglas del negocio en un QuerySet
 propio y reducir el número de consultas a la base de datos. Casi todo está en
-`vet/views.py` y `vet/models.py`."
+[`vet/views.py`](../../django_project/src/vet/views.py) y [`vet/models.py`](../../django_project/src/vet/models.py)."
+
+## Arquitectura: cómo funciona y para qué sirve
+
+"Antes de entrar al código, la arquitectura. Seguimos con el patrón MVT de Django, pero en este laboratorio la View deja de hacer todo sola y reparte el trabajo en capas. La petición entra por [`config/urls.py`](../../django_project/src/config/urls.py) y [`vet/urls.py`](../../django_project/src/vet/urls.py), que deciden qué View atiende. La View, en [`vet/views.py`](../../django_project/src/vet/views.py), es la que orquesta: usa el formulario de [`vet/forms.py`](../../django_project/src/vet/forms.py) para validar lo que llega, usa el QuerySet propio de [`vet/models.py`](../../django_project/src/vet/models.py) para las reglas de consulta, y usa el ORM para la transacción y los cálculos. Al final responde con un Template: [`consumo_form.html`](../../django_project/src/templates/vet/consumo_form.html) o [`reporte.html`](../../django_project/src/templates/vet/reporte.html).
+
+La razón de separar así es que cada capa tiene un solo trabajo. El formulario rechaza datos malos antes de tocar la base. La transacción `atomic` garantiza que registrar un consumo, marcar la cita como atendida y descontar el stock ocurra todo junto o no ocurra nada. `F()` hace que la resta la haga la base de datos y no Python, para que dos usuarios a la vez no se pisen. `aggregate` resume la tabla en un solo valor y `annotate` agrega un valor por cada objeto. Y el QuerySet propio guarda la regla de negocio en un solo lugar, para reutilizarla en el listado, en el reporte y después en la API. Por último, `select_related` y `prefetch_related` evitan que cada fila dispare una consulta extra."
 
 ## 1. Los campos clave
 
-"La entidad principal es la cita, en `vet/models.py`. Tiene sus tres
+"La entidad principal es la cita, en [`vet/models.py`](../../django_project/src/vet/models.py). Tiene sus tres
 relaciones: la ficha clínica uno a uno, el veterinario uno a muchos y los
 insumos muchos a muchos a través del modelo intermedio `ConsumoInsumo`. Los
 tres campos que pide la guía ya existían: `stock` en `Insumo`, que es el
@@ -25,7 +31,7 @@ hubo migración nueva: `makemigrations --check` dice que no hay cambios."
 
 ## 2. Los datos de prueba
 
-"Los datos se cargan con el script `cargar_lab07.py`, en la carpeta `src`.
+"Los datos se cargan con el script [`cargar_lab07.py`](../../django_project/src/cargar_lab07.py), en la carpeta `src`.
 Usa `get_or_create`, así que se puede ejecutar varias veces sin duplicar.
 Deja 5 citas, 3 veterinarios, 4 insumos y 8 consumos, que es el mínimo de la
 guía. Todo eso se puede ver en el Admin."
@@ -33,7 +39,7 @@ guía. Todo eso se puede ver en el Admin."
 ## 3. La transacción
 
 "La pantalla Registrar consumo está en `/consumo/nuevo/`. Su vista es
-`consumo_registrar`, en `vet/views.py`. Registrar un consumo toca tres
+`consumo_registrar`, en [`vet/views.py`](../../django_project/src/vet/views.py). Registrar un consumo toca tres
 modelos: crea el consumo, pone la cita como Atendida y descuenta el stock
 del insumo. Las tres cosas van dentro de `with transaction.atomic()`, así
 que o se guarda todo o no se guarda nada.
@@ -43,7 +49,7 @@ la base de datos y no en Python, para que dos registros al mismo tiempo no se
 pisen. Además el filtro `stock__gte=cantidad` hace que solo se descuente si
 alcanza; si no alcanza, `update` devuelve cero filas y lanzamos un
 `ValueError`. Ese error cancela todo el bloque y el Template
-`consumo_form.html` muestra el mensaje. Si todo sale bien, se redirige al
+[`consumo_form.html`](../../django_project/src/templates/vet/consumo_form.html) muestra el mensaje. Si todo sale bien, se redirige al
 detalle de la cita, que es el patrón Post/Redirect/Get.
 
 Lo probamos con la jeringa, que tenía 100. Con Toby y 2 jeringas, los
@@ -66,15 +72,15 @@ Rocky 3, Luna y Toby 2, Michi y Nala 1. Y con `values('estado')` más
 ## 5. El reporte
 
 "Todo eso se muestra en `/reporte/`. La vista `reporte` está al final de
-`vet/views.py` y el Template es `templates/vet/reporte.html`, que hereda de
-`base.html`. El total se muestra con el filtro `floatformat:2` para que salga
+[`vet/views.py`](../../django_project/src/vet/views.py) y el Template es [`templates/vet/reporte.html`](../../django_project/src/templates/vet/reporte.html), que hereda de
+[`base.html`](../../django_project/src/templates/base.html). El total se muestra con el filtro `floatformat:2` para que salga
 como precio, S/ 110,50. También muestra las citas próximas pendientes, que
-es una. En el menú de `base.html` agregamos los enlaces a Registrar consumo y
+es una. En el menú de [`base.html`](../../django_project/src/templates/base.html) agregamos los enlaces a Registrar consumo y
 a Reporte."
 
 ## 6. El QuerySet personalizado
 
-"En `vet/models.py`, antes de la clase `Cita`, está `CitaQuerySet` con dos
+"En [`vet/models.py`](../../django_project/src/vet/models.py), antes de la clase `Cita`, está `CitaQuerySet` con dos
 métodos: `con_estado()`, que filtra por estado, y `proximas()`, que trae las
 citas desde hoy. Se asigna en la cita con
 `objects = CitaQuerySet.as_manager()`, y así se pueden usar desde
@@ -87,7 +93,7 @@ funcionando igual."
 ## 7. El problema N+1
 
 "Cuando un listado muestra datos de una relación, Django hace una consulta
-para la lista y otra por cada fila. Lo medimos con el script `medir_n1.py`,
+para la lista y otra por cada fila. Lo medimos con el script [`medir_n1.py`](../../django_project/src/medir_n1.py),
 en `src`, que usa `reset_queries` y cuenta `connection.queries`. Para mostrar
 el veterinario de cada cita eran 6 consultas, una más cinco; con
 `select_related` bajó a 1. Para las citas con sus consumos e insumos eran 15;

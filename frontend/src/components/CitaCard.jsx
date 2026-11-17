@@ -1,3 +1,9 @@
+// ==================================================================
+// GUIA: ARCHIVO  components/CitaCard.jsx
+// LAB     : 10 Ej.5  -  PARTE 1 (vet)
+// QUE HACE : una cita dentro de <Tarjeta>; recorre sus consumos con map() y suma el total con reduce().
+// USADO EN: ../Vet.jsx   -   usa: ./Tarjeta.jsx y ./ConsumoItem.jsx
+// ==================================================================
 import Tarjeta from './Tarjeta.jsx'
 import ConsumoItem from './ConsumoItem.jsx'
 

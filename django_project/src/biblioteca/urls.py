@@ -1,3 +1,10 @@
+# ==================================================================
+# GUIA: ARCHIVO  biblioteca/urls.py  (rutas HTML de la biblioteca)
+# LAB     : 07 Parte 2 (biblioteca)
+# EJERCICIO: Lab 07 P2 -> prestamos/registrar/ y reporte/
+# QUE HACE : enlaza cada URL con su vista de ./views.py; ../config/urls.py lo monta en /biblioteca/.
+# DOCS    : ../../README.md
+# ==================================================================
 from django.urls import path
 
 from . import views
@@ -31,8 +38,8 @@ urlpatterns = [
     path('libros/<int:pk>/editar/', views.LibroUpdateView.as_view(), name='libro_editar'),
     path('libros/<int:pk>/eliminar/', views.LibroDeleteView.as_view(), name='libro_eliminar'),
 
-    # --- Semana 4 -------------------------------------------------------
-    # Ejercicio 13: CRUD del modelo intermedio.
+    # --- Prestamos y carnets -------------------------------------------------------
+    # CRUD del modelo intermedio.
     path('prestamos/', views.PrestamoListView.as_view(), name='prestamo_list'),
     path('prestamos/nuevo/', views.PrestamoCreateView.as_view(), name='prestamo_crear'),
     path('prestamos/registrar/', views.prestamo_registrar, name='prestamo_registrar'),

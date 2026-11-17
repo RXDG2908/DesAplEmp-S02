@@ -1,3 +1,8 @@
+// ==================================================================
+// GUIA: ARCHIVO  components/LibroLista.jsx
+// LAB     : 10 (campo y formulario controlados)  -  PARTE 2 (biblioteca)
+// QUE HACE : lista de LibroCard con busqueda y formulario para agregar un libro; equivale a ./InsumoLista.jsx de vet.
+// ==================================================================
 import { useState } from 'react'
 import LibroCard from './LibroCard.jsx'
 

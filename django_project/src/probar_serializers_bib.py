@@ -1,3 +1,8 @@
+# ==================================================================
+# GUIA: ARCHIVO  probar_serializers_bib.py  (script de prueba)
+# LAB     : 08 Parte 2 (biblioteca)
+# QUE HACE : serializa un libro y varios (many=True) y prueba un caso valido y otro invalido (anio 1200).
+# ==================================================================
 from biblioteca.models import Categoria, Libro
 from biblioteca.serializers import LibroSerializer
 

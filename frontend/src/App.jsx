@@ -1,3 +1,10 @@
+// ==================================================================
+// GUIA: ARCHIVO  App.jsx  (componente raiz)
+// LAB     : 09 y 10
+// PARTE 1 : <Vet /> = la veterinaria (Renzo).  PARTE 2: el resto = la biblioteca (Lucas).
+// QUE HACE : junta las dos aplicaciones en una sola pagina; la biblioteca usa Panel, LibroLista y SocioCard.
+// DOCS    : ../../docs/guiones/GUION-Lab09-Parte1.md - ../../docs/guiones/GUION-Lab10-Parte1.md
+// ==================================================================
 import './App.css'
 import Vet from './Vet.jsx'
 import Panel from './components/Panel.jsx'

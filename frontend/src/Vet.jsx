@@ -1,3 +1,11 @@
+// ==================================================================
+// GUIA: ARCHIVO  Vet.jsx  (pantalla de la veterinaria)
+// LAB     : 09 Ej.4-8 (JSX, map+key, condicionales, relacion anidada); en el Lab 10 se dividio en componentes
+// QUE HACE : muestra el precio con IGV (toFixed), la lista de insumos (InsumoLista) y las citas con
+//           sus consumos (CitaCard). Los datos vienen de ./datos.js, con la forma del JSON del Lab 08.
+// COMPONENTES: ./components/InsumoLista.jsx, ./components/CitaCard.jsx
+// DOCS    : ../../docs/guiones/GUION-Lab09-Parte1.md - ../../docs/exposiciones/EXPOSICION_Lab09_Parte1.md
+// ==================================================================
 import { insumos, citas } from './datos.js'
 import InsumoLista from './components/InsumoLista.jsx'
 import CitaCard from './components/CitaCard.jsx'

@@ -1,3 +1,9 @@
+// ==================================================================
+// GUIA: ARCHIVO  components/InsumoCard.jsx
+// LAB     : 10 Ej.2, 3 y 6  -  PARTE 1 (vet)
+// QUE HACE : un insumo; props nombre/unidad (por defecto)/stock; useState + onClick cuenta los reservados.
+// USADO EN: ./InsumoLista.jsx
+// ==================================================================
 import { useState } from 'react'
 
 // Un insumo con un boton de estado local: cada tarjeta lleva su propio contador.

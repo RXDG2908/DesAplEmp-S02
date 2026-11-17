@@ -1,3 +1,8 @@
+# ==================================================================
+# GUIA: ARCHIVO  biblioteca/admin.py  (Django Admin de la biblioteca)
+# LAB     : (apoyo) Django Admin para ver los datos de prueba de los Labs 7 a 10
+# QUE HACE : SocioAdmin con Inlines (carnet 1:1 y prestamos N:M), LibroAdmin y PrestamoAdmin.
+# ==================================================================
 from django.contrib import admin
 
 from .models import (

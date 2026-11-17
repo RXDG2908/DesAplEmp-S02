@@ -1,4 +1,11 @@
+{# ================================================================== #}
+{# GUIA: ARCHIVO  templates/vet/cita_list.html #}
+{# LAB     : 07 (?estado= con con_estado y N+1 resuelto con select_related) #}
+{# VISTA   : ../../vet/views.py -> cita_list   - RUTA: /  y  /?estado=Pendiente #}
+{# QUE HACE : tabla con una fila por cita (usa ./_veterinario_info.html con include). #}
+{# ================================================================== #}
 {# Template del listado. Recibe 'citas' desde la view cita_list. #}
+{# Hereda de ../base.html: solo define su titulo y su contenido. #}
 {% extends 'base.html' %}
 
 {% block title %}Citas registradas{% endblock %}
@@ -26,6 +33,8 @@
     <tbody>
         {% for cita in citas %}
             <tr>
+                {# Filtros: title pone mayuscula inicial; date y time dan formato. #}
+                {# Todo lo que va entre {{ }} se escapa solo: una etiqueta script se ve como texto. #}
                 <td>{{ cita.mascota|title }}</td>
                 <td>{{ cita.dueno }}</td>
                 <td>{{ cita.servicio }}</td>
@@ -44,5 +53,6 @@
     </tbody>
 </table>
 
+{# Filtro length: cuenta las citas sin hacer el calculo en la view. #}
 <p>Total de citas: {{ citas|length }}</p>
 {% endblock %}

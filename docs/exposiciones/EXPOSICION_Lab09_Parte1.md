@@ -6,7 +6,7 @@
 escritos a mano que tienen la forma de la API REST de la Semana 8.
 
 > Explica en orden lo hecho en la Parte 1 del Laboratorio 9. La Parte 2 (la
-> biblioteca) está en `App.jsx`; la veterinaria está en `Vet.jsx`.
+> biblioteca) está en [`App.jsx`](../../frontend/src/App.jsx); la veterinaria está en [`Vet.jsx`](../../frontend/src/Vet.jsx).
 
 ---
 
@@ -23,6 +23,47 @@ ejemplo `stock: 100` y los decimales como texto (`precio_unitario: "1.50"`).
 Navegador (localhost:5173) → main.jsx → App.jsx → Vet.jsx → JSX → pantalla
 ```
 
+## Arquitectura: cómo funciona y para qué sirve
+
+**Idea central.** Hasta el Lab 8 el **servidor** armaba la página (Django + Templates). En el Lab 9 el **navegador** la arma con JavaScript: es una aplicación de una sola página (*SPA*) hecha con React. Django pasa a ser solo un proveedor de datos (la API del Lab 8) y la pantalla se construye en el cliente.
+
+```
+Antes (Django):  Navegador ──pide página──▶ Servidor arma HTML con Template ──▶ HTML listo
+Ahora (React):   Navegador ──pide index.html──▶ Vite entrega la página + JavaScript
+                 El navegador ejecuta main.jsx → App.jsx → Vet.jsx y dibuja la pantalla
+```
+
+```
+index.html  (un solo <div id="root">)
+   └─ main.jsx   createRoot(...).render(<App />)   ← monta React en ese div
+        └─ App.jsx    componente raíz
+             └─ Vet.jsx   JSX: la pantalla de la veterinaria (lee datos.js)
+```
+
+| Pieza | Para qué sirve | Equivale en Django a… |
+|---|---|---|
+| **Node + npm** ([`package.json`](../../frontend/package.json)) | Ejecuta JavaScript fuera del navegador e instala librerías | Python + pip (`requirements.txt`) |
+| **Vite** (`npm run dev`) | Servidor de desarrollo en `localhost:5173`: empaqueta y recarga al guardar | `runserver` |
+| **JSX** | Escribir "HTML" dentro de JavaScript, con `{ }` para expresiones | Template con `{{ }}` |
+| **Componente** (`Vet`) | Función que devuelve la pantalla | View + Template |
+| `map()` + `key` | Repite un elemento por cada dato; `key` le dice a React cuál cambió | `{% for %}` |
+| Ternario y `&&` | Muestra algo solo si se cumple una condición | `{% if %}` |
+| [`index.html`](../../frontend/index.html) + [`App.jsx`](../../frontend/src/App.jsx) | Estructura común de la página | [`base.html`](../../django_project/src/templates/base.html) |
+
+**Cómo funciona:**
+
+1. El navegador abre `http://localhost:5173/`; Vite responde con `index.html`.
+2. `index.html` carga `main.jsx`, que monta `<App />` dentro del `div#root`.
+3. `App` muestra `Vet`; `Vet` recibe los datos de `datos.js` y los convierte en JSX con `map()`.
+4. React traduce el JSX a elementos reales de la página. Todo ocurre **en el navegador**.
+
+**Por qué se diseñó así:**
+
+- La interfaz queda **desacoplada** del servidor: se puede cambiar el diseño sin tocar Django.
+- Los datos de `datos.js` tienen la **misma forma que el JSON de la API** (`stock: 100`, `precio_unitario: "1.50"`), así que en la Semana 12 se reemplazarán por `fetch` sin rediseñar la pantalla.
+- Una sola pantalla que se actualiza sin recargar la página es más fluida que pedir HTML nuevo al servidor en cada clic.
+- **Todavía falta**: consumir la API con `fetch` y resolver CORS.
+
 ## Paso 1 — Entorno: Node.js y npm (Ejercicio 1)
 
 Se instaló Node.js LTS (`node -v` → v26.13.0, `npm -v` → 11.20.0).
@@ -31,7 +72,7 @@ Se instaló Node.js LTS (`node -v` → v26.13.0, `npm -v` → 11.20.0).
 |---|---|---|
 | Lenguaje | Python | JavaScript (JSX) |
 | Gestor de paquetes | pip | npm |
-| Archivo de dependencias | `requirements.txt` | `package.json` |
+| Archivo de dependencias | [`requirements.txt`](../../django_project/src/requirements.txt) | [`package.json`](../../frontend/package.json) |
 | Carpeta de dependencias | `venv/Lib/site-packages` | `node_modules` |
 | Comando del servidor de desarrollo | `python manage.py runserver` | `npm run dev` |
 
@@ -45,15 +86,15 @@ Se instaló Node.js LTS (`node -v` → v26.13.0, `npm -v` → 11.20.0).
 
 | Archivo | Papel | Equivalente en Django |
 |---|---|---|
-| `index.html` | Única página; tiene el `<div id="root">` | `base.html` |
-| `main.jsx` | Arranca React y monta `<App />` en `#root` | `manage.py` / `wsgi.py` (punto de entrada) |
-| `App.jsx` | Componente principal con el JSX | Template + View juntos |
-| `package.json` | Dependencias y scripts (`dev`, `build`, `lint`) | `requirements.txt` |
+| [`index.html`](../../frontend/index.html) | Única página; tiene el `<div id="root">` | [`base.html`](../../django_project/src/templates/base.html) |
+| [`main.jsx`](../../frontend/src/main.jsx) | Arranca React y monta `<App />` en `#root` | [`manage.py`](../../django_project/src/manage.py) / [`wsgi.py`](../../django_project/src/config/wsgi.py) (punto de entrada) |
+| [`App.jsx`](../../frontend/src/App.jsx) | Componente principal con el JSX | Template + View juntos |
+| [`package.json`](../../frontend/package.json) | Dependencias y scripts (`dev`, `build`, `lint`) | [`requirements.txt`](../../django_project/src/requirements.txt) |
 | `node_modules` | Paquetes instalados (no se sube a Git) | `venv` |
 
 ## Paso 4 — Primer JSX con expresiones (Ejercicio 4)
 
-En `Vet.jsx`, el componente `Vet` muestra el título en un `<h1>` y usa llaves:
+En [`Vet.jsx`](../../frontend/src/Vet.jsx), el componente `Vet` muestra el título en un `<h1>` y usa llaves:
 `{aplicacion}` (una variable) y
 `{(precioConsulta * (1 + igv)).toFixed(2)}` (un cálculo). Con consulta de
 S/ 40.00 e IGV 18 % muestra S/ 47.20.
@@ -88,7 +129,7 @@ Las citas sin consumos muestran "Sin consumos" y total S/ 0.00.
 
 ## Paso 8 — Estilos y verificación (Ejercicio 8)
 
-- Clases en `App.css`: `.seccion-vet`, `.sin-stock`, `.tarjeta-cita`.
+- Clases en [`App.css`](../../frontend/src/App.css): `.seccion-vet`, `.sin-stock`, `.tarjeta-cita`.
 - Estilo en línea: `<h2 style={{ color: '#1f5f5b' }}>`.
 - Al cambiar un dato (por ejemplo un `stock`) Vite recarga y la pantalla se
   actualiza sola (HMR).
@@ -106,9 +147,9 @@ Django, y reemplazar los arreglos escritos a mano por la respuesta real.
 |---|---|
 | Node y npm | Paso 1 |
 | Vite en `frontend`, puerto 5173 | Paso 2 |
-| JSX con título y 2 expresiones | `Vet.jsx`, Paso 4 |
+| JSX con título y 2 expresiones | [`Vet.jsx`](../../frontend/src/Vet.jsx), Paso 4 |
 | Dos listas con `map()` y `key` | insumos y citas |
 | Condicional y lista vacía | Paso 6 |
 | Relación anidada | Paso 7 |
-| Estilos con `className` y CSS | `App.css` |
+| Estilos con `className` y CSS | [`App.css`](../../frontend/src/App.css) |
 | Lint y build sin errores | Paso 8 |

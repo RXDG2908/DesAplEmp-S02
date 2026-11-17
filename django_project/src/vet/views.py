@@ -1,6 +1,16 @@
+# ==================================================================
+# GUIA: ARCHIVO  vet/views.py  (la "V" de MVT: recibe el request y responde)
+# LAB     : 07 (ORM avanzado) - Parte 1, app vet
+# EJERCICIO: Lab 07 Ej.3 consumo_registrar (atomic + F) / Ej.4-6 reporte (aggregate, annotate)
+#           / Ej.8 select_related y prefetch_related (N+1) en cita_list y cita_detalle
+# QUE HACE : cita_list, cita_detalle y cita_crear (ya existian) + consumo_registrar y
+#           reporte, que son lo nuevo del Lab 07.
+# SE PRUEBA: /  - /?estado=Pendiente  - /cita/<id>/  - /consumo/nuevo/  - /reporte/
+# DOCS    : ../../../docs/guiones/GUION-Lab07-Parte1.md - ../../../docs/exposiciones/EXPOSICION_Lab07_Parte1.md
+# ==================================================================
 # vet/views.py
 # La "V" de MVT: recibe el request y devuelve el response.
-# Semana 4: las consultas ahora recorren relaciones con select_related()
+# Las consultas recorren relaciones con select_related()
 # y prefetch_related().
 
 from django.db import transaction
@@ -11,8 +21,9 @@ from .forms import CitaForm, ConsumoForm
 from .models import Cita, ConsumoInsumo, Insumo
 
 
+# Lab 07 Ej.7-8: lista las citas. `?estado=` usa con_estado() del QuerySet.
 def cita_list(request):
-    # Ejercicio 6 - select_related(): resuelve la FK (1:N) y el 1:1 inverso
+    # Lab 07 Ej.8 - select_related(): resuelve la FK (1:N) y el 1:1 inverso
     # en UNA sola consulta con JOIN, en vez de una consulta extra por fila.
     citas = (Cita.objects
              .select_related('veterinario', 'ficha')
@@ -23,8 +34,9 @@ def cita_list(request):
     return render(request, 'vet/cita_list.html', {'citas': citas})
 
 
+# Lab 07 Ej.8: detalle con veterinario, ficha y consumos (sin N+1).
 def cita_detalle(request, pk):
-    # Ejercicio 6 - prefetch_related(): recorre el modelo intermedio.
+    # Lab 07 Ej.8 - prefetch_related(): recorre el modelo intermedio.
     # Django lanza una consulta extra para los ConsumoInsumo y otra para los
     # Insumo, y une los resultados en Python.
     cita = get_object_or_404(
@@ -38,6 +50,7 @@ def cita_detalle(request, pk):
                   {'cita': cita, 'total': total})
 
 
+# Formulario para registrar una cita (patron Post/Redirect/Get).
 def cita_crear(request):
     # CREATE: registra una cita nueva.
     if request.method == 'POST':
@@ -56,6 +69,11 @@ def cita_crear(request):
         form = CitaForm()
     return render(request, 'vet/cita_form.html', {'form': form})
 
+# --- LAB 07, EJERCICIO 3: transaction.atomic() + F() -----------------------
+# Registrar un consumo toca 3 modelos y debe ser TODO O NADA:
+#   1) crea ConsumoInsumo  2) pone la Cita como 'Atendida'  3) descuenta el stock.
+# Si falta stock se lanza ValueError y atomic() deshace tambien los pasos 1 y 2.
+# Plantilla: ../templates/vet/consumo_form.html - Ruta: /consumo/nuevo/
 def consumo_registrar(request):
     error = None
     if request.method == 'POST':
@@ -63,6 +81,7 @@ def consumo_registrar(request):
         if form.is_valid():
             datos = form.cleaned_data
             try:
+                # Ej.3: todo lo de este bloque se confirma junto o se deshace junto.
                 with transaction.atomic():
                     ConsumoInsumo.objects.create(
                         cita=datos['cita'],
@@ -71,10 +90,13 @@ def consumo_registrar(request):
                         precio_unitario=datos['precio_unitario'],
                     )
                     Cita.objects.filter(pk=datos['cita'].pk).update(estado='Atendida')
+                    # Ej.3: F('stock') - cantidad hace la resta DENTRO de la base de datos (no se pisan
+                    # registros simultaneos); stock__gte evita descontar mas de lo que hay.
                     filas = Insumo.objects.filter(
                         pk=datos['insumo'].pk,
                         stock__gte=datos['cantidad'],
                     ).update(stock=F('stock') - datos['cantidad'])
+                    # Ej.3: 0 filas actualizadas = no alcanzo el stock -> ValueError -> rollback.
                     if filas == 0:
                         raise ValueError('Stock insuficiente de ' + datos['insumo'].nombre)
             except ValueError as e:
@@ -85,6 +107,10 @@ def consumo_registrar(request):
         form = ConsumoForm()
     return render(request, 'vet/consumo_form.html', {'form': form, 'error': error})
 
+# --- LAB 07, EJERCICIOS 4, 5 y 6: aggregate() y annotate() --------------------
+# aggregate() -> UN valor para toda la tabla (devuelve diccionario, no QuerySet).
+# annotate()  -> un valor POR objeto o grupo (sigue siendo QuerySet).
+# Plantilla: ../templates/vet/reporte.html - Ruta: /reporte/
 def reporte(request):
     total = ConsumoInsumo.objects.aggregate(
         total=Sum(F('cantidad') * F('precio_unitario'), output_field=DecimalField())

@@ -1,3 +1,9 @@
+{# ================================================================== #}
+{# GUIA: ARCHIVO  templates/base.html  (plantilla padre de TODAS las paginas de Django) #}
+{# LAB     : 07 (menu con Registrar consumo y Reporte) #}
+{# QUE HACE : menu, estilos y los {% block title %} / {% block content %} que rellenan los hijos. #}
+{#           Equivale al ../../../frontend/index.html de React (Lab 09): el punto de entrada visual. #}
+{# ================================================================== #}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -30,8 +36,11 @@
     </style>
 </head>
 <body>
+    {# Plantilla base: todas las paginas heredan de aqui con extends. #}
+    {# Encabezado, menu y pie se escriben una sola vez; el bloque title pone el titulo de cada pagina. #}
     <header>
         <h1>Reserva de citas — Veterinaria</h1>
+        {# Menu comun. {% url %} arma cada enlace a partir del nombre de la ruta. #}
         <nav>
             <a href="{% url 'vet:cita_list' %}">Citas</a>
             <a href="{% url 'vet:cita_crear' %}">Nueva cita</a>
@@ -45,9 +54,11 @@
     </header>
 
     <main>
+        {# Bloque 'content': espacio vacio que llena cada pagina hija. #}
         {% block content %}{% endblock %}
     </main>
 
+    {# Pie comun: se cambia aqui y se actualiza en todas las paginas. #}
     <footer>
         <p>Desarrollo de Aplicaciones Empresariales &middot; Laboratorio 07</p>
     </footer>

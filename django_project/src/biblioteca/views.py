@@ -1,5 +1,14 @@
+# ==================================================================
+# GUIA: ARCHIVO  biblioteca/views.py  (vistas de la biblioteca)
+# LAB     : 07 Parte 2 (biblioteca)
+# EJERCICIO: Lab 07 P2 -> prestamo_registrar y reporte (el CRUD con vistas genericas ya existia)
+# QUE HACE : ListView/CreateView/UpdateView/DeleteView para las entidades, mas dos vistas
+#           funcion del Lab 07 Parte 2: prestamo_registrar (atomic + F) y reporte (aggregate).
+# SE PRUEBA: /biblioteca/libros/ - /biblioteca/prestamos/registrar/ - /biblioteca/reporte/
+# DOCS    : ../../README.md (seccion Lab 7 Parte 2)
+# ==================================================================
 # biblioteca/views.py
-# CRUD completo (Ejercicios 14-17) para las cinco entidades, usando las
+# CRUD completo para las cinco entidades, usando las
 # Class-Based Views genéricas de Django (ListView/CreateView/UpdateView/
 # DeleteView). Todas usan el ORM de Django; ninguna escribe SQL a mano.
 
@@ -147,7 +156,7 @@ class LibroListView(ListView):
     model = Libro
     template_name = 'biblioteca/libro_list.html'
     context_object_name = 'objetos'
-    # Ejercicio 12: select_related resuelve la FK; prefetch_related recorre
+    # select_related resuelve la FK; prefetch_related recorre
     # el modelo intermedio Prestamo y llega hasta el Socio.
     queryset = (Libro.objects
                 .select_related('categoria')
@@ -177,8 +186,8 @@ class LibroDeleteView(DeleteView):
     success_url = reverse_lazy('biblioteca:libro_list')
 
 
-# --- Semana 4 ------------------------------------------------------------
-# Ejercicio 12: vista que muestra datos RELACIONADOS (no un listado plano).
+# --- Detalle y prestamos ------------------------------------------------------------
+# Vista que muestra datos RELACIONADOS (no un listado plano).
 
 
 class SocioDetailView(DetailView):
@@ -192,7 +201,7 @@ class SocioDetailView(DetailView):
                 .prefetch_related('prestamos__libro__categoria'))
 
 
-# Ejercicio 13: CRUD propio del modelo intermedio Prestamo.
+# CRUD propio del modelo intermedio Prestamo.
 
 _PRESTAMO_FIELDS = ['socio', 'libro', 'fecha_prestamo',
                     'fecha_devolucion_prevista', 'fecha_devolucion_real',
@@ -268,6 +277,8 @@ class CarnetDeleteView(DeleteView):
     template_name = 'biblioteca/generic_confirm_delete.html'
     success_url = reverse_lazy('biblioteca:carnet_list')
 
+# --- LAB 07 PARTE 2: transaction.atomic() + F() en la biblioteca ----------
+# Crea el Prestamo y descuenta 1 copia del Libro; si no hay copias, rollback.
 def prestamo_registrar(request):
     error = None
     if request.method == 'POST':
@@ -298,6 +309,7 @@ def prestamo_registrar(request):
         form = PrestarForm()
     return render(request, 'biblioteca/prestamo_registrar.html', {'form': form, 'error': error})
 
+# --- LAB 07 PARTE 2: aggregate() (total de multas) y annotate() (prestamos por libro) ---
 def reporte(request):
     total_multas = Prestamo.objects.aggregate(total=Sum('multa'))['total']
     por_libro = Libro.objects.annotate(n=Count('prestamos')).order_by('-n')

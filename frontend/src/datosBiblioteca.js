@@ -1,3 +1,8 @@
+// ==================================================================
+// GUIA: ARCHIVO  datosBiblioteca.js  (datos de la biblioteca escritos a mano)
+// LAB     : 09 Parte 2 (biblioteca)  -  se importan en ./App.jsx
+// QUE HACE : categorias, libros y socios (con prestamos anidados) con la forma de /api/biblioteca/.
+// ==================================================================
 export const categorias = [
   { id: 1, nombre: 'Ciencia Ficción', descripcion: 'Relatos del futuro' },
   { id: 2, nombre: 'Novela', descripcion: 'Narrativa de ficción' },

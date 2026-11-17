@@ -1,3 +1,11 @@
+# ==================================================================
+# GUIA: ARCHIVO  biblioteca/api_views.py  (vistas de la API de la biblioteca)
+# LAB     : 08 Parte 2
+# EJERCICIO: ViewSets de Categoria y Libro (search/ordering), Prestamo solo lectura con ?estado=
+#           y @action con_multa (reutiliza PrestamoQuerySet.con_multa del Lab 07 P2).
+# SE PRUEBA: /api/biblioteca/libros/?search=cosmos - /api/biblioteca/prestamos/con_multa/
+# DOCS    : ../../README.md (seccion Lab 8 Parte 2)
+# ==================================================================
 from rest_framework import filters, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response

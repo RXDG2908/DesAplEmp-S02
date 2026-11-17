@@ -19,7 +19,7 @@ Antes de este laboratorio la app `vet` ya tenía: un Model `Cita` guardado en
 SQLite (Laboratorio 3), sus tres relaciones (Laboratorio 4) —la ficha clínica
 **uno a uno**, el veterinario **uno a muchos** y los insumos **muchos a
 muchos** a través del modelo intermedio `ConsumoInsumo`—, el registro en el
-Django Admin (Laboratorio 5) y los Templates con herencia de `base.html`
+Django Admin (Laboratorio 5) y los Templates con herencia de [`base.html`](../../django_project/src/templates/base.html)
 (Laboratorio 6).
 
 Hasta aquí el ORM se había usado para lo básico: crear, listar, ver el
@@ -43,6 +43,48 @@ Cliente (navegador) → URL (ej. /reporte/) → vet/urls.py → View
 
 ---
 
+## Arquitectura: cómo funciona y para qué sirve
+
+**Idea central.** El Laboratorio 7 no agrega pantallas ni tablas por gusto: agrega **capas con responsabilidades claras** sobre la arquitectura MVT de Django. La View ya no hace todo; reparte el trabajo entre el formulario (valida), el QuerySet (reglas de consulta) y el ORM (cálculos y transacciones).
+
+```
+Navegador → config/urls.py → vet/urls.py → View (vet/views.py)
+                                              │
+              ┌───────────────────────────────┼─────────────────────────┐
+              ▼                               ▼                         ▼
+   Formulario (vet/forms.py)   QuerySet propio (vet/models.py)   ORM: atomic · F ·
+   valida lo que llega              reglas: con_estado, proximas       aggregate · annotate
+              └───────────────────────────────┴─────────────────────────┘
+                                              ▼
+                                   SQLite  →  Template  →  Response
+```
+
+| Pieza | Para qué sirve | Dónde está |
+|---|---|---|
+| **URL** | Decide qué View atiende `/consumo/nuevo/` y `/reporte/` | [`vet/urls.py`](../../django_project/src/vet/urls.py) |
+| **View** | Orquesta: recibe el request, llama a las demás capas y elige el Template | [`vet/views.py`](../../django_project/src/vet/views.py) |
+| **Form** | Rechaza datos inválidos (cantidad < 1, campos vacíos) antes de tocar la base | [`vet/forms.py`](../../django_project/src/vet/forms.py) |
+| **QuerySet propio** | Guarda las reglas del negocio en un solo lugar (`con_estado()`, `proximas()`) | [`vet/models.py`](../../django_project/src/vet/models.py) |
+| **ORM** | Hace la transacción, la resta de stock y los totales sin escribir SQL | dentro de la View |
+| **Template** | Muestra el formulario con su error y la tabla del reporte | [`consumo_form.html`](../../django_project/src/templates/vet/consumo_form.html), [`reporte.html`](../../django_project/src/templates/vet/reporte.html) |
+
+**Cómo funciona "Registrar consumo" paso a paso** (`consumo_registrar`):
+
+1. El navegador envía el formulario por POST a `/consumo/nuevo/`.
+2. `ConsumoForm` valida los datos. Si algo falla, vuelve a mostrar el formulario con el error.
+3. La View abre `transaction.atomic()`: desde aquí **todo o nada**.
+4. Dentro del bloque: se crea el `ConsumoInsumo`, la cita pasa a `Atendida` y el stock baja con `F('stock') - cantidad`.
+5. Si el `update` del stock afecta 0 filas (no alcanza), se lanza `ValueError`: la transacción se **deshace completa**, incluso lo ya guardado, y el Template muestra el mensaje.
+6. Si todo sale bien se hace `redirect` al detalle de la cita (patrón Post/Redirect/Get, evita duplicar al recargar).
+
+**Por qué se diseñó así:**
+
+- `transaction.atomic()` → una operación que toca tres modelos nunca queda a medias (sin consumo huérfano ni stock descontado de más).
+- `F()` → la resta la ejecuta la **base de datos**, no Python; dos usuarios a la vez no se pisan.
+- `aggregate()` vs `annotate()` → el primero resume toda la tabla en **un valor** (diccionario); el segundo agrega **un valor por objeto o grupo** (sigue siendo QuerySet).
+- `CitaQuerySet` → la regla "citas próximas" se escribe **una vez** y la reutilizan el listado, el reporte y, en el Lab 8, la API.
+- `select_related` / `prefetch_related` → evitan el problema N+1: de una consulta por fila a un número fijo de consultas (6→1 y 15→3).
+
 ## Paso 1 — Ubicar los campos clave (Ejercicio 1)
 
 La guía pide identificar la entidad principal, sus tres relaciones y tres
@@ -57,7 +99,7 @@ productos y pedidos):
 | Operación que modifica varios modelos | Registrar un consumo de insumo en una cita |
 
 Los tres campos **ya existían** desde la Semana 4, así que no hizo falta
-tocar `models.py`. Se comprobó con:
+tocar [`models.py`](../../django_project/src/vet/models.py). Se comprobó con:
 
 ```powershell
 python manage.py makemigrations --check --dry-run   # No changes detected
@@ -70,7 +112,7 @@ python manage.py showmigrations vet                 # 0001 y 0002 aplicadas
 
 Para que los reportes muestren algo, la guía pide al menos 5 citas, 3
 veterinarios y 8 registros del modelo intermedio. Se escribió el script
-`cargar_lab07.py` (en `src`), que usa `get_or_create()` para que se pueda
+[`cargar_lab07.py`](../../django_project/src/cargar_lab07.py) (en `src`), que usa `get_or_create()` para que se pueda
 ejecutar varias veces **sin duplicar** nada:
 
 ```powershell
@@ -88,9 +130,9 @@ listado de citas, el de veterinarios y los consumos dentro de cada cita.
 ## Paso 3 — Una operación segura con `transaction.atomic()` y `F()` (Ejercicio 3)
 
 Se creó la pantalla **Registrar consumo** (`/consumo/nuevo/`), con su ruta en
-`vet/urls.py`, la vista `consumo_registrar` en `vet/views.py`, el formulario
-`ConsumoForm` en `vet/forms.py` y el Template `consumo_form.html`, que hereda
-de `base.html`.
+[`vet/urls.py`](../../django_project/src/vet/urls.py), la vista `consumo_registrar` en [`vet/views.py`](../../django_project/src/vet/views.py), el formulario
+`ConsumoForm` en [`vet/forms.py`](../../django_project/src/vet/forms.py) y el Template [`consumo_form.html`](../../django_project/src/templates/vet/consumo_form.html), que hereda
+de [`base.html`](../../django_project/src/templates/base.html).
 
 Registrar un consumo toca **tres modelos**: se crea el `ConsumoInsumo`, la
 `Cita` pasa a Atendida y al `Insumo` se le descuenta el stock. El riesgo es
@@ -179,8 +221,8 @@ Atendida 3 · Pendiente 1 · Confirmada 1
 
 ## Paso 6 — La página de reporte (Ejercicio 6)
 
-Se creó la ruta `/reporte/`, la vista `reporte` y el Template `reporte.html`,
-que hereda de `base.html`. La vista junta los cálculos de los pasos 4 y 5 y
+Se creó la ruta `/reporte/`, la vista `reporte` y el Template [`reporte.html`](../../django_project/src/templates/vet/reporte.html),
+que hereda de [`base.html`](../../django_project/src/templates/base.html). La vista junta los cálculos de los pasos 4 y 5 y
 los manda al Template:
 
 - total global consumido → **S/ 110,50**
@@ -189,14 +231,14 @@ los manda al Template:
 
 En el Template se usa el filtro `{{ total|floatformat:2 }}`, para que el
 total siempre salga con dos decimales, como un precio. Además se agregaron
-en el menú de `base.html` los enlaces **Registrar consumo** y **Reporte**.
+en el menú de [`base.html`](../../django_project/src/templates/base.html) los enlaces **Registrar consumo** y **Reporte**.
 
 ---
 
 ## Paso 7 — Un QuerySet personalizado (Ejercicio 7)
 
 Filtros como "citas con tal estado" o "citas de hoy en adelante" se repetían
-en varias vistas. Se movieron a `vet/models.py` como métodos de un QuerySet
+en varias vistas. Se movieron a [`vet/models.py`](../../django_project/src/vet/models.py) como métodos de un QuerySet
 propio:
 
 ```python
@@ -231,7 +273,7 @@ detalle siguen funcionando, es decir, el CRUD de la Semana 3 no se rompió.
 Cuando una pantalla muestra datos de una relación, Django por defecto hace
 **una consulta para la lista y otra más por cada fila** para traer el dato
 relacionado. Con muchas filas, eso se vuelve lento. Se midió con el script
-`medir_n1.py` (en `src`), que usa `reset_queries()` y
+[`medir_n1.py`](../../django_project/src/medir_n1.py) (en `src`), que usa `reset_queries()` y
 `len(connection.queries)` con `DEBUG=True`:
 
 ```powershell
@@ -266,7 +308,7 @@ python manage.py shell -c "exec(open('medir_n1.py', encoding='utf-8').read())"
 | 5 | Shell | Rocky 3 … Nala 1; Atendida 3, Pendiente 1, Confirmada 1 |
 | 6 | `/reporte/` en el navegador | S/ 110,50 y 1 cita próxima pendiente |
 | 7 | `/?estado=Pendiente`, `/?estado=Atendida`, detalle | Filtra bien; CRUD intacto |
-| 8 | `medir_n1.py` | 6 → 1 y 15 → 3 consultas |
+| 8 | [`medir_n1.py`](../../django_project/src/medir_n1.py) | 6 → 1 y 15 → 3 consultas |
 
 ---
 
@@ -274,14 +316,14 @@ python manage.py shell -c "exec(open('medir_n1.py', encoding='utf-8').read())"
 
 | Archivo | Qué tiene del Lab 7 |
 |---|---|
-| `vet/models.py` | `CitaQuerySet` con `con_estado()` y `proximas()`, asignado con `as_manager()` |
-| `vet/views.py` | `consumo_registrar` (transacción y `F()`), `reporte` (aggregate y annotate), `cita_list` usa `con_estado()` |
-| `vet/forms.py` | `ConsumoForm` |
-| `vet/urls.py` | rutas `consumo/nuevo/` y `reporte/` |
-| `templates/vet/consumo_form.html` | formulario que muestra el error de stock |
-| `templates/vet/reporte.html` | reporte con `floatformat:2` |
-| `templates/base.html` | enlaces del menú y pie "Laboratorio 07" |
-| `cargar_lab07.py`, `medir_n1.py` | carga de datos y medición de consultas |
+| [`vet/models.py`](../../django_project/src/vet/models.py) | `CitaQuerySet` con `con_estado()` y `proximas()`, asignado con `as_manager()` |
+| [`vet/views.py`](../../django_project/src/vet/views.py) | `consumo_registrar` (transacción y `F()`), `reporte` (aggregate y annotate), `cita_list` usa `con_estado()` |
+| [`vet/forms.py`](../../django_project/src/vet/forms.py) | `ConsumoForm` |
+| [`vet/urls.py`](../../django_project/src/vet/urls.py) | rutas `consumo/nuevo/` y `reporte/` |
+| [`templates/vet/consumo_form.html`](../../django_project/src/templates/vet/consumo_form.html) | formulario que muestra el error de stock |
+| [`templates/vet/reporte.html`](../../django_project/src/templates/vet/reporte.html) | reporte con `floatformat:2` |
+| [`templates/base.html`](../../django_project/src/templates/base.html) | enlaces del menú y pie "Laboratorio 07" |
+| [`cargar_lab07.py`](../../django_project/src/cargar_lab07.py), [`medir_n1.py`](../../django_project/src/medir_n1.py) | carga de datos y medición de consultas |
 
 ---
 

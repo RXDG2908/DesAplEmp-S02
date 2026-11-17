@@ -1,3 +1,8 @@
+// ==================================================================
+// GUIA: ARCHIVO  components/LibroCard.jsx
+// LAB     : 10 (props, estado y evento)  -  PARTE 2 (biblioteca)
+// QUE HACE : un libro con boton Reservar (useState); equivale a ./InsumoCard.jsx de vet. Usado en ./LibroLista.jsx.
+// ==================================================================
 import { useState } from 'react'
 
 function LibroCard({ titulo, autor, anio, copias, categoria = 'Sin categoría' }) {

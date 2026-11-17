@@ -1,11 +1,20 @@
+# ==================================================================
+# GUIA: ARCHIVO  biblioteca/models.py  (tablas de la biblioteca comunitaria)
+# LAB     : 07 Parte 2 (biblioteca): PrestamoQuerySet. Las tablas ya existian y los Labs 7-10 las reutilizan
+# EJERCICIO: Lab 07 P2 -> PrestamoQuerySet (con_estado y con_multa)
+# QUE HACE : Bibliotecario, Editorial, Socio, Categoria, Libro, CarnetSocio y Prestamo
+#           (modelo intermedio Socio<->Libro con estado y multa).
+# NOTA    : es la PARTE 2 (biblioteca) de los labs; la Parte 1 es la app vet.
+# DOCS    : ../../README.md
+# ==================================================================
 # biblioteca/models.py
-# Problemática (Ejercicio 7): una biblioteca comunitaria de barrio lleva su
+# Problemática: una biblioteca comunitaria de barrio lleva su
 # catálogo de libros y el registro de socios y bibliotecarios en cuadernos y
 # hojas de cálculo sueltas. No hay forma centralizada de saber qué libros
 # existen, de qué categoría son ni quién los administra. Esta App resuelve
 # ese registro central mediante Django ORM y SQLite.
 #
-# Ejercicio 9 — Modelo de datos: cinco entidades.
+# Modelo de datos (base sobre la que trabajan los Labs 7 a 10):
 #   - Tres INDEPENDIENTES (no se relacionan entre sí ni con otra entidad):
 #     Bibliotecario, Editorial, Socio.
 #   - Dos RELACIONADAS mediante ForeignKey: Categoria (lado "1") y
@@ -39,13 +48,13 @@ class Editorial(models.Model):
 
 
 class Socio(models.Model):
-    """Semana 4: deja de ser independiente. Ahora se relaciona con Libro en
-    muchos a muchos a traves del modelo intermedio Prestamo (criterio 4)."""
+    """Ya no es independiente. Ahora se relaciona con Libro en
+    muchos a muchos a traves del modelo intermedio Prestamo."""
     nombre = models.CharField(max_length=100)
     dni = models.CharField('DNI', max_length=15, unique=True)
     telefono = models.CharField(max_length=20, blank=True)
 
-    # --- N:M con modelo intermedio (criterio 4) ---
+    # --- N:M con modelo intermedio ---
     libros = models.ManyToManyField(
         'Libro',
         through='Prestamo',
@@ -58,7 +67,7 @@ class Socio(models.Model):
 
 
 class Categoria(models.Model):
-    """Lado '1' de la relación ForeignKey (Ejercicio 9 y 10)."""
+    """Lado '1' de la relación ForeignKey."""
     nombre = models.CharField(max_length=80, unique=True)
     descripcion = models.CharField(max_length=200, blank=True)
 
@@ -88,7 +97,7 @@ class Libro(models.Model):
 
 
 class CarnetSocio(models.Model):
-    """UNO A UNO (criterio 3): credencial fisica del socio.
+    """UNO A UNO: credencial fisica del socio.
 
     No son "mas campos de Socio" porque el carnet tiene ciclo de vida propio:
     se emite, vence, se renueva, se pierde y se reemplaza. Un socio recien
@@ -112,6 +121,8 @@ class CarnetSocio(models.Model):
     def __str__(self):
         return f'Carnet {self.codigo} - {self.socio.nombre}'
 
+# --- LAB 07 PARTE 2: QuerySet propio de Prestamo -------------------------
+# con_estado() y con_multa() se reutilizan en la vista, el reporte y la API (Lab 08 P2).
 class PrestamoQuerySet(models.QuerySet):
     def con_estado(self, estado):
         return self.filter(estado=estado)

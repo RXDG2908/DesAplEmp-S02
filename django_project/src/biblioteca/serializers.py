@@ -1,3 +1,10 @@
+# ==================================================================
+# GUIA: ARCHIVO  biblioteca/serializers.py  (Model <-> JSON de la biblioteca)
+# LAB     : 08 Parte 2 (API REST de la biblioteca)
+# EJERCICIO: serializers de Categoria, Libro (con validate_anio_publicacion) y Prestamo anidado
+# SE PRUEBA: /api/biblioteca/libros/ - /api/biblioteca/prestamos/ - python ../probar_serializers_bib.py
+# DOCS    : ../../README.md (seccion Lab 8 Parte 2)
+# ==================================================================
 from datetime import date
 
 from rest_framework import serializers

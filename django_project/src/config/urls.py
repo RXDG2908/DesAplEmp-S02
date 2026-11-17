@@ -1,3 +1,9 @@
+# ==================================================================
+# GUIA: ARCHIVO  config/urls.py  (enrutador raiz del Project)
+# LAB     : /api/ es del Lab 08 (vet) y /api/biblioteca/ del Lab 08 Parte 2
+# QUE HACE : / -> vet.urls - /biblioteca/ -> biblioteca.urls - /api/ -> API de vet
+#           - /api/biblioteca/ -> API de biblioteca - /admin/ -> Django Admin.
+# ==================================================================
 """
 URL configuration for config project.
 

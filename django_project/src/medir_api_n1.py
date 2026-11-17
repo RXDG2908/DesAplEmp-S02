@@ -1,6 +1,12 @@
+# ==================================================================
+# GUIA: ARCHIVO  medir_api_n1.py  (script de medicion)
+# LAB     : 08 Parte 1 (vet)  -  EJERCICIO: Ej.7 citas anidadas (24 -> 3 consultas)
+# QUE HACE : mide las consultas de CitaSerializer antes y despues de optimizar el queryset.
+# DOCS    : ../../docs/guiones/GUION-Lab08-Parte1.md
+# ==================================================================
 # Laboratorio 08 - Ejercicio 7: consultas que ejecuta la serializacion
 # anidada de TODAS las citas, antes y despues de optimizar el queryset.
-# Uso:  python manage.py shell -c "exec(open('medir_api_n1.py', encoding='utf-8').read())"
+# Uso:  python ./manage.py shell -c "exec(open('medir_api_n1.py', encoding='utf-8').read())"
 from django.db import connection, reset_queries
 from django.test.utils import CaptureQueriesContext
 

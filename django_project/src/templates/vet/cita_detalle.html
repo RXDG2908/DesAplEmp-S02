@@ -1,4 +1,11 @@
-{# Ejercicio 7: muestra acceso directo, acceso inverso y modelo intermedio. #}
+{# ================================================================== #}
+{# GUIA: ARCHIVO  templates/vet/cita_detalle.html #}
+{# LAB     : 07 (prefetch_related, sin N+1) y destino tras registrar un consumo #}
+{# VISTA   : ../../vet/views.py -> cita_detalle   - RUTA: /cita/<id>/ #}
+{# QUE HACE : muestra veterinario (1:N), ficha clinica (1:1) y consumos (N:M) con el total. #}
+{# ================================================================== #}
+{# Muestra acceso directo, acceso inverso y modelo intermedio. #}
+{# Recibe 'cita' y 'total' desde la view cita_detalle. Hereda de ../base.html. #}
 {% extends 'base.html' %}
 
 {% block title %}Cita de {{ cita.mascota }}{% endblock %}
@@ -32,6 +39,7 @@
         <tr><th>Insumo</th><th>Cantidad</th><th>P. unitario</th><th>Subtotal</th></tr>
     </thead>
     <tbody>
+    {# floatformat:2: precios y subtotales siempre con dos decimales. #}
     {% for consumo in cita.consumos.all %}
         <tr>
             <td>{{ consumo.insumo.nombre }}</td>

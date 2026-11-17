@@ -1,6 +1,12 @@
+# ==================================================================
+# GUIA: ARCHIVO  cargar_lab07.py  (script de datos de prueba)
+# LAB     : 07 Parte 1 (vet)  -  EJERCICIO: Ej.2 datos de prueba
+# QUE HACE : deja 5 citas, 3 veterinarios, 4 insumos y 8 consumos (get_or_create: no duplica).
+# DOCS    : ../../docs/guiones/GUION-Lab07-Parte1.md
+# ==================================================================
 # Carga los datos de prueba del Laboratorio 07 (Ejercicio 2).
 # Es idempotente: se puede ejecutar varias veces sin duplicar nada.
-# Uso:  python manage.py shell -c "exec(open('cargar_lab07.py', encoding='utf-8').read())"
+# Uso:  python ./manage.py shell -c "exec(open('cargar_lab07.py', encoding='utf-8').read())"
 from datetime import date, time
 
 from vet.models import Cita, ConsumoInsumo, Insumo, Veterinario
