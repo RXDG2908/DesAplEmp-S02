@@ -45,9 +45,12 @@ INSTALLED_APPS = [
     'vet',  # Reserva de citas de la veterinaria (Labs 7-10, Parte 1)
     'biblioteca', # Catalogo de biblioteca comunitaria (Labs 7-10, Parte 2)
     'rest_framework',  # Django REST Framework (Laboratorio 08)
+    'corsheaders',  # Permite que React (otro puerto) llame a la API
+    'chamba',  # Panel administrativo del proyecto integrador Chamba PE
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # va en la parte alta
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -128,3 +131,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Origen de React (Vite) autorizado para llamar a la API
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+]

@@ -77,3 +77,33 @@ body {
   color: #b00020;
   font-weight: bold;
 }
+.aviso {
+  background-color: #e3f2e1;
+  border: 1px solid #8bc48a;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.tabla-libros {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 12px 0;
+}
+
+.tabla-libros th,
+.tabla-libros td {
+  border: 1px solid #d9cdb8;
+  padding: 6px 10px;
+  text-align: left;
+}
+
+.panel-resumen {
+  background-color: #ffffff;
+  border: 1px solid #d9cdb8;
+  border-radius: 8px;
+  padding: 8px 16px;
+}
+
+.menu-vistas button {
+  margin-right: 8px;
+}
