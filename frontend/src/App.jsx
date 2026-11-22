@@ -11,6 +11,7 @@
 // LAB 11 - EJ 1: vista 'practica' -> mini catálogo con carrito (cafetería).
 // LAB 11 - EJ 10-13: vistas 'panel' (VET) y 'chamba' (CHAMBA PE).
 // LAB 12 - EJ 4: vista 'api' -> insumos leídos desde la API de Django.
+// LAB 12 (Lucas): vista 'libros' -> libros de la biblioteca desde la API (ListaLibros).
 // ------------------------------------------------------------------
 // DOCS     : ../../docs/guiones/GUION-Lab09-Parte1.md
 //            ../../docs/guiones/GUION-Lab10-Parte1.md
@@ -20,6 +21,7 @@ import './App.css'
 import Practica from './practica/Practica.jsx'
 import ListaPractica from './practica/ListaPractica.jsx'
 import PracticaLucas from './practica_lucas/PracticaLucas.jsx'
+import ListaLibros from './practica_lucas/ListaLibros.jsx'
 import PanelCitas from './components/PanelCitas.jsx'
 import PanelPrestadores from './components/PanelPrestadores.jsx'
 import Vet from './Vet.jsx'
@@ -42,12 +44,14 @@ function App() {
         <button onClick={() => setVista('api')}>Insumos desde la API</button>
         <button onClick={() => setVista('panel')}>Panel de citas</button>
         <button onClick={() => setVista('cafeteria')}>Práctica Lucas: cafetería</button>
+        <button onClick={() => setVista('libros')}>Lucas: libros desde la API</button>
         <button onClick={() => setVista('chamba')}>Panel Chamba PE</button>
       </div>
       {vista === 'practica' && <Practica />}
       {vista === 'api' && <ListaPractica />}
       {vista === 'panel' && <PanelCitas />}
       {vista === 'cafeteria' && <PracticaLucas />}
+      {vista === 'libros' && <ListaLibros />}
       {vista === 'chamba' && <PanelPrestadores />}
       {vista === 'inicio' && (
         <>
