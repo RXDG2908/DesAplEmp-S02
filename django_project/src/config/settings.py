@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'rest_framework',  # LAB 8 - EJ 1: Django REST Framework
     'corsheaders',  # LAB 12 - EJ 2: CORS, deja que React (otro puerto) llame a la API
     'chamba',  # LAB 12 - EJ 9: proyecto integrador CHAMBA PE
+    'catalogo',  # LAB 13 - EJ 6 (Lucas): tienda en linea CAFETERIA, productos y categorias
+    'pedidos',  # LAB 13 - EJ 6 (Lucas): tienda en linea CAFETERIA, carrito y pedidos
 ]
 
 MIDDLEWARE = [
