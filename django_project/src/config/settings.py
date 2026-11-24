@@ -7,6 +7,7 @@
 # LAB 12 - EJ 2: agrega CORS ('corsheaders' + CorsMiddleware + CORS_ALLOWED_ORIGINS)
 #                para que React (puerto 5173) pueda llamar a la API (puerto 8000).
 # LAB 12 - EJ 9: agrega la app 'chamba' (proyecto integrador CHAMBA PE).
+# LAB 13 - EJ 12: agrega las apps 'servicios', 'clientes' y 'solicitudes' (CHAMBA PE).
 # ==================================================================
 """
 Django settings for config project.
@@ -54,6 +55,11 @@ INSTALLED_APPS = [
     'chamba',  # LAB 12 - EJ 9: proyecto integrador CHAMBA PE
     'catalogo',  # LAB 13 - EJ 6 (Lucas): tienda en linea CAFETERIA, productos y categorias
     'pedidos',  # LAB 13 - EJ 6 (Lucas): tienda en linea CAFETERIA, carrito y pedidos
+    # LAB 13 - EJ 12: proyecto integrador CHAMBA PE, una app por tema del negocio
+    # ('chamba' ya guarda a los prestadores desde el Lab 12)
+    'servicios',  # LAB 13 - EJ 12: catalogo de rubros y servicios que se ofrecen
+    'clientes',  # LAB 13 - EJ 12: clientes que piden servicios
+    'solicitudes',  # LAB 13 - EJ 12: solicitudes de servicio y su seguimiento
 ]
 
 MIDDLEWARE = [
