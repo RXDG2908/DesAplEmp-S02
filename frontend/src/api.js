@@ -5,6 +5,8 @@
 // LAB 12 - EJ 3 : axios.create con baseURL y timeout; la DIRECCIÓN DEL SERVIDOR
 //                 se escribe SOLO AQUÍ (los componentes usan rutas cortas).
 // LAB 12 - EJ 6 : textoError() convierte el ERROR 400 (err.response.data) en texto.
+// LAB 13 - EJ 7 : es el api.js de la ESTRUCTURA de React (components, pages, api.js)
+//                 y sirve igual para la cafetería y para Chamba PE (EJ 13).
 // ------------------------------------------------------------------
 // USADO EN : ./practica/ListaPractica.jsx y ./components/PanelPrestadores.jsx
 // ==================================================================
