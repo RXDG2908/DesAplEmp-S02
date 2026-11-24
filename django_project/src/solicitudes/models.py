@@ -6,6 +6,9 @@
 # LAB 13 - EJ 12: por ahora VACÍO. En el Lab 13 solo se DISEÑA; los modelos
 #                 completos se escriben en la SEMANA 14.
 # ENTIDADES PREVISTAS: Solicitud (PRINCIPAL), SeguimientoSolicitud (DETALLE: cada cambio de estado), Pago y Calificacion.
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 13 - EJ 12 ... línea 13
 # ==================================================================
 from django.db import models
 

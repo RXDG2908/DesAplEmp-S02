@@ -5,6 +5,9 @@
 # ------------------------------------------------------------------
 # LAB 13 - EJ 12: APP creada con 'python manage.py startapp solicitudes' y registrada en config/settings.py.
 #                 Tema: SOLICITUDES DE SERVICIO (operación principal) y su seguimiento.
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 13 - EJ 12 ... línea 15
 # ==================================================================
 from django.apps import AppConfig
 

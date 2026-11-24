@@ -5,6 +5,9 @@
 # ------------------------------------------------------------------
 # LAB 13 - EJ 12: APP creada con 'python manage.py startapp clientes' y registrada en config/settings.py.
 #                 Tema: CLIENTES que piden servicios a los prestadores.
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 13 - EJ 12 ... línea 15
 # ==================================================================
 from django.apps import AppConfig
 

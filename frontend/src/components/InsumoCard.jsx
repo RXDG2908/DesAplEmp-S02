@@ -9,6 +9,12 @@
 // LAB 9 - EJ 6 : RENDERIZADO CONDICIONAL -> ternario (Sin stock / Stock: n) y &&.
 // ------------------------------------------------------------------
 // USADO EN : ./InsumoLista.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 9 - EJ 6 ..... línea 30
+//   LAB 10 - EJ 2 .... línea 22
+//   LAB 10 - EJ 3 .... línea 22
+//   LAB 10 - EJ 6 .... línea 21
 // ==================================================================
 import { useState } from 'react'
 

@@ -1,7 +1,8 @@
 # ==================================================================
-# GUIA: ARCHIVO  cargar_datos.py  (script de datos de prueba)
-# LAB     : (apoyo) datos iniciales sobre los que trabajan los Labs 7 a 10
-# QUE HACE : crea datos de vet y biblioteca. Usa create(): ejecutarlo UNA sola vez.
+# ARCHIVO  : cargar_datos.py
+# PARTE 1  : VET y biblioteca (apoyo de los Labs 7 a 10)
+# ROL      : SCRIPT DE DATOS DE PRUEBA iniciales.
+# QUÉ HACE :  crea datos de vet y biblioteca. Usa create(): ejecutarlo UNA sola vez.
 #           (para repetir sin duplicar, usar ./cargar_lab07.py)
 # ==================================================================
 """Datos de prueba iniciales de vet y biblioteca (base de los Labs 7 a 10).

@@ -7,6 +7,9 @@
 //                igual que un {% block %} de los Templates de Django.
 // ------------------------------------------------------------------
 // USADO EN : ./CitaCard.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 10 - EJ 4 .... línea 18
 // ==================================================================
 function Tarjeta({ titulo, children }) {
   return (

@@ -6,6 +6,9 @@
 # LAB 13 - EJ 6: por ahora VACÍO. En el Lab 13 solo se DISEÑA; los modelos
 #                completos se escriben en la SEMANA 14.
 # ENTIDADES PREVISTAS: Pedido (PRINCIPAL) y DetallePedido (DETALLE); el precio se lee de la BD, no del navegador.
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 13 - EJ 6 .... línea 13
 # ==================================================================
 from django.db import models
 

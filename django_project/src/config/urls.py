@@ -11,6 +11,11 @@
 # LAB 8 - EJ 4 y 5: monta la API de vet bajo /api/.
 # LAB 12 - EJ 9   : monta la API de CHAMBA PE bajo /api/chamba/.
 # NOTA     : las rutas /api/... van ANTES de '' para que no las capture vet.urls.
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 8 - EJ 4 ..... línea 43
+#   LAB 8 - EJ 5 ..... línea 43
+#   LAB 12 - EJ 9 .... línea 42
 # ==================================================================
 """
 URL configuration for config project.

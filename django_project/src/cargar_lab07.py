@@ -10,6 +10,9 @@
 # ------------------------------------------------------------------
 # USO      : python ./manage.py shell -c "exec(open('cargar_lab07.py', encoding='utf-8').read())"
 # DOCS     : ../../docs/guiones/GUION-Lab07-Parte1.md
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 7 - EJ 2 ..... línea 22
 # ==================================================================
 from datetime import date, time
 

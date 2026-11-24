@@ -1,3 +1,8 @@
+# ==================================================================
+# ARCHIVO  : config/asgi.py
+# PROJECT  : config (generado por django-admin startproject)
+# ROL      : PUNTO DE ENTRADA ASGI para servidores asíncronos; no se modificó en los labs.
+# ==================================================================
 """
 ASGI config for config project.
 

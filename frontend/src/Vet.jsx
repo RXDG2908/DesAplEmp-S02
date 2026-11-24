@@ -14,6 +14,14 @@
 // USA      : ./components/InsumoLista.jsx, ./components/CitaCard.jsx
 // DOCS     : ../../docs/guiones/GUION-Lab09-Parte1.md
 //            ../../docs/exposiciones/EXPOSICION_Lab09_Parte1.md
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 9 - EJ 4 ..... línea 39
+//   LAB 9 - EJ 5 ..... línea 43
+//   LAB 9 - EJ 6 ..... línea 43
+//   LAB 9 - EJ 7 ..... línea 45
+//   LAB 9 - EJ 8 ..... línea 41
+//   LAB 10 - EJ 1 .... línea 30
 // ==================================================================
 import { insumos, citas } from './datos.js'
 import InsumoLista from './components/InsumoLista.jsx'

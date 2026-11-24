@@ -11,6 +11,12 @@
 // LAB 11 - EJ 13: BUSCADOR, RESUMEN hermano y useEffect con el título de la pestaña.
 // ------------------------------------------------------------------
 // USA      : ./CitaForm, ./Aviso, ./BuscadorCitas, ./CitaListado, ./ResumenCitas
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 11 - EJ 10 ... línea 31
+//   LAB 11 - EJ 11 ... línea 52
+//   LAB 11 - EJ 12 ... línea 45
+//   LAB 11 - EJ 13 ... líneas 35, 40
 // ==================================================================
 import { useEffect, useState } from 'react'
 import { citasPanel } from '../datos.js'

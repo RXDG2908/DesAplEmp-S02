@@ -6,6 +6,10 @@
 // LAB 12 - EJ 13: el texto viaja a la API como ?search=.
 // ------------------------------------------------------------------
 // USADO EN : ./PanelPrestadores.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 11 - EJ 13 ... línea 16
+//   LAB 12 - EJ 13 ... línea 20
 // ==================================================================
 function BuscadorPrestadores({ valor, onCambiar }) {
   return (

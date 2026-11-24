@@ -9,6 +9,11 @@
 //                 y sirve igual para la cafetería y para Chamba PE (EJ 13).
 // ------------------------------------------------------------------
 // USADO EN : ./practica/ListaPractica.jsx y ./components/PanelPrestadores.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 12 - EJ 3 .... línea 21
+//   LAB 12 - EJ 6 .... línea 28
+//   LAB 13 - EJ 7 .... línea 21
 // ==================================================================
 import axios from 'axios'
 

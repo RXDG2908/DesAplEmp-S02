@@ -11,6 +11,14 @@
 // LAB 11 - EJ 8: el mensaje de <Aviso> también vive en el padre.
 // ------------------------------------------------------------------
 // USA      : ./Catalogo.jsx, ./Carrito.jsx, ./Buscador.jsx, ../components/Aviso.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 11 - EJ 1 .... línea 71
+//   LAB 11 - EJ 3 .... línea 43
+//   LAB 11 - EJ 4 .... línea 41
+//   LAB 11 - EJ 6 .... línea 58
+//   LAB 11 - EJ 7 .... línea 36
+//   LAB 11 - EJ 8 .... línea 73
 // ==================================================================
 import { useState } from 'react'
 import { productos } from './datos.js'

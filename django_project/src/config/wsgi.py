@@ -1,3 +1,8 @@
+# ==================================================================
+# ARCHIVO  : config/wsgi.py
+# PROJECT  : config (generado por django-admin startproject)
+# ROL      : PUNTO DE ENTRADA WSGI para servidores de producción; no se modificó en los labs.
+# ==================================================================
 """
 WSGI config for config project.
 

@@ -15,6 +15,15 @@
 // ------------------------------------------------------------------
 // DOCS     : ../../docs/guiones/GUION-Lab09-Parte1.md
 //            ../../docs/guiones/GUION-Lab10-Parte1.md
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 9 - EJ 4 ..... línea 70
+//   LAB 11 - EJ 1 .... línea 59
+//   LAB 11 - EJ 10 ... línea 61
+//   LAB 11 - EJ 11 ... línea 64
+//   LAB 11 - EJ 12 ... línea 64
+//   LAB 11 - EJ 13 ... línea 64
+//   LAB 12 - EJ 4 .... línea 60
 // ==================================================================
 import { useState } from 'react'
 import './App.css'

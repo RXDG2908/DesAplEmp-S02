@@ -1,6 +1,7 @@
 // ==================================================================
 // ARCHIVO  : components/PrestadorListado.jsx
 // PROYECTO : CHAMBA PE (proyecto integrador)
+// ROL      : TABLA de prestadores del panel (una PrestadorFila por registro).
 // ------------------------------------------------------------------
 // LAB 11 - EJ 10: TABLA de prestadores; una PrestadorFila por registro con
 //                 map() y key = id.
@@ -8,6 +9,11 @@
 // LAB 12 - EJ 12: marca la fila que espera CONFIRMACIÓN (porEliminar).
 // ------------------------------------------------------------------
 // USADO EN : ./PanelPrestadores.jsx  ·  USA: ./PrestadorFila.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 11 - EJ 10 ... línea 38
+//   LAB 11 - EJ 13 ... línea 23
+//   LAB 12 - EJ 12 ... línea 42
 // ==================================================================
 import PrestadorFila from './PrestadorFila.jsx'
 

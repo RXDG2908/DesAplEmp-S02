@@ -8,6 +8,9 @@
 # ------------------------------------------------------------------
 # USO      : python ./manage.py shell -c "exec(open('medir_api_n1.py', encoding='utf-8').read())"
 # DOCS     : ../../docs/guiones/GUION-Lab08-Parte1.md
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 8 - EJ 7 ..... línea 23
 # ==================================================================
 from django.db import connection, reset_queries
 from django.test.utils import CaptureQueriesContext

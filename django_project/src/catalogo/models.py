@@ -6,6 +6,9 @@
 # LAB 13 - EJ 6: por ahora VACÍO. En el Lab 13 solo se DISEÑA; los modelos
 #                completos se escriben en la SEMANA 14.
 # ENTIDADES PREVISTAS: Producto y Categoria (precio en DecimalField, stock >= 0).
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 13 - EJ 6 .... línea 13
 # ==================================================================
 from django.db import models
 

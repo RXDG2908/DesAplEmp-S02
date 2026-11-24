@@ -12,6 +12,11 @@
 //            recargar (en el Lab 12 se guarda en la API).
 // ------------------------------------------------------------------
 // USADO EN : ../Vet.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 10 - EJ 3 .... línea 68
+//   LAB 10 - EJ 7 .... línea 32
+//   LAB 10 - EJ 8 .... líneas 24, 37
 // ==================================================================
 import { useState } from 'react'
 import InsumoCard from './InsumoCard.jsx'

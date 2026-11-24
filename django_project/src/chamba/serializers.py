@@ -8,6 +8,10 @@
 # LAB 12 - EJ 11: esa regla produce el ERROR 400 que el formulario MUESTRA.
 # ------------------------------------------------------------------
 # USADO EN : ./api_views.py
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 12 - EJ 9 .... línea 27
+#   LAB 12 - EJ 11 ... línea 31
 # ==================================================================
 
 from rest_framework import serializers

@@ -8,6 +8,9 @@
 #                leer y escribir en una API REAL.
 # ------------------------------------------------------------------
 # USADO EN : ./serializers.py, ./api_views.py, ./admin.py, ../cargar_chamba.py
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 12 - EJ 9 .... línea 19
 # ==================================================================
 
 from django.db import models

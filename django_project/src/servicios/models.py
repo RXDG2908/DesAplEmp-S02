@@ -6,6 +6,9 @@
 # LAB 13 - EJ 12: por ahora VACÍO. En el Lab 13 solo se DISEÑA; los modelos
 #                 completos se escriben en la SEMANA 14.
 # ENTIDADES PREVISTAS: Rubro (gasfitería, electricidad, costura, carpintería, primeros auxilios).
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 13 - EJ 12 ... línea 13
 # ==================================================================
 from django.db import models
 

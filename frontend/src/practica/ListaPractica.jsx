@@ -1,6 +1,7 @@
 // ==================================================================
 // ARCHIVO  : practica/ListaPractica.jsx
 // PARTE 1  : VET -> insumos leídos desde la API de Django (práctica del Lab 12)
+// ROL      : INSUMOS LEÍDOS DE LA API: listar, crear, sumar stock, eliminar y buscar.
 // ------------------------------------------------------------------
 // LAB 12 - EJ 4: GET con await api.get(...) dentro de un useEffect; lista con map() y key.
 // LAB 12 - EJ 5: estados CARGANDO, ERROR y LISTA VACÍA con try / catch / finally.
@@ -9,6 +10,13 @@
 // LAB 12 - EJ 8: BÚSQUEDA enviada como ?search= y efecto con dependencia [buscar].
 // ------------------------------------------------------------------
 // USADO EN : ../App.jsx (vista 'api')
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 12 - EJ 4 .... línea 35
+//   LAB 12 - EJ 5 .... línea 46
+//   LAB 12 - EJ 6 .... línea 60
+//   LAB 12 - EJ 7 .... línea 75
+//   LAB 12 - EJ 8 .... línea 35
 // ==================================================================
 import { useEffect, useState } from 'react'
 import api, { textoError } from '../api.js'

@@ -13,6 +13,11 @@
 # SE PRUEBA: /api/insumos/  ·  /api/citas/
 # DOCS     : ../../../docs/guiones/GUION-Lab08-Parte1.md
 #            ../../../docs/exposiciones/EXPOSICION_Lab08_Parte1.md
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 8 - EJ 2 ..... línea 28
+#   LAB 8 - EJ 3 ..... líneas 28, 34
+#   LAB 8 - EJ 7 ..... líneas 45, 60, 71, 73, 75
 # ==================================================================
 
 from rest_framework import serializers

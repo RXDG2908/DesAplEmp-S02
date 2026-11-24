@@ -9,6 +9,10 @@
 # NOTA     : las rutas de listado, nueva cita y detalle ya existían.
 # ------------------------------------------------------------------
 # DOCS     : ../../../docs/guiones/GUION-Lab07-Parte1.md
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 7 - EJ 3 ..... línea 32
+#   LAB 7 - EJ 6 ..... línea 34
 # ==================================================================
 
 from django.urls import path

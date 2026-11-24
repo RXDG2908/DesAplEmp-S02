@@ -1,6 +1,7 @@
 // ==================================================================
 // ARCHIVO  : components/PrestadorFila.jsx
 // PROYECTO : CHAMBA PE (proyecto integrador)
+// ROL      : UNA FILA de la tabla de prestadores con sus botones de acción.
 // ------------------------------------------------------------------
 // LAB 11 - EJ 10: UNA FILA con nombre, rubro, tarifa y estado del prestador.
 // LAB 11 - EJ 11: botones Aprobar, Suspender y Eliminar que AVISAN AL PADRE;
@@ -9,6 +10,12 @@
 // LAB 12 - EJ 12: el botón cambia a 'Confirmar' antes de eliminar.
 // ------------------------------------------------------------------
 // USADO EN : ./PrestadorListado.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 11 - EJ 10 ... línea 22
+//   LAB 11 - EJ 11 ... línea 32
+//   LAB 12 - EJ 11 ... línea 30
+//   LAB 12 - EJ 12 ... línea 43
 // ==================================================================
 function PrestadorFila({ prestador, confirmando, onEditar, onCambiarEstado, onEliminar }) {
   return (

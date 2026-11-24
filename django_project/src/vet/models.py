@@ -11,6 +11,10 @@
 # USADO EN : ./views.py, ./forms.py, ./serializers.py, ./api_views.py, ./admin.py
 # DOCS     : ../../../docs/guiones/GUION-Lab07-Parte1.md
 #            ../../../docs/exposiciones/EXPOSICION_Lab07_Parte1.md
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 7 - EJ 1 ..... línea 34
+#   LAB 7 - EJ 7 ..... líneas 44, 50, 54, 78
 # ==================================================================
 
 from django.db import models

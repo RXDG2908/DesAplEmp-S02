@@ -9,6 +9,9 @@
 # ------------------------------------------------------------------
 # USADO EN : ./views.py (cita_crear y consumo_registrar)
 # DOCS     : ../../../docs/guiones/GUION-Lab07-Parte1.md
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 7 - EJ 3 ..... línea 54
 # ==================================================================
 
 from django import forms

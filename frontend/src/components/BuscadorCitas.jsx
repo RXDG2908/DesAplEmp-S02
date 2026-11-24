@@ -6,6 +6,9 @@
 //                 filtra las citas por mascota.
 // ------------------------------------------------------------------
 // USADO EN : ./PanelCitas.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 11 - EJ 13 ... línea 15
 // ==================================================================
 function BuscadorCitas({ valor, onCambiar }) {
   return (

@@ -7,6 +7,9 @@
 //                 y ENTREGA la cita nueva al padre con onGuardar.
 // ------------------------------------------------------------------
 // USADO EN : ./PanelCitas.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 11 - EJ 12 ... línea 27
 // ==================================================================
 import { useState } from 'react'
 

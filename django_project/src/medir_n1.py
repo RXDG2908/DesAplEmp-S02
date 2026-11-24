@@ -9,6 +9,9 @@
 # ------------------------------------------------------------------
 # USO      : python ./manage.py shell -c "exec(open('medir_n1.py', encoding='utf-8').read())"
 # DOCS     : ../../docs/guiones/GUION-Lab07-Parte1.md
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 7 - EJ 8 ..... línea 19
 # ==================================================================
 from django.db import connection, reset_queries
 from vet.models import Cita

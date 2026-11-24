@@ -15,6 +15,13 @@
 #            /api/citas/?estado=Pendiente  ·  /api/citas/proximas/
 # DOCS     : ../../../docs/guiones/GUION-Lab08-Parte1.md
 #            ../../../docs/exposiciones/EXPOSICION_Lab08_Parte1.md
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 8 - EJ 4 ..... línea 35
+#   LAB 8 - EJ 5 ..... línea 50
+#   LAB 8 - EJ 6 ..... línea 51
+#   LAB 8 - EJ 7 ..... líneas 60, 65
+#   LAB 8 - EJ 8 ..... líneas 50, 54, 60, 72, 78
 # ==================================================================
 
 from rest_framework import filters, generics, viewsets

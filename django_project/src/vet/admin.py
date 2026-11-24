@@ -7,6 +7,9 @@
 # LAB 7 - EJ 2 : sirve de APOYO para revisar los DATOS DE PRUEBA.
 # NOTA     : no agrega modelos nuevos; el Admin REUTILIZA el Model y el ORM,
 #            así que NO hace falta escribir views, urls ni templates.
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 7 - EJ 2 ..... línea 48
 # ==================================================================
 
 from django.contrib import admin

@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+# ==================================================================
+# ARCHIVO  : manage.py
+# PROJECT  : config (generado por django-admin startproject)
+# ROL      : HERRAMIENTA DE ADMINISTRACIÓN: runserver, migrate, startapp, check, shell.
+# ==================================================================
 """Django's command-line utility for administrative tasks."""
 import os
 import sys

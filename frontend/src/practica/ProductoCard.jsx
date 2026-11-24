@@ -1,6 +1,7 @@
 // ==================================================================
 // ARCHIVO  : practica/ProductoCard.jsx
 // PARTE 1  : práctica del Lab 11 (mini catálogo con carrito: CAFETERÍA)
+// ROL      : TARJETA de un producto con su botón Agregar.
 // ------------------------------------------------------------------
 // LAB 11 - EJ 1: muestra nombre, precio con Number(...).toFixed(2) y AGOTADO si stock = 0.
 // LAB 11 - EJ 2: la prop producto es de SOLO LECTURA; esta tarjeta NO la modifica.
@@ -9,6 +10,11 @@
 //                la función se EJECUTARÍA AL DIBUJAR, no al hacer clic.
 // ------------------------------------------------------------------
 // USADO EN : ./Catalogo.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 11 - EJ 1 .... línea 22
+//   LAB 11 - EJ 2 .... línea 19
+//   LAB 11 - EJ 3 .... línea 28
 // ==================================================================
 function ProductoCard({ producto, onAgregar }) {
   return (

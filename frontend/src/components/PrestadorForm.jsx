@@ -10,6 +10,10 @@
 //            CREA DE NUEVO y el estado inicial toma los datos correctos.
 // ------------------------------------------------------------------
 // USADO EN : ./PanelPrestadores.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 11 - EJ 12 ... línea 38
+//   LAB 12 - EJ 11 ... línea 42
 // ==================================================================
 import { useState } from 'react'
 

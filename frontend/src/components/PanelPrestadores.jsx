@@ -16,6 +16,16 @@
 // ------------------------------------------------------------------
 // USA      : ../api.js, ./PrestadorForm, ./Aviso, ./BuscadorPrestadores,
 //            ./FiltroEstadoPrestador, ./PrestadorListado, ./ResumenPrestadores
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 11 - EJ 10 ... línea 48
+//   LAB 11 - EJ 11 ... línea 105
+//   LAB 11 - EJ 12 ... línea 87
+//   LAB 11 - EJ 13 ... línea 80
+//   LAB 12 - EJ 10 ... líneas 39, 57
+//   LAB 12 - EJ 11 ... líneas 85, 105
+//   LAB 12 - EJ 12 ... línea 115
+//   LAB 12 - EJ 13 ... línea 57
 // ==================================================================
 import { useEffect, useState } from 'react'
 import api, { textoError } from '../api.js'

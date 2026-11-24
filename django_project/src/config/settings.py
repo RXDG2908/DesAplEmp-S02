@@ -8,6 +8,12 @@
 #                para que React (puerto 5173) pueda llamar a la API (puerto 8000).
 # LAB 12 - EJ 9: agrega la app 'chamba' (proyecto integrador CHAMBA PE).
 # LAB 13 - EJ 12: agrega las apps 'servicios', 'clientes' y 'solicitudes' (CHAMBA PE).
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 8 - EJ 1 ..... línea 59
+#   LAB 12 - EJ 2 .... líneas 60, 72, 154
+#   LAB 12 - EJ 9 .... línea 61
+#   LAB 13 - EJ 12 ... líneas 64, 66, 67, 68
 # ==================================================================
 """
 Django settings for config project.

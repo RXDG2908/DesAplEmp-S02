@@ -6,6 +6,9 @@
 // LAB 10 - EJ 5: ELEMENTO ANIDADO de la cita (un registro del MODELO INTERMEDIO N:M).
 // ------------------------------------------------------------------
 // USADO EN : ./CitaCard.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 10 - EJ 5 .... línea 13
 // ==================================================================
 function ConsumoItem({ insumo, cantidad, subtotal }) {
   return (

@@ -9,6 +9,11 @@
 // LAB 11 - EJ 10: citasPanel -> registros del PANEL DE CITAS (estado en PanelCitas).
 // ------------------------------------------------------------------
 // USADO EN : ./Vet.jsx y ./components/PanelCitas.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 9 - EJ 5 ..... línea 19
+//   LAB 9 - EJ 7 ..... línea 27
+//   LAB 11 - EJ 10 ... línea 64
 // ==================================================================
 
 export const insumos = [

@@ -8,6 +8,9 @@
 # NOTA     : BORRA los prestadores existentes antes de cargar (no duplica).
 # ------------------------------------------------------------------
 # USO      : python manage.py shell < cargar_chamba.py
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 12 - EJ 9 .... línea 19
 # ==================================================================
 
 from chamba.models import Prestador

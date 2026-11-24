@@ -1,12 +1,17 @@
 // ==================================================================
 // ARCHIVO  : components/CitaListado.jsx
 // PARTE 1  : VET (panel de citas, primera versión del Lab 11)
+// ROL      : TABLA de citas del panel (una CitaFila por cita).
 // ------------------------------------------------------------------
 // LAB 11 - EJ 10: TABLA de citas; recibe la lista por props y dibuja una CitaFila
 //                 por cita con map() y key = id.
 // LAB 11 - EJ 13: muestra un MENSAJE cuando la búsqueda no da resultados.
 // ------------------------------------------------------------------
 // USADO EN : ./PanelCitas.jsx  ·  USA: ./CitaFila.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 11 - EJ 10 ... línea 37
+//   LAB 11 - EJ 13 ... línea 21
 // ==================================================================
 import CitaFila from './CitaFila.jsx'
 

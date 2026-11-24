@@ -8,6 +8,10 @@
 # LAB 12 - EJ 13: el panel envía ?search= y ?estado= y la API filtra aquí.
 # ------------------------------------------------------------------
 # SE PRUEBA: /api/chamba/prestadores/?search=ro&estado=Aprobado
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 12 - EJ 9 .... línea 23
+#   LAB 12 - EJ 13 ... línea 33
 # ==================================================================
 
 from rest_framework import filters, viewsets

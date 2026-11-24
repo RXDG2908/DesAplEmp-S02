@@ -10,6 +10,12 @@
 // LAB 11 - EJ 8: useEffect con [unidades] cambia el TÍTULO DE LA PESTAÑA.
 // ------------------------------------------------------------------
 // USADO EN : ./Practica.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 11 - EJ 4 .... línea 40
+//   LAB 11 - EJ 5 .... línea 23
+//   LAB 11 - EJ 6 .... línea 43
+//   LAB 11 - EJ 8 .... línea 27
 // ==================================================================
 import { useEffect } from 'react'
 

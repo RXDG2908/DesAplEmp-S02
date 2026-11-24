@@ -6,6 +6,10 @@
 // LAB 11 - EJ 13: en los paneles (VET y CHAMBA PE) avisa altas y cambios.
 // ------------------------------------------------------------------
 // USADO EN : ../practica/Practica.jsx, ./PanelCitas.jsx, ./PanelPrestadores.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 11 - EJ 8 .... línea 18
+//   LAB 11 - EJ 13 ... línea 18
 // ==================================================================
 import { useEffect } from 'react'
 

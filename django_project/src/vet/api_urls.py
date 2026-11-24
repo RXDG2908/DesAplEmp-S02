@@ -7,6 +7,10 @@
 # LAB 8 - EJ 5: DEFAULTROUTER -> genera LISTA, DETALLE y la RAÍZ /api/.
 # ------------------------------------------------------------------
 # DOCS     : ../../../docs/guiones/GUION-Lab08-Parte1.md
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 8 - EJ 4 ..... línea 28
+#   LAB 8 - EJ 5 ..... línea 20
 # ==================================================================
 
 from rest_framework.routers import DefaultRouter

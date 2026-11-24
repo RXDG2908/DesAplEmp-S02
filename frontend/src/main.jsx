@@ -8,6 +8,9 @@
 // NOTA     : <StrictMode> en desarrollo ejecuta los efectos DOS VECES (Lab 11 - EJ 8).
 // ------------------------------------------------------------------
 // DOCS     : ../../docs/guiones/GUION-Lab09-Parte1.md
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 9 - EJ 3 ..... línea 16
 // ==================================================================
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'

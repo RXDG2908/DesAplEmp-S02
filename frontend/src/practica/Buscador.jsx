@@ -7,6 +7,9 @@
 //                hablan directamente, se comunican A TRAVÉS DEL PADRE.
 // ------------------------------------------------------------------
 // USADO EN : ./Practica.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 11 - EJ 7 .... línea 16
 // ==================================================================
 function Buscador({ valor, onCambiar }) {
   return (

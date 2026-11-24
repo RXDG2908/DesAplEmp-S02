@@ -16,6 +16,14 @@
 # SE PRUEBA: /  ·  /?estado=Pendiente  ·  /cita/<id>/  ·  /consumo/nuevo/  ·  /reporte/
 # DOCS     : ../../../docs/guiones/GUION-Lab07-Parte1.md
 #            ../../../docs/exposiciones/EXPOSICION_Lab07_Parte1.md
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 7 - EJ 3 ..... líneas 85, 97, 106, 112
+#   LAB 7 - EJ 4 ..... líneas 123, 128
+#   LAB 7 - EJ 5 ..... líneas 123, 132
+#   LAB 7 - EJ 6 ..... línea 123
+#   LAB 7 - EJ 7 ..... líneas 37, 135
+#   LAB 7 - EJ 8 ..... líneas 39, 50, 52
 # ==================================================================
 
 from django.db import transaction

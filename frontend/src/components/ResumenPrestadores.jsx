@@ -1,12 +1,17 @@
 // ==================================================================
 // ARCHIVO  : components/ResumenPrestadores.jsx
 // PROYECTO : CHAMBA PE (proyecto integrador)
+// ROL      : RESUMEN de prestadores: total, conteo por estado y tarifa promedio.
 // ------------------------------------------------------------------
 // LAB 11 - EJ 13: RESUMEN HERMANO del listado -> TOTAL, CONTEO POR ESTADO y
 //                 TARIFA PROMEDIO, calculados SIN useState (DATOS DERIVADOS).
 // LAB 12 - EJ 13: ahora se calcula con los datos RECIBIDOS DE LA API.
 // ------------------------------------------------------------------
 // USADO EN : ./PanelPrestadores.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 11 - EJ 13 ... línea 17
+//   LAB 12 - EJ 13 ... línea 23
 // ==================================================================
 function ResumenPrestadores({ prestadores }) {
   const aprobados = prestadores.filter((p) => p.estado === 'Aprobado').length

@@ -8,6 +8,10 @@
 //                (relación 1:N) y el TOTAL calculado con reduce().
 // ------------------------------------------------------------------
 // USADO EN : ../Vet.jsx  ·  USA: ./Tarjeta.jsx y ./ConsumoItem.jsx
+// ------------------------------------------------------------------
+// DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+//   LAB 10 - EJ 4 .... línea 26
+//   LAB 10 - EJ 5 .... líneas 19, 22
 // ==================================================================
 import Tarjeta from './Tarjeta.jsx'
 import ConsumoItem from './ConsumoItem.jsx'

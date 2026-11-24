@@ -1,3 +1,8 @@
+/* ==================================================================
+   ARCHIVO  : App.css
+   ROL      : ESTILOS de todas las vistas (VET, práctica, paneles y biblioteca).
+   LAB 9 - EJ 8: estilos con className (los usa ../Vet.jsx y los paneles).
+   ================================================================== */
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f1ea;

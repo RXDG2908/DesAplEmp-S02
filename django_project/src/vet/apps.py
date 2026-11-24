@@ -1,5 +1,8 @@
-# vet/apps.py
-# Configuracion de la App. Va registrada en INSTALLED_APPS como 'vet'.
+# ==================================================================
+# ARCHIVO  : vet/apps.py
+# PARTE 1  : VET (reserva de citas de la veterinaria)
+# ROL      : CONFIGURACIÓN de la APP 'vet'; va registrada en INSTALLED_APPS (config/settings.py).
+# ==================================================================
 
 from django.apps import AppConfig
 
