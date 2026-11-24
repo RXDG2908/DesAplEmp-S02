@@ -5,6 +5,7 @@ Repositorio del curso (4 - C24 - Sección CD). Proyecto Django en
 
 - Cómo ejecutar el frontend y la API: ver [frontend/README.md](frontend/README.md).
 - Índice por semana: [INDICE_SEMANAS.md](INDICE_SEMANAS.md).
+- Exposiciones y guiones de cada laboratorio: [docs/exposiciones/](docs/exposiciones/) y [docs/guiones/](docs/guiones/) (Lab 13: [exposición](docs/exposiciones/EXPOSICION_Lab13.md) y [guion](docs/guiones/GUION-Lab13.md)).
 
 ---
 
