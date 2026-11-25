@@ -1,0 +1,68 @@
+Capítulo uno. Laboratorio siete: el ORM avanzado.
+
+La idea del laboratorio en una frase: usar el ORM de Django más allá de crear, leer, editar y borrar. Y hacerlo sin crear ninguna entidad nueva.
+
+Recuerda qué es el ORM. Es la parte de Django que traduce lo que escribimos en Python a consultas de base de datos. Hasta ahora lo usábamos para lo básico. En este laboratorio lo usamos para cuatro cosas más serias: registrar una operación de forma segura, sacar reportes con totales, guardar las reglas del negocio en un solo lugar y reducir la cantidad de consultas a la base de datos.
+
+Casi todo está en dos archivos de la app vet: views punto py y models punto py.
+
+Primera parte: los campos que ya teníamos.
+
+La guía pedía tres datos. El stock del insumo, que es el número que se va a descontar. El estado de la cita, que puede ser Pendiente, Confirmada o Atendida. Y la cantidad y el precio unitario en el consumo. Lo bueno es que los tres ya existían desde semanas anteriores. Por eso no hubo migración nueva. Si en la exposición te preguntan, puedes decir que se comprobó con el comando make migrations con la opción check, y respondió que no había cambios.
+
+Los datos de prueba se cargan con un script que se llama cargar lab cero siete, en la carpeta src. Usa get or create, que busca el registro y solo lo crea si no existe. Por eso se puede ejecutar varias veces sin duplicar nada. Deja cinco citas, tres veterinarios, cuatro insumos y ocho consumos.
+
+Segunda parte: la transacción. Esta es la más importante del laboratorio.
+
+Imagina que registras un consumo. Pasan tres cosas a la vez: se crea el consumo, la cita pasa a estado Atendida y se descuenta el stock del insumo. ¿Qué pasa si la tercera falla? Tendrías un consumo registrado, una cita atendida, pero el stock sin descontar. Datos a medias. Eso en una empresa es un problema grave.
+
+La solución es una transacción. En Django se escribe con transaction atomic. Todo lo que va dentro de ese bloque funciona como un solo paquete: o se guarda todo, o no se guarda nada. Si algo falla en medio, Django deshace también lo que ya se había hecho dentro del bloque. A eso se le llama rollback.
+
+La vista que hace esto se llama consumo registrar, en views punto py, y la pantalla está en la dirección consumo barra nuevo.
+
+Hay un segundo detalle muy fino. El descuento del stock no se calcula en Python. Se usa algo que se llama F, la letra efe. Con F se le dice a la base de datos: resta tú misma la cantidad al stock. ¿Por qué importa? Porque si dos personas registran un consumo al mismo tiempo, y cada una lee el stock en Python, resta y guarda, una de las dos restas se puede perder. Si la resta la hace la base de datos, no se pierde ninguna.
+
+Y hay un tercer detalle. Antes de descontar, se filtra para que solo se actualice el insumo si el stock alcanza. Si no alcanza, la actualización devuelve cero filas. En ese caso el código lanza un error, ese error cancela toda la transacción, y la pantalla muestra el mensaje Stock insuficiente. Si todo sale bien, la vista redirige al detalle de la cita. Ese patrón se llama Post, Redirect, Get, y sirve para que al recargar la página no se registre dos veces lo mismo.
+
+Los números de la prueba, que conviene recordar. Con Toby y dos jeringas, los consumos pasaron de ocho a nueve y el stock de la jeringa bajó de cien a noventa y ocho. Luego se probó con Luna y nueve mil novecientos noventa y nueve jeringas. Salió Stock insuficiente, y nada cambió: siguieron nueve consumos, noventa y ocho de stock, y Luna siguió Pendiente. Esa es la prueba de que el rollback funciona.
+
+Tercera parte: aggregate y annotate. Las dos sirven para hacer cálculos, pero son distintas, y esta es una pregunta muy probable.
+
+Aggregate resume toda la tabla en un solo valor. Por ejemplo, el total consumido en toda la veterinaria: multiplicando cantidad por precio y sumando todo, da ciento diez soles con cincuenta. Como es un solo resultado, aggregate devuelve un diccionario, no un QuerySet. Por eso, después de aggregate, ya no puedes seguir filtrando.
+
+Annotate, en cambio, calcula un valor para cada objeto, o para cada grupo. Y sigue siendo un QuerySet, así que puedes seguir filtrando u ordenando. Con annotate y Count se contó cuántos consumos tiene cada cita: Rocky tres, Luna y Toby dos cada uno, Michi y Nala uno cada uno. Y agrupando por estado: tres citas Atendidas, una Pendiente y una Confirmada.
+
+Una forma fácil de recordarlo: aggregate da un número para todos. Annotate da un número para cada uno.
+
+Todo esto se muestra en la página de reporte, en la dirección barra reporte. La vista se llama reporte y está al final de views punto py. El total se muestra con dos decimales, como precio. También muestra cuántas citas próximas están pendientes. Y en el menú de base punto html se agregaron los enlaces a Registrar consumo y a Reporte.
+
+Cuarta parte: el QuerySet personalizado.
+
+En models punto py, antes de la clase Cita, hay una clase que se llama Cita QuerySet. Tiene dos métodos. Con estado, que filtra las citas por estado. Y próximas, que trae las citas desde hoy en adelante. Esta clase se conecta a la cita con as manager, y así se puede usar desde Cita punto objects, como cualquier consulta, y encadenar un método con otro.
+
+¿Para qué sirve? Para que la regla del negocio esté escrita en un solo lugar. Si mañana cambia lo que significa una cita próxima, se cambia en un solo sitio. Se usa en dos vistas: el listado de citas filtra con con estado cuando en la dirección llega estado igual a Pendiente, y el reporte usa próximas y con estado juntos para contar las pendientes.
+
+Guarda este dato, porque es el hilo con el siguiente laboratorio: estos dos métodos se vuelven a usar en la API del laboratorio ocho.
+
+Quinta parte: el problema ene más uno.
+
+Este problema es muy común y vale la pena entenderlo bien. Cuando un listado muestra datos de una relación, por ejemplo el nombre del veterinario de cada cita, Django hace una consulta para traer la lista, y luego una consulta más por cada fila, para buscar su veterinario. Si tienes cinco citas, son seis consultas: una más cinco. Si tienes mil, son mil una. De ahí el nombre: ene más uno.
+
+Lo medimos con un script que se llama medir ene uno, que cuenta las consultas reales.
+
+Hay dos soluciones. Select related sirve para relaciones de a uno, como la clave foránea o el uno a uno. Lo que hace es un JOIN: trae la cita y su veterinario en la misma consulta. Con eso, las seis consultas bajaron a una.
+
+Prefetch related sirve para relaciones de a muchos, como los consumos de una cita, que pueden ser varios. Hace una consulta aparte por cada relación y luego las une en Python. Con eso, las citas con sus consumos e insumos bajaron de quince consultas a tres.
+
+La regla para recordar: de a uno, select related. De a muchos, prefetch related.
+
+En la aplicación, el listado de citas usa select related para el veterinario y la ficha, y el detalle de la cita usa prefetch related para los consumos.
+
+Resumen del laboratorio siete.
+La transacción evita datos a medias: o todo o nada.
+F evita perder descuentos cuando hay registros al mismo tiempo.
+Aggregate da un valor para toda la tabla; annotate, un valor por cada objeto.
+El QuerySet propio guarda las reglas del negocio en un solo lugar.
+Y medir las consultas mostró el problema ene más uno con números: de seis a una, y de quince a tres.
+
+Números clave: ciento diez con cincuenta de total. Stock de cien a noventa y ocho. Consumos de ocho a nueve.

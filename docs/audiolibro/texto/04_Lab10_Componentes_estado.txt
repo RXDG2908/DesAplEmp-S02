@@ -1,0 +1,61 @@
+Capítulo cuatro. Laboratorio diez: componentes, props, estado y eventos.
+
+La idea en una frase: dividir la pantalla de la veterinaria en piezas reutilizables, y hacer que responda a lo que hace el usuario.
+
+En el laboratorio nueve, toda la veterinaria estaba en un solo archivo, Vet punto jsx. Funciona, pero cuando crece se vuelve difícil de leer y de mantener. La solución de React son los componentes. Un componente es una función que recibe datos y devuelve un pedazo de pantalla. La comparación con Django es el include: un pedazo de Template que escribes una vez y usas en varios lugares.
+
+Los componentes están en la carpeta src barra components, y los datos de prueba se separaron en el archivo datos punto js.
+
+Primera parte: los cinco componentes.
+
+Insumo Card muestra un insumo. Insumo Lista muestra la lista completa de insumos, con su búsqueda y su formulario. Cita Card muestra una cita. Consumo Item muestra un consumo dentro de la cita. Y Tarjeta es un contenedor genérico, una caja con título.
+
+Todos tienen el nombre empezando con mayúscula. Esto no es solo estilo: es una regla. Si el nombre empieza con minúscula, React lo confunde con una etiqueta HTML normal, como div o p. Y todos terminan con export default, para que otros archivos los puedan importar.
+
+Segunda parte: las props.
+
+Las props son los datos que un componente recibe de su padre. Son como los parámetros de una función. Insumo Card recibe el nombre, la unidad y el stock. Y la unidad tiene un valor por defecto, por si el padre no la manda.
+
+Lo más importante de las props: son de solo lectura. El hijo las usa, pero no las modifica. Si algo tiene que cambiar, eso no va en las props, va en el estado.
+
+Tercera parte: children.
+
+Children es una prop especial. Es todo lo que pones entre la etiqueta de apertura y la de cierre del componente. Tarjeta recibe un título y su children, y dibuja la caja con ese contenido adentro. Se parece mucho al block de la herencia de Templates en Django: la plantilla base deja un hueco, y cada página lo llena.
+
+Cita Card usa Tarjeta, y dentro pone un Consumo Item por cada consumo, con map y su key, igual que en el laboratorio anterior. Así se ve cómo los componentes se arman unos dentro de otros, como piezas de lego.
+
+Cuarta parte: el estado, con use State.
+
+Aquí está la diferencia clave de este laboratorio. En Insumo Card hay un contador de reservados. Se crea con use State, que da dos cosas: el valor actual y una función para cambiarlo, que se llama set Reservados. El botón Reservar, en su evento on Click, llama a esa función y suma uno.
+
+¿Por qué no usar una variable normal? Esta es una pregunta muy probable. Porque React solo vuelve a dibujar la pantalla cuando cambia el estado. Si cambias una variable común, el valor cambia por dentro, pero la pantalla no se entera y sigue mostrando lo mismo.
+
+Dos detalles más. El contador solo aparece si es mayor que cero. Y el botón se desactiva si el insumo no tiene stock. Además, cada tarjeta tiene su propio contador, independiente de las demás: reservar gasas no cambia las jeringas.
+
+La diferencia entre props y estado, para decirla en una frase: las props vienen del padre y no se modifican; el estado es propio del componente y sí cambia.
+
+Quinta parte: la búsqueda, con un campo controlado.
+
+En Insumo Lista hay un campo de búsqueda. Es un campo controlado, y eso significa que su valor no lo maneja el navegador, lo maneja React. El valor del campo sale del estado, y cada vez que escribes, el evento on Change actualiza el estado con lo que escribiste.
+
+La lista se filtra comparando sin distinguir mayúsculas de minúsculas. Se probó escribiendo GASA, en mayúsculas, y encontró un resultado. Y se probó escribiendo zzz, que no coincide con nada, y apareció el mensaje de que no hay resultados.
+
+Sexta parte: el formulario controlado.
+
+El formulario tiene dos campos, nombre y stock, también controlados. Usa el evento on Submit, y lo primero que hace es prevent Default, que evita que el navegador recargue la página, que es lo que haría normalmente un formulario.
+
+Luego valida. Y aquí hay un hilo con el laboratorio ocho: la regla es la misma del serializer, el stock debe ser al menos uno. Si no se cumple, aparece el mensaje de error. Si se cumple, se agrega el insumo nuevo.
+
+Y la forma de agregarlo es importante. No se usa push sobre el arreglo, porque eso modifica el arreglo existente y React no se daría cuenta del cambio. En su lugar, se crea un arreglo nuevo con el operador spread, los tres puntos, que copia los insumos anteriores y añade el nuevo al final. Después se limpian los campos.
+
+Verificación: npm run lint y npm run build pasaron sin errores.
+
+Resumen del laboratorio diez.
+Un componente es una función que devuelve pantalla, como un include de Django. Su nombre empieza con mayúscula.
+Las props vienen del padre y son de solo lectura.
+Children es lo que va entre las etiquetas, como un block.
+Use State guarda lo que cambia, y al cambiarlo React redibuja.
+Un campo controlado toma su valor del estado y lo actualiza con on Change.
+El formulario usa prevent Default, valida stock de al menos uno, y agrega con spread, sin push.
+
+Lo que falta: guardar en la base de datos. Hoy, si recargas la página, el insumo nuevo se pierde, porque solo vive en el estado del navegador. En la semana doce se enviará con fetch a la dirección api barra insumos, con CORS habilitado en Django. Y ahí se cierra el círculo de los cuatro laboratorios.

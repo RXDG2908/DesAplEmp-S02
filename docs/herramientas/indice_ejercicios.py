@@ -97,6 +97,30 @@ ANCLAS = {
                                   "11-3": r"onClick="},
 }
 
+# Lab 14: anclas de los ejercicios que solo se citan en la cabecera
+_LAB14 = {
+    "cargar_lab14.py": {"14-3": r"bebidas = Categoria", "14-4": r"ClienteTienda\.objects\.create",
+                        "14-10": r"rubros = \{"},
+    "catalogo/models.py": {"14-2": r"^class Categoria"},
+    "catalogo/api_urls.py": {"14-6": r"router\.register"},
+    "pedidos/api_urls.py": {"14-6": r"router\.register", "14-8": r"pedidos/crear/"},
+    "pedidos/serializers.py": {"14-8": r"^class PedidoSerializer"},
+    "servicios/models.py": {"14-10": r"^class Rubro"},
+    "servicios/serializers.py": {"14-10": r"^class RubroSerializer"},
+    "servicios/api_views.py": {"14-10": r"^class RubroViewSet"},
+    "servicios/api_urls.py": {"14-10": r"router\.register"},
+    "clientes/models.py": {"14-10": r"^class Cliente"},
+    "clientes/serializers.py": {"14-10": r"^class ClienteSerializer"},
+    "clientes/api_views.py": {"14-10": r"^class ClienteViewSet"},
+    "clientes/api_urls.py": {"14-10": r"router\.register"},
+    "solicitudes/api_urls.py": {"14-11": r"router\.register"},
+    "frontend/src/App.jsx": {"14-7": r"<ProductosPage />", "14-12": r"<SolicitudesPage />"},
+    "pages/ProductosPage.jsx": {"13-7": r"^function ProductosPage"},
+    "pages/SolicitudesPage.jsx": {"13-13": r"^function SolicitudesPage"},
+}
+for _clave, _anclas in _LAB14.items():
+    ANCLAS.setdefault(_clave, {}).update(_anclas)
+
 # Para la marca "LAB 8 - EJ 4 y 5" del encabezado de config/urls.py
 ALIAS_CABECERA = {}
 

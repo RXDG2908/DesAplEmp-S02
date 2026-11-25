@@ -11,19 +11,23 @@
 // LAB 11 - EJ 1: vista 'practica' -> mini catálogo con carrito (cafetería).
 // LAB 11 - EJ 10-13: vistas 'panel' (VET) y 'chamba' (CHAMBA PE).
 // LAB 12 - EJ 4: vista 'api' -> insumos leídos desde la API de Django.
+// LAB 14 - EJ 7 : vista 'productos' -> catálogo de la cafetería desde la API (ProductosPage).
+// LAB 14 - EJ 12: vista 'solicitudes' -> listado y detalle de solicitudes de CHAMBA PE.
 // LAB 12 (Lucas): vista 'libros' -> libros de la biblioteca desde la API (ListaLibros).
 // ------------------------------------------------------------------
 // DOCS     : ../../docs/guiones/GUION-Lab09-Parte1.md
 //            ../../docs/guiones/GUION-Lab10-Parte1.md
 // ------------------------------------------------------------------
 // DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
-//   LAB 9 - EJ 4 ..... línea 70
-//   LAB 11 - EJ 1 .... línea 59
-//   LAB 11 - EJ 10 ... línea 61
-//   LAB 11 - EJ 11 ... línea 64
-//   LAB 11 - EJ 12 ... línea 64
-//   LAB 11 - EJ 13 ... línea 64
-//   LAB 12 - EJ 4 .... línea 60
+//   LAB 9 - EJ 4 ..... línea 80
+//   LAB 11 - EJ 1 .... línea 67
+//   LAB 11 - EJ 10 ... línea 69
+//   LAB 11 - EJ 11 ... línea 72
+//   LAB 11 - EJ 12 ... línea 72
+//   LAB 11 - EJ 13 ... línea 72
+//   LAB 12 - EJ 4 .... línea 68
+//   LAB 14 - EJ 7 .... línea 73
+//   LAB 14 - EJ 12 ... línea 74
 // ==================================================================
 import { useState } from 'react'
 import './App.css'
@@ -33,6 +37,8 @@ import PracticaLucas from './practica_lucas/PracticaLucas.jsx'
 import ListaLibros from './practica_lucas/ListaLibros.jsx'
 import PanelCitas from './components/PanelCitas.jsx'
 import PanelPrestadores from './components/PanelPrestadores.jsx'
+import ProductosPage from './pages/ProductosPage.jsx'
+import SolicitudesPage from './pages/SolicitudesPage.jsx'
 import Vet from './Vet.jsx'
 import Panel from './components/Panel.jsx'
 import LibroLista from './components/LibroLista.jsx'
@@ -55,6 +61,8 @@ function App() {
         <button onClick={() => setVista('cafeteria')}>Práctica Lucas: cafetería</button>
         <button onClick={() => setVista('libros')}>Lucas: libros desde la API</button>
         <button onClick={() => setVista('chamba')}>Panel Chamba PE</button>
+        <button onClick={() => setVista('productos')}>Cafetería: catálogo (API)</button>
+        <button onClick={() => setVista('solicitudes')}>Chamba PE: solicitudes</button>
       </div>
       {vista === 'practica' && <Practica />}
       {vista === 'api' && <ListaPractica />}
@@ -62,6 +70,8 @@ function App() {
       {vista === 'cafeteria' && <PracticaLucas />}
       {vista === 'libros' && <ListaLibros />}
       {vista === 'chamba' && <PanelPrestadores />}
+      {vista === 'productos' && <ProductosPage />}
+      {vista === 'solicitudes' && <SolicitudesPage />}
       {vista === 'inicio' && (
         <>
       <Vet />

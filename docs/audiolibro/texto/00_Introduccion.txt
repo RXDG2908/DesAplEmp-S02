@@ -1,0 +1,13 @@
+Audiolibro de repaso. Desarrollo de Aplicaciones Empresariales. Laboratorios siete, ocho, nueve y diez. Parte uno: la veterinaria.
+
+Bienvenido. Este audio está pensado para escucharlo en el camino, sin mirar la pantalla. No vas a necesitar ver código. Te voy a contar qué se hizo en cada laboratorio, por qué se hizo así, en qué archivo está cada cosa y qué números conviene recordar para la exposición.
+
+Antes de empezar, una idea que une todo. Los cuatro laboratorios trabajan sobre la misma aplicación: la veterinaria, que en el proyecto se llama vet. Tiene citas, veterinarios, fichas clínicas e insumos, como jeringas o gasas. Y cada cita puede consumir varios insumos, a través de un modelo intermedio que se llama Consumo Insumo.
+
+El recorrido es este. En el laboratorio siete aprendimos a usar la base de datos de forma más inteligente, con el ORM de Django. En el laboratorio ocho tomamos esos mismos datos y los ofrecimos como una API, que responde en formato JSON, para que otros programas los puedan usar. En el laboratorio nueve pasamos al navegador, con React, y armamos una pantalla con datos que tienen la misma forma que el JSON de la API. Y en el laboratorio diez dividimos esa pantalla en componentes, y le agregamos interacción: botones, búsqueda y un formulario.
+
+Dicho de otra forma: primero los datos, luego la puerta para sacarlos, y al final la vitrina donde se muestran.
+
+Al terminar cada laboratorio vas a escuchar un resumen corto. Y al final del audiolibro hay un capítulo de preguntas, como las que podría hacer el profesor, para que practiques respondiendo en voz alta.
+
+Empecemos.

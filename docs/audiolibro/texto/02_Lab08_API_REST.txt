@@ -1,0 +1,65 @@
+Capítulo dos. Laboratorio ocho: la API REST con Django REST Framework.
+
+La idea en una frase: ofrecer las mismas citas e insumos como JSON, para que otros programas los usen, sin tocar el archivo de modelos.
+
+Primero, ¿qué es una API? Hasta el laboratorio siete, Django respondía con páginas HTML, pensadas para una persona frente al navegador. Pero una aplicación móvil, o una interfaz hecha en React, no quiere una página: quiere los datos solos, ordenados, en un formato que pueda leer. Ese formato es JSON. Una API es justamente eso: una puerta por la que otros programas piden datos y reciben JSON.
+
+Y REST es una forma ordenada de diseñar esa puerta. Cada cosa tiene su dirección, por ejemplo api barra insumos, y lo que haces depende del método HTTP. GET para consultar. POST para crear. PUT o PATCH para editar. Y DELETE para borrar.
+
+Todo el trabajo está en tres archivos nuevos de la app vet: serializers punto py, api views punto py y api urls punto py.
+
+Primera parte: la instalación.
+
+Se instaló el paquete Django REST Framework, en la versión tres punto dieciocho punto tres. Se agregó en installed apps, dentro de settings punto py, y también en el archivo requirements. Y en las direcciones del proyecto se agregó una línea para que todo lo que empiece con api lo maneje la API de la veterinaria.
+
+Segunda parte: el serializer.
+
+Esta es la pieza central, y la comparación que más ayuda es esta: el serializer es para la API lo mismo que el formulario es para las páginas. Hace dos trabajos. Convierte un objeto de Python en JSON, para responder. Y valida lo que llega desde afuera, antes de guardarlo.
+
+El primero es Insumo Serializer. Hereda de Model Serializer, así que, igual que un Model Form, saca los campos directamente del modelo: id, nombre, unidad y stock.
+
+Dentro de esa clase está la regla de negocio: el método validate stock. Dice que un insumo no se puede registrar con stock menor a uno. Este método se ejecuta solo cuando se llama a is valid, igual que pasa con los formularios.
+
+Tercera parte: los serializers anidados.
+
+La cita es más interesante, porque tiene relaciones. En el mismo archivo están los serializers del veterinario, de la ficha clínica y del consumo. Y el Cita Serializer los usa como campos. El veterinario, que es la relación uno a muchos. La ficha, que es la relación uno a uno, y que puede salir como null, es decir, vacía, si la cita todavía no tiene ficha. Y los consumos, con la opción many igual a true, porque una cita tiene varios.
+
+Esa opción many igual a true es importante: le dice al serializer que va a recibir una colección, una lista de objetos, y no uno solo.
+
+El resultado es que, al pedir una cita, el JSON trae también su veterinario, su ficha y la lista de insumos que consumió. Todo en una sola respuesta.
+
+Cuarta parte: las vistas. Aquí hubo una evolución, y conviene contarla así en la exposición.
+
+La primera versión usó vistas genéricas: una que lista y crea insumos, y otra que muestra, edita y borra uno solo. Funcionan, pero son dos clases para un mismo recurso. Se dejaron en el archivo como referencia, con sus rutas comentadas.
+
+La segunda versión, que es la que se usa, es un ViewSet. Insumo View Set hereda de Model View Set, y en una sola clase reemplaza a las dos anteriores: listar, crear, ver, editar y borrar.
+
+A ese ViewSet se le agregaron filtros. Con Search Filter se puede buscar por nombre o unidad, escribiendo en la dirección signo de pregunta search igual a algo. Con Ordering Filter se puede ordenar por nombre o por stock, con ordering. Por ejemplo, buscar jeringa y ordenar por stock de mayor a menor.
+
+Quinta parte: el ViewSet de la cita.
+
+Cita View Set hereda de Read Only Model View Set. Eso significa que solo permite consultar, no crear ni borrar citas desde la API.
+
+Y aquí se juntan dos ideas del laboratorio siete. Primera: en su consulta usa select related para el veterinario y la ficha, y prefetch related para los consumos. Con eso, pedir todas las citas bajó de veinticuatro consultas a tres. Segunda: lee el parámetro estado de la dirección y lo aplica con con estado, el método del QuerySet personalizado que hicimos en la semana anterior.
+
+Además tiene una acción propia, que se llama próximas. Se marca con el decorador action, con detail igual a false, porque trabaja sobre la lista completa y no sobre una sola cita. Esa acción llama al método próximas del mismo QuerySet, y crea sola la dirección api barra citas barra próximas.
+
+Este es el mejor ejemplo de reutilización: la regla se escribió una vez, en el modelo, y la usan las páginas y la API.
+
+Sexta parte: el router.
+
+En api urls punto py se crea un Default Router, y se registran los dos ViewSets: insumos y citas. El router genera solo todas las direcciones de lista y de detalle de cada recurso. Y además crea la raíz, api barra, que muestra la lista de recursos disponibles. Sin router, habría que escribir cada ruta a mano.
+
+Séptima parte: la verificación.
+
+Se probó de tres formas. En el shell de Django, el serializer con un dato válido y uno inválido. Con curl, que es un programa para hacer peticiones desde la consola, se probó todo el ciclo del insumo, y se obtuvieron los cinco códigos de respuesta. Doscientos: todo bien. Doscientos uno: creado. Cuatrocientos: dato inválido, por ejemplo stock cero. Doscientos cuatro: borrado, sin contenido. Y cuatrocientos cuatro: no existe. Y en el navegador, con la API navegable que trae Django REST Framework, se probaron la búsqueda, el orden, el filtro por estado y la acción próximas, incluso combinando varios parámetros.
+
+Resumen del laboratorio ocho.
+El serializer convierte a JSON y valida, como un formulario.
+El ViewSet decide qué datos se entregan y cómo se filtran, en una sola clase.
+El router genera todas las direcciones bajo api.
+No se cambió ningún modelo: la API reutiliza las relaciones y el QuerySet que ya existían.
+
+Números clave: los códigos doscientos, doscientos uno, cuatrocientos, doscientos cuatro y cuatrocientos cuatro. Y las consultas de la API de citas, de veinticuatro a tres.
+
+Y lo que falta, por si te lo preguntan: seguridad. Por ahora la API está abierta y cualquiera podría modificar los datos.

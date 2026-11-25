@@ -1,0 +1,81 @@
+Capítulo cinco. Repaso final y preguntas de práctica.
+
+Primero, el hilo que une los cuatro laboratorios, en treinta segundos. Si en la exposición te piden una visión general, puedes contarlo así.
+
+En el laboratorio siete creamos en el modelo los métodos con estado y próximas, y aprendimos a hacer operaciones seguras y consultas eficientes. En el laboratorio ocho reutilizamos esos mismos métodos en la API, que entrega los datos en JSON. En los laboratorios nueve y diez mostramos esos datos en React, con la misma forma del JSON de la API, primero en un solo archivo y luego en componentes con interacción. Y en la semana doce, React va a consumir esa API de verdad con fetch.
+
+Los datos, la puerta y la vitrina.
+
+Ahora, las preguntas. Te voy a hacer una pregunta, vas a tener unos segundos para responderla en voz alta, o en tu cabeza, y luego te digo la respuesta.
+
+Pregunta uno. ¿Por qué aggregate no devuelve un QuerySet?
+
+Piénsalo.
+
+Respuesta: porque resume toda la tabla en un solo valor. Devuelve un diccionario con ese resultado, no una colección de objetos. Por eso ya no se puede seguir filtrando.
+
+Pregunta dos. ¿Cuándo uso select related y cuándo prefetch related?
+
+Piénsalo.
+
+Respuesta: select related para relaciones de a uno, como la clave foránea o el uno a uno, porque hace un JOIN. Prefetch related para relaciones de a muchos, como el muchos a muchos o la relación inversa, porque hace una consulta aparte y une en Python.
+
+Pregunta tres. ¿Qué pasa si algo falla dentro de una transacción?
+
+Piénsalo.
+
+Respuesta: se deshace todo, incluso lo que ya se había guardado dentro del bloque. Eso es el rollback. En la prueba, con nueve mil novecientos noventa y nueve jeringas, nada cambió.
+
+Pregunta cuatro. ¿Para qué sirve F?
+
+Piénsalo.
+
+Respuesta: para que la resta del stock la haga la base de datos y no Python. Así, si dos personas registran al mismo tiempo, no se pierde ningún descuento.
+
+Pregunta cinco. ¿Qué diferencia hay entre un serializer y un formulario?
+
+Piénsalo.
+
+Respuesta: cumplen el mismo papel, convertir y validar. La diferencia es que el serializer trabaja con JSON para la API, y el formulario con HTML para las páginas.
+
+Pregunta seis. ¿Qué te da el router?
+
+Piénsalo.
+
+Respuesta: genera solo todas las direcciones de lista y de detalle, con todos los métodos HTTP, y además la raíz de la API. Sin router, habría que escribir cada ruta a mano.
+
+Pregunta siete. ¿Para qué sirve la key en un map de React?
+
+Piénsalo.
+
+Respuesta: para que React sepa qué elemento es cuál, y cuando la lista cambie, redibuje solo lo que cambió.
+
+Pregunta ocho. ¿Por qué usar use State y no una variable normal?
+
+Piénsalo.
+
+Respuesta: porque React solo vuelve a dibujar la pantalla cuando cambia el estado. Con una variable normal, el valor cambia por dentro, pero la pantalla no se actualiza.
+
+Pregunta nueve. ¿Cuál es la diferencia entre props y estado?
+
+Piénsalo.
+
+Respuesta: las props vienen del padre y no se modifican. El estado es propio del componente y sí cambia.
+
+Pregunta diez. ¿Por qué se agrega el insumo nuevo con spread y no con push?
+
+Piénsalo.
+
+Respuesta: porque push modifica el arreglo que ya existe, y React no detecta el cambio. Con spread se crea un arreglo nuevo, y al recibir un arreglo nuevo, React sabe que tiene que redibujar.
+
+Y para terminar, los números que conviene tener en la punta de la lengua.
+
+Laboratorio siete: total consumido, ciento diez soles con cincuenta. Stock de la jeringa, de cien a noventa y ocho. Consumos, de ocho a nueve. Problema ene más uno, de seis consultas a una, y de quince a tres.
+
+Laboratorio ocho: códigos doscientos, doscientos uno, cuatrocientos, doscientos cuatro y cuatrocientos cuatro. Consultas de la API de citas, de veinticuatro a tres.
+
+Laboratorio nueve: consulta con IGV, cuarenta y siete con veinte. Firulais, veintiséis con cincuenta. Rocky, veintitrés con cincuenta.
+
+Laboratorio diez: búsqueda con GASA da un resultado, con zzz no da ninguno, y el stock mínimo para agregar es uno.
+
+Eso es todo. Si recuerdas el hilo, los datos, la puerta y la vitrina, y estos números, la exposición sale sola. Mucha suerte.

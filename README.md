@@ -10,7 +10,7 @@ Repositorio del curso (4 - C24 - Sección CD). Proyecto Django en
   con el número de línea. Si se edita el código, regenerarlo con
   `python docs/herramientas/indice_ejercicios.py` y comprobarlo con
   `python docs/herramientas/verificar_indice.py`.
-- Exposiciones y guiones de cada laboratorio: [docs/exposiciones/](docs/exposiciones/) y [docs/guiones/](docs/guiones/) (Lab 13: [exposición](docs/exposiciones/EXPOSICION_Lab13.md) y [guion](docs/guiones/GUION-Lab13.md)).
+- Exposiciones y guiones de cada laboratorio: [docs/exposiciones/](docs/exposiciones/) y [docs/guiones/](docs/guiones/) (Lab 13: [exposición](docs/exposiciones/EXPOSICION_Lab13.md) y [guion](docs/guiones/GUION-Lab13.md); Lab 14: [exposición](docs/exposiciones/EXPOSICION_Lab14.md) y [guion](docs/guiones/GUION-Lab14.md)).
 
 ---
 
@@ -170,7 +170,63 @@ configuración base está en `config/`.
 | Detalle de solicitud | `/api/solicitudes/<id>/` | `/solicitudes/:id` |
 | Calificación | `/api/solicitudes/<id>/calificacion/` | `/solicitudes/:id/calificar` |
 
+---
+
+## Laboratorio 14 — Componentes de la aplicación de comercio electrónico
+
+La estructura vacía del Lab 13 se llena con sus componentes. El recorrido de una
+solicitud es: **vista de React → Axios → ruta (router) → controlador (ViewSet) →
+serializer → modelo → SQLite**, y la respuesta vuelve como JSON con su código.
+
+| Componente | Tecnología | Cafetería (Parte 1) | Chamba PE (Parte 2) |
+|---|---|---|---|
+| Base de datos | `models.py` + migraciones (SQLite) | `catalogo`: Categoria, Producto · `pedidos`: Cliente, Pedido, DetallePedido, Pago | `servicios`: Rubro · `clientes`: Cliente · `chamba`: Prestador · `solicitudes`: Solicitud, SeguimientoSolicitud |
+| Rutas | `urls.py` + `DefaultRouter` | `/api/productos/`, `/api/categorias/`, `/api/pedidos/`, `/api/pedidos/crear/`, `/api/pedidos/<id>/pagar/` | `/api/solicitudes/`, `/api/solicitudes/<id>/avanzar/`, `/api/clientes/`, `/api/servicios/rubros/`, `/api/chamba/prestadores/` |
+| Controladores | ViewSets y `@api_view` | `ProductoViewSet`, `crear_pedido`, `confirmar_pago` | `SolicitudViewSet` (+ acción `avanzar`) |
+| Validación | Serializers | `validate_precio` (> 0) | `validate_direccion` y `validate()`: prestador Aprobado, del mismo rubro y sin otro servicio en curso |
+| Vistas | React (`src/pages`) | `ProductosPage` | `SolicitudesPage` (listado, búsqueda y filtro) y `SolicitudDetallePage` (detalle y seguimiento) |
+| Pago | Pasarela (S16) | Pago **simulado** que pasa el pedido a PAG | Descrito abajo |
+
+**Reglas en el servidor:** el precio y el monto se leen de la base de datos (nunca
+del navegador), el stock se descuenta con `F()` solo si alcanza, todo dentro de
+`transaction.atomic` (o se guarda todo o nada), y el total lo calcula Django.
+
+### Ejecutar Django y React a la vez
+
+```bash
+# Terminal 1 (django_project/src)
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py shell < cargar_chamba.py   # prestadores
+python manage.py shell < cargar_lab14.py    # cafetería, rubros, clientes y solicitudes
+python manage.py runserver
+
+# Terminal 2 (frontend)
+npm install
+npm run dev
+```
+
+En http://localhost:5173/: botones **Cafetería: catálogo (API)** y **Chamba PE: solicitudes**.
+
+### Módulo de pago de Chamba PE (se implementa en la Semana 16)
+
+- **Cuándo se invoca:** cuando el prestador marca la solicitud como **Finalizada**;
+  el cliente ve el botón *Pagar* en el detalle de su solicitud.
+- **Qué se envía a la pasarela** (por ejemplo Culqi, Izipay o Mercado Pago): el
+  **token** que la pasarela entrega en el formulario del cliente, el **monto en
+  céntimos** (`monto` de la solicitud, tomado de la base de datos), la moneda
+  **PEN**, el correo del cliente y el número de solicitud. El cobro lo pide
+  **Django** con la clave secreta; React nunca la ve.
+- **Estados:** la solicitud pasa de **FINALIZADA** a **PAGADA** al confirmarse el
+  pago (en la tienda: **PENDIENTE → PAGADO → ENTREGADO**, o **CANCELADO**). Si la
+  pasarela rechaza el cobro, la solicitud sigue Finalizada y se puede reintentar.
+- **Qué se guarda:** solicitud, monto, método (tarjeta, Yape, Plin), referencia de
+  la pasarela, estado del pago y fecha.
+- **Qué nunca se guarda:** número de tarjeta, CVV, fecha de vencimiento ni la
+  clave secreta de la pasarela en el frontend.
+- Chamba PE cobra una **comisión** sobre cada pago; el resto se liquida al
+  prestador (otro servicio externo: transferencia o billetera).
+
 ### Pendiente
 
-Semana 14: escribir los modelos y la API de `catalogo`, `pedidos`,
-`servicios`, `clientes` y `solicitudes`, y llenar las páginas de React.
+Semana 15: usuarios, roles y permisos (hoy la API está abierta). Semana 16: integrar la pasarela de pago real.

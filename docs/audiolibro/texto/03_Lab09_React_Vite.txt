@@ -1,0 +1,60 @@
+Capítulo tres. Laboratorio nueve: la interfaz con React y Vite.
+
+La idea en una frase: ahora es el navegador el que arma la pantalla con JavaScript. Antes, el servidor mandaba el HTML ya terminado.
+
+Este es el cambio más grande de mentalidad de los cuatro laboratorios. Con los Templates de Django, el servidor recibe la petición, busca los datos, llena la plantilla y manda la página completa. Con React, el servidor solo manda una página casi vacía y un programa en JavaScript. Ese programa es el que dibuja todo dentro del navegador.
+
+En este laboratorio todavía no nos conectamos a la API. Los datos se escribieron a mano, pero con la misma forma que el JSON real del laboratorio ocho. Así, cuando llegue el momento de conectar, la pantalla ya estará lista.
+
+La interfaz está en la carpeta frontend, en el archivo Vet punto jsx.
+
+Primera parte: el entorno.
+
+Se instaló Node punto js, que trae npm. La comparación con Python es directa. Npm hace lo que hace pip: instala paquetes. El archivo package punto json cumple el papel de requirements. La carpeta node modules es como el entorno virtual, el venv. Y en lugar de run server, usamos npm run dev, que levanta la aplicación en el puerto cinco mil ciento setenta y tres.
+
+Vite es la herramienta que crea el proyecto y lo sirve mientras desarrollamos. Es rápida y recarga la pantalla sola cada vez que guardas un cambio.
+
+Segunda parte: la estructura.
+
+Hay una cadena de cuatro archivos. Index punto html es la única página, y tiene un div con el id root, es decir, raíz. Main punto jsx monta React dentro de ese div. App punto jsx es el componente principal. Y de App cuelga Vet punto jsx, que es la veterinaria.
+
+Si lo comparas con Django: index es como base punto html, main es el punto de entrada, y Vet es como el Template con su vista.
+
+Tercera parte: JSX y las llaves.
+
+El componente Vet devuelve JSX. JSX parece HTML, pero en realidad es JavaScript. Su gran ventaja es que, dentro de las llaves, puedes meter cualquier valor o cálculo. Por ejemplo, el nombre de la aplicación, que es una variable. O el precio de la consulta con IGV, que es un cálculo, redondeado a dos decimales con to fixed. El resultado es cuarenta y siete soles con veinte.
+
+Las llaves de JSX cumplen el mismo papel que las dobles llaves de los Templates de Django.
+
+Cuarta parte: las listas con map y key.
+
+Los insumos son un arreglo de cinco objetos, cada uno con id, nombre, unidad y stock. Para mostrarlos, se recorre el arreglo con map, que es el equivalente al for de los Templates. Por cada insumo se dibuja un elemento de lista.
+
+Y a cada elemento se le da una key, una clave, igual a su id. ¿Para qué? Para que React sepa cuál es cuál. Cuando la lista cambia, React compara usando esa clave y solo redibuja lo que cambió. Sin key, React no sabe identificar los elementos y muestra una advertencia.
+
+Quinta parte: las condiciones.
+
+Hay tres casos. Si el stock es cero, se muestra Sin stock, usando un ternario, que es un si, entonces, si no, escrito en una línea. Si el stock es uno, se agrega el aviso Última unidad, usando el doble ampersand, que significa: si esto es verdad, muestra lo siguiente. Si el arreglo está vacío, se muestra No hay registros. Y en las citas, como la ficha clínica puede venir vacía, en ese caso se muestra Sin ficha clínica.
+
+Fíjate que esto viene directo del laboratorio ocho, donde la ficha podía salir como null en el JSON.
+
+Sexta parte: la relación anidada.
+
+Cada cita trae sus consumos, que vienen de la relación muchos a muchos con el modelo intermedio. Para mostrarlo, se hace un map de citas, y dentro de cada cita, otro map de sus consumos. Cada uno con su propia key.
+
+Y para el total de cada cita se usa reduce, que recorre los consumos y va sumando los subtotales. Firulais da veintiséis soles con cincuenta, y Rocky veintitrés con cincuenta.
+
+Séptima parte: estilos y verificación.
+
+Los estilos están en App punto css, con clases para la sección de la veterinaria, para los insumos sin stock y para las tarjetas de cita. Se ejecutó npm run lint, que revisa el código, y npm run build, que prepara la versión final, y los dos pasaron sin errores. Las carpetas node modules y dist no se suben al repositorio, porque están en el gitignore.
+
+Resumen del laboratorio nueve.
+Con Templates, el servidor entrega HTML terminado. Con React, el navegador arma la pantalla.
+Npm es como pip, package json como requirements, y node modules como el venv.
+Las llaves de JSX son como las dobles llaves de Django.
+Map es el for, y key le dice a React qué elemento cambió.
+Ternario y doble ampersand sirven para las condiciones.
+
+Números clave: consulta con IGV, cuarenta y siete con veinte. Firulais, veintiséis con cincuenta. Rocky, veintitrés con cincuenta.
+
+Lo que falta: consumir la API de verdad con fetch, y resolver CORS, que es el permiso que el servidor debe dar para que una página en otro puerto le pida datos. Eso viene en la semana doce.
