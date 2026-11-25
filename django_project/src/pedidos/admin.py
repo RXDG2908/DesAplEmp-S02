@@ -2,6 +2,11 @@
 # ARCHIVO  : pedidos/admin.py
 # PARTE 1  : PRÁCTICA (Lucas): tienda en línea de la CAFETERÍA
 # ROL      : DJANGO ADMIN de la app: Pedido (con sus líneas), Cliente y Pago.
+# ------------------------------------------------------------------
+# LAB 14 - EJ 8: muestra cada Pedido con sus líneas (inline) y el Pago simulado.
+# ------------------------------------------------------------------
+# DÓNDE ESTÁ CADA EJERCICIO (número de línea en este archivo):
+#   LAB 14 - EJ 8 .... línea 22
 # ==================================================================
 from django.contrib import admin
 
